@@ -1,0 +1,70 @@
+# Please note all steps below were conducted separately, I only list the key commands used for each step. $SAMPLE is used to represent the sample ID of DelBay19 data.
+
+1. Using Trimmomatic to trim and crop pair-end fastq, as well as to remove adapters.
+
+java -jar /gpfs01/tools/trimmomatic-0.38/trimmomatic-0.38.jar PE -threads 6 -phred33 $SAMPLEFILE'_R1.fastq.gz' $SAMPLEFILE'_R2.fastq.gz' $SAMPLE'_AdapterClipped_F_paired.fastq' $SAMPLE'_AdapterClipped_F_unpaired.fastq' $SAMPLE'_AdapterClipped_R_paired.fastq' $SAMPLE'_AdapterClipped_R_unpaired.fastq' ILLUMINACLIP:/gpfs01/tools/trimmomatic-0.38/adapters/NexteraPE-PE.fa:2:30:10 MINLEN:80
+
+2. Map the paired-end reads to the mitochondrial DNA (ref_C_virginica-3.0_mtDNA.fasta.gz, here renamed as cv30_mtDNA) using Bowtie2. I used --very-sensitive for reference genome mapping, and --un-conc OPTION to retain the PE reads that failed to align concordantly to the mtDNA genome
+
+bowtie2 -q --phred33 --very-sensitive --un-conc $SAMPLE -p 16 -I 0 -X 1500 --fr --rg-id $SAMPLE_SEQ_ID --rg SM:$SAMPLE_ID --rg LB:$LIB_ID --rg PU:$PU --rg PL:ILLUMINA -x /gpfs01/scratch/hzz0024/DelBay19/genome/cv30_mtDNA -1 $SAMPLE'_1_AdapterClipped_F_paired.fastq' -2 $SAMPLE'_1_AdapterClipped_R_paired.fastq' -S $SAMPLE'_Paired_bt2_'$REFBASENAME'.sam'
+
+3.1 Map the retained PE reads to the nuclear genome (6565_refCV_10fixchr.fa.gz, here renamed as cv30) using Bowtie2 
+
+bowtie2 -q --phred33 --very-sensitive -p 16 -I 0 -X 1500 --fr --rg-id $SAMPLE_SEQ_ID --rg SM:$SAMPLE_ID --rg LB:$LIB_ID --rg PU:$PU --rg PL:ILLUMINA -x /scratch/hzz0024/DelBay19/genome/cv30 -1 $SAMPLE'.1' -2 $SAMPLE'.2' -S $SAMPLE'_Paired_bt2_'$REFBASENAME'.sam'
+
+3.2 Convert to bam file for storage, and ADD view -q 20 FILTER HERE. After that, I renamed these bam files for downstream Sort and index step.
+
+samtools view -q 20 -bS -F 4 $SAMPLE'_Paired_bt2_'$REFBASENAME'.sam' > $OUTPUTDIR'/'${SAMPLE}'_Paired_bt2_'${REFBASENAME}'.MQ20.bam'
+rm $SAMPLE'_Paired_bt2_'$REFBASENAME'.sam'
+
+4. Sort and index the bam files
+
+samtools sort $SAMPLE'.MQ20.bam' -o $SAMPLE'.sorted.MQ20.bam'
+samtools index $SAMPLE'.sorted.MQ20.bam'
+
+5. Merge bam files from different batchs (first and rerun datasets). Here $SAMPLE'.1.sorted.MQ20.bam' is from the first sequencing batch, $SAMPLE'.2.sorted.MQ20.bam' is generated from the resequencing data.
+
+samtools merge -f $SAMPLE'.sorted.MQ20.bam' $SAMPLE'.1.sorted.MQ20.bam' $SAMPLE'.2.sorted.MQ20.bam'
+
+6. Remove duplicate reads using picard tools
+
+java -Xmx80g -jar /tools/picard-tools-2.4.1/picard.jar MarkDuplicates I=$SAMPLE'.sorted.MQ20.bam' O=$SAMPLE'.sorted.MQ20.dedup.bam' M=$SAMPLE'.sorted.MQ20.dupstat.txt' VALIDATION_STRINGENCY=SILENT REMOVE_DUPLICATES=true
+
+7. Realign reads around indels using GATK, creating target intervals across all bam files and used that for realignment.
+
+7.1 Creating target intervals
+
+java -Djava.io.tmpdir=$TMP -jar $GATKDIR/GenomeAnalysisTK.jar \
+-T RealignerTargetCreator \
+-nt $CPU \
+-R $REFFASTA \
+-I $ACC.list \
+-o AllSamples_forIndelRealigner.intervals
+
+7.2 Realign reads around indels
+
+java -Djava.io.tmpdir=$TMP -jar $GATKDIR/GenomeAnalysisTK.jar \
+-T IndelRealigner  \
+-R $REFFASTA \
+-targetIntervals AllSamples_forIndelRealigner.intervals \
+-I $ACC.list \
+--consensusDeterminationModel USE_READS  \
+--nWayOut .realigned.bam
+
+7.3 FixMateInformation, this step could "verify mate-pair information between mates and fix if needed"
+
+java -Djava.io.tmpdir=$TMP -jar $PICARDDIR/picard.jar FixMateInformation \
+INPUT=$SAMPLEBASE.sorted.MQ20.dedup.realigned.bam  \
+OUTPUT=$SAMPLEBASE.sorted.MQ20.dedup.realigned.fixmate.bam \
+SO=coordinate \
+CREATE_INDEX=true \
+VALIDATION_STRINGENCY=SILENT \
+TMP_DIR=$TMP
+
+8. Use the outputs from the 7.3 FixMateInformation (i.e. $SAMPLEBASE.sorted.MQ20.dedup.realigned.fixmate.bam) for ANGSD running.
+
+
+
+
+
+
