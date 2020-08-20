@@ -1,2 +1,13 @@
-# Angsd_workflow
-This repository includes the workflow and scripts for Angsd run
+# DelBay_project
+This repository includes the workflow and scripts for DelBay project
+
+### SGS
+scripts for SGS test, modified from Rey et al. 2020
+
+### Angsd 
+scripts for Angsd analysis
+
+### WGS
+scripts for whole-genome sequencing data trimming and processing
+
+
