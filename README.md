@@ -2,7 +2,7 @@
 This repository includes the workflow and scripts for DelBay project
 
 ## WGS
-scripts for whole-genome sequencing data trimming and processing (see  
+scripts for whole-genome sequencing data trimming and processing (see Other_scripts->WGS->DelBay19_WGS_data_processing_HG.txt
 
 ## Detect the SNPs under Within-Generation Selection
 
