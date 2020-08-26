@@ -1,0 +1,5 @@
+module load angsd/0.931
+angsd sites index WILD_sites_all_maf0.05_pctind0.7_maxdepth3dv_snplist_4col_cv30_no56invers.snplist
+angsd sites index WILD_sites_all_maf0.05_pctind0.7_maxdepth3dv_snplist_4col_mask_no56invers.snplist
+angsd sites index CHR_sites_all_maf0.05_pctind0.7_maxdepth3dv_snplist_4col_cv30_no56invers.snplist
+angsd sites index CHR_sites_all_maf0.05_pctind0.7_maxdepth3dv_snplist_4col_mask_no56invers.snplist

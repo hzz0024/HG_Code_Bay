@@ -1,0 +1,4 @@
+EMAIL=`whoami`"@auburn.edu";
+CWD=`pwd`;
+qsub -q general -N 06_fst_CHR_cv30_no56invers -j oe -e cv30_mask.error -l nodes=1:ppn=20,mem=120GB,walltime=240:00:00 -m be -M $EMAIL -d $CWD -V 06_fst_by_pop_pair_CHR_cv30_nochr56invers.sh
+exit 0;
