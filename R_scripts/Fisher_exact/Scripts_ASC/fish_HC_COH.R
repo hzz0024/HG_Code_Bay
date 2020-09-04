@@ -3,20 +3,20 @@
 #######################
 # mafs produced by domajorminor 3 and domaf 1
 # load reference file with header in it
-dat1_name = 'REF_maf0.05_pctind0.7_cv30.mafs'
+dat1_name = 'HC_maf0.05_pctind0.7_cv30.mafs'
 dat1 <- read.delim(dat1_name, header = TRUE, sep='\t')
 dat1_total = dat1$nInd*2
 dat1_refCount = round(dat1$knownEM*dat1_total)
 dat1_altCount = dat1_total - round(dat1$knownEM*dat1_total)
 
 # load challenge file with header in it
-dat2_name = 'CH_maf0.05_pctind0.7_cv30.mafs'
+dat2_name = 'COH_maf0.05_pctind0.7_cv30.mafs'
 dat2 <- read.delim(dat2_name, header = TRUE, sep='\t')
 dat2_total = dat2$nInd*2
 dat2_refCount = round(dat2$knownEM*dat2_total)
 dat2_altCount = dat2_total - round(dat2$knownEM*dat2_total)
 
-outputfile='fish_CH_REF_pvalue.txt'
+outputfile='fish_HC_COH_pvalue.txt'
 sink(outputfile)
 idxs <- seq(1, length(dat1_total))
 delta_p <- c()
@@ -63,20 +63,20 @@ sink()
 #------------------------------------------------------------
 # mafs produced by domajorminor 5 and domaf 2
 # load reference file with header in it
-dat1_name = 'REF_maf0.05_pctind0.7_cv30_anc.mafs'
+dat1_name = 'HC_maf0.05_pctind0.7_cv30_anc.mafs'
 dat1 <- read.delim(dat1_name, header = TRUE, sep='\t')
 dat1_total = dat1$nInd*2
 dat1_refCount = round(dat1$unknownEM*dat1_total)
 dat1_altCount = dat1_total - round(dat1$unknownEM*dat1_total)
 
 # load challenge file with header in it
-dat2_name = 'CH_maf0.05_pctind0.7_cv30_anc.mafs'
+dat2_name = 'COH_maf0.05_pctind0.7_cv30_anc.mafs'
 dat2 <- read.delim(dat2_name, header = TRUE, sep='\t')
 dat2_total = dat2$nInd*2
 dat2_refCount = round(dat2$unknownEM*dat2_total)
 dat2_altCount = dat2_total - round(dat2$unknownEM*dat2_total)
 
-outputfile='fish_CH_REF_pvalue_anc.txt'
+outputfile='fish_HC_COH_pvalue_anc.txt'
 sink(outputfile)
 idxs <- seq(1, length(dat1_total))
 delta_p <- c()
@@ -119,70 +119,3 @@ for(i in idxs){
   cat(paste0(chr,'\t',pos,'\t',p1,'\t',p0,'\t',delta_p,'\t',p, '\t',p2,'\n'))
 }
 sink()
-
-#######################
-#  Adjust the p-value #
-#######################
-#------------------------------------------------------------
-# result by domajorminor 3 and domaf 1
-library(qvalue)
-res_name = 'fish_CH_REF_pvalue.txt'
-res <- read.delim(res_name, header = FALSE, sep='\t')
-p1 <- res$V3
-p0 <- res$V4
-p_value <- res$V7
-
-length(which(p_value<0.05))
-hist(p_value)
-qobj <- qvalue(p = p_value)
-fdr <- qobj$qvalues
-
-length(fdr[fdr<0.2])
-outlier <- as.data.frame(cbind(res$V1[fdr<0.2], res$V2[fdr<0.2], res$V4[fdr<0.2], res$V5[fdr<0.2], p_value[fdr<0.2], fdr[fdr<0.2]))
-colnames(outlier) <- c("chr","pos", "p0", "delta_p", "p_value","fdr")
-# export the dataframe to txt file
-write.table(outlier,"./results/Fish_CH_REF_fdr2.txt", quote = FALSE, row.names = FALSE)
-
-length(fdr[fdr<0.1])
-outlier <- as.data.frame(cbind(res$V1[fdr<0.1], res$V2[fdr<0.1], res$V4[fdr<0.1], res$V5[fdr<0.1], p_value[fdr<0.1], fdr[fdr<0.1]))
-colnames(outlier) <- c("chr","pos", "p0", "delta_p", "p_value","fdr")
-# export the dataframe to txt file
-write.table(outlier,"./results/Fish_CH_REF_fdr1.txt", quote = FALSE, row.names = FALSE)
-
-length(fdr[fdr<0.05])
-outlier <- as.data.frame(cbind(res$V1[fdr<0.05], res$V2[fdr<0.05], res$V4[fdr<0.05], res$V5[fdr<0.05], p_value[fdr<0.05], fdr[fdr<0.05]))
-colnames(outlier) <- c("chr","pos", "p0", "delta_p", "p_value","fdr")
-# export the dataframe to txt file
-
-#------------------------------------------------------------
-# result by domajorminor 5 and domaf 2
-library(qvalue)
-res_name = 'fish_CH_REF_pvalue_anc.txt'
-res <- read.delim(res_name, header = FALSE, sep='\t')
-p1 <- res$V3
-p0 <- res$V4
-p_value <- res$V7
-
-length(which(p_value<0.05))
-hist(p_value)
-qobj <- qvalue(p = p_value)
-fdr <- qobj$qvalues
-
-length(fdr[fdr<0.2])
-outlier <- as.data.frame(cbind(res$V1[fdr<0.2], res$V2[fdr<0.2], res$V4[fdr<0.2], res$V5[fdr<0.2], p_value[fdr<0.2], fdr[fdr<0.2]))
-colnames(outlier) <- c("chr","pos", "p0", "delta_p", "p_value","fdr")
-# export the dataframe to txt file
-write.table(outlier,"./results/Fish_CH_REF_fdr2_anc.txt", quote = FALSE, row.names = FALSE)
-
-length(fdr[fdr<0.1])
-outlier <- as.data.frame(cbind(res$V1[fdr<0.1], res$V2[fdr<0.1], res$V4[fdr<0.1], res$V5[fdr<0.1], p_value[fdr<0.1], fdr[fdr<0.1]))
-colnames(outlier) <- c("chr","pos", "p0", "delta_p", "p_value","fdr")
-# export the dataframe to txt file
-write.table(outlier,"./results/Fish_CH_REF_fdr1_anc.txt", quote = FALSE, row.names = FALSE)
-
-length(fdr[fdr<0.05])
-outlier <- as.data.frame(cbind(res$V1[fdr<0.05], res$V2[fdr<0.05], res$V4[fdr<0.05], res$V5[fdr<0.05], p_value[fdr<0.05], fdr[fdr<0.05]))
-colnames(outlier) <- c("chr","pos", "p0", "delta_p", "p_value","fdr")
-# export the dataframe to txt file
-write.table(outlier,"./results/Fish_CH_REF_fdr5_anc.txt", quote = FALSE, row.names = FALSE)
-
