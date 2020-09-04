@@ -58,8 +58,8 @@ make_id <- function(dt_name){
   return(dat_ID)
 }
 
-file1 = "CH_REF_HC_NB_out_0.01.txt"
-file2 = "CH_REF_HC_COH_out_0.01.txt"
+file1 = "CH_REF_HC_NB_out_0.05.txt"
+file2 = "CH_REF_HC_COH_out_0.05.txt"
 
 a <- make_id(file1)
 b <- make_id(file2)
