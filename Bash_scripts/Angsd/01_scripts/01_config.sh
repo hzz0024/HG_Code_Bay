@@ -1,22 +1,22 @@
 #path to bam list
-CH="/scratch/hzz0024/DelBay19_July/02_info/ch_50.list"
-REF="/scratch/hzz0024/DelBay19_July/02_info/ref_48.list"
-CHR="/scratch/hzz0024/DelBay19_July/02_info/challenge_98.list"
-WILD="/scratch/hzz0024/DelBay19_July/02_info/wild_235.list"
-HC="/scratch/hzz0024/DelBay19_July/02_info/HC_48.list"
-ARN="/scratch/hzz0024/DelBay19_July/02_info/ARN_47.list"
-COH="/scratch/hzz0024/DelBay19_July/02_info/COH_44.list"
-SR="/scratch/hzz0024/DelBay19_July/02_info/SR_48.list"
-NB="/scratch/hzz0024/DelBay19_July/02_info/NB_48.list"
-HC_ARN="/scratch/hzz0024/DelBay19_July/02_info/HC_ARN_95.list"
-ARN_COH="/scratch/hzz0024/DelBay19_July/02_info/ARN_COH_91.list"
-COH_SR="/scratch/hzz0024/DelBay19_July/02_info/COH_SR_92.list"
-SR_NB="/scratch/hzz0024/DelBay19_July/02_info/SR_NB_96.list"
-test="/scratch/hzz0024/DelBay19_July/02_info/test.list"
+CH="/workdir/hz269/02_info/ch_50.list"
+REF="/workdir/hz269/02_info/ref_48.list"
+CHR="/workdir/hz269/02_info/challenge_98.list"
+WILD="/workdir/hz269/02_info/wild_235.list"
+HC="/workdir/hz269/02_info/HC_48.list"
+ARN="/workdir/hz269/02_info/ARN_47.list"
+COH="/workdir/hz269/02_info/COH_44.list"
+SR="/workdir/hz269/02_info/SR_48.list"
+NB="/workdir/hz269/02_info/NB_48.list"
+HC_ARN="/workdir/hz269/02_info/HC_ARN_95.list"
+ARN_COH="/workdir/hz269/02_info/ARN_COH_91.list"
+COH_SR="/workdir/hz269/02_info/COH_SR_92.list"
+SR_NB="/workdir/hz269/02_info/SR_NB_96.list"
+test="/workdir/hz269/02_info/test.list"
 
 #path to the anc genome
-ANC="/scratch/hzz0024/DelBay19_July/genome/cv30.fa"
-ANC_MASKED="/scratch/hzz0024/DelBay19_July/genome/cv30_masked.fasta"
+ANC="/workdir/hz269/genome/cv30.fa"
+ANC_MASKED="/workdir/hz269/genome/cv30_masked.fasta"
 
 #path to bam folder
 #BAM_PATH=../02_info

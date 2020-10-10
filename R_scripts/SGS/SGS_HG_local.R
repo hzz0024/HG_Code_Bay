@@ -240,10 +240,10 @@ for(i in idxs){
   #}
   
   if(obs_delta>0){
-    p_value <- (length(delta_ps[delta_ps>=obs_delta])+1)/(length(delta_ps)+1)
+    p_value <- (length(delta_ps[delta_ps>=obs_delta]))/(length(delta_ps))
   }
   if(obs_delta<0){
-    p_value <- (length(delta_ps[delta_ps<=obs_delta])+1)/(length(delta_ps)+1)
+    p_value <- (length(delta_ps[delta_ps<=obs_delta]))/(length(delta_ps))
   }
   
   if(obs_delta==0){

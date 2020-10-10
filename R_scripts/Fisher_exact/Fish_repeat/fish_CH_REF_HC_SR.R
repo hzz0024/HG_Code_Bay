@@ -12,6 +12,7 @@ get.dir <- function(ref_name1, ch_name1, ref_name2, ch_name2, output_name){
   outputfile = output_name
   sink(outputfile)
   idxs <- seq(1, length(dat1$knownEM))
+  idxs = seq(1,2000)
   for(i in idxs){
   #for(i in seq(1,10000)){
     # print the running process
@@ -57,6 +58,8 @@ fish.test <- function(ref_name, ch_name, alt_name, output_name){
   outputfile = output_name
   sink(outputfile)
   idxs <- seq(1, length(dat1_total))
+  idxs = seq(1,2000)
+  fisher_pvs = c()
   for(i in idxs){
     # print the running process
     s = paste0(i,'/',dim(dat1)[1])

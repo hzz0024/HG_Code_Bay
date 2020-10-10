@@ -1,7 +1,7 @@
 SAMPLE = FALSE
 GLOBAL_NAME = 'CH_REF_HC_COH_'
-file1 = "fish_CH_REF_HCCOH.txt"
-file2 = "fish_HC_COH.txt"
+file1 = "fish_CH_REF_HCSR.txt"
+file2 = "fish_HC_SR.txt"
 #================================
 
 is.odd <- function(x) x %% 2 != 0
@@ -51,6 +51,7 @@ fisher_method <- function(ps, dat, out1, out5){
   dat1 = paste0(dat$V1[idx],'\t',dat$V2[idx],'\t',adj[idx])
   message(paste0('0.01: ',length(dat$V1[idx])))
   write.table(dat1, out1, quote = FALSE, row.names = FALSE)
+  return(adj)
 }
 
 
@@ -119,7 +120,7 @@ if(SAMPLE==TRUE){
 }
 
 
-fisher_method(ps, dat, out1=paste0(GLOBAL_NAME, 'out_0.01.txt'), out5=paste0(GLOBAL_NAME, 'out_0.05.txt')) #write outliers to output files, no return
+adj = fisher_method(ps, dat, out1=paste0(GLOBAL_NAME, 'out_0.01.txt'), out5=paste0(GLOBAL_NAME, 'out_0.05.txt')) #write outliers to output files, no return
 
 LG = as.numeric(factor(dat$V1))
 CM = dat$V2 
