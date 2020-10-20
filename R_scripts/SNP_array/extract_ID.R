@@ -1,6 +1,6 @@
 make_ID <- function(file_name, global_name){
   dat = read.delim(file_name, header = FALSE, sep='\t')
-  idx = dat$V3 < 0.1
+  idx = dat$V3 < 0.05
   message(paste0('0.1: ',length(dat$V3[idx])))
   df = paste0(dat$V1[idx],'\t',dat$V2[idx],'\t',dat$V3[idx])
   #write.table(df, paste0(global_name, 'out_0.1.txt'), quote = FALSE, row.names = FALSE)
@@ -35,6 +35,21 @@ length(m_b)
 f_a = make_ID('REF-CH-SR-HC_out_all_fish.txt','REF-CH-SR-HC_fish_')
 f_b = make_ID('REF-CH-NB-HC_out_all_fish.txt','REF-CH-NB-HC_fish_')
 f_c = make_ID('SR-REF-COH-ARN_out_all_fish.txt','SR-REF-COH-ARN_fish_')
+
+setwd("~/Documents/Ryan_workplace/DelBay19_fisher/maf02")
+z_a1 = make_ID('REF-CH-NB-HC_out_all_z.txt','REF-CH-SR-HC_z_')
+setwd("~/Documents/Ryan_workplace/DelBay19_fisher/maf005")
+z_a2 = make_ID('REF-CH-NB-HC_out_all_z.txt','REF-CH-SR-HC_z_')
+z1 <- intersect(z_a1, z_a2)
+length(z1)
+
+setwd("~/Documents/Ryan_workplace/DelBay19_fisher/maf02")
+f_a1 = make_ID('REF-CH-NB-HC_out_all_fish.txt','REF-CH-SR-HC_fjsh_')
+setwd("~/Documents/Ryan_workplace/DelBay19_fisher/maf005")
+f_a2 = make_ID('REF-CH-NB-HC_out_all_fish.txt','REF-CH-SR-HC_fish_')
+f1 <- intersect(f_a1, f_a2)
+length(z1)
+
 
 extract_ID <- function(file, target, output_name){
   dat = read.delim(file, header = TRUE, sep='\t')

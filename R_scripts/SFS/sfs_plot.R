@@ -9,4 +9,61 @@
 # > $BASE_DIR$POP'.sfs'
 # done
 
+################# start plotting ####################
 setwd("~/Documents/Ryan_workplace/DelBay19_SFS")
+
+sfs<-(scan("CH_maf0.05_pctind0.7_cv30_chr5.sfs")) #read in the log sfs
+barplot(sfs[-c(1,length(sfs))]) #plot variable sites 
+
+#function to normalize
+norm <- function(x) x/sum(x)
+#read data
+sfs0 <- (scan("CH_maf0_pctind0.7_cv30_chr5.sfs"))
+#the variable categories of the sfs
+sfs0<-norm(sfs0[-c(1,length(sfs0))])
+
+sfs1 <- (scan("CH_maf0.01_pctind0.7_cv30_chr5.sfs"))
+#the variable categories of the sfs
+sfs1<-norm(sfs1[-c(1,length(sfs1))])
+
+sfs5 <- (scan("CH_maf0.05_pctind0.7_cv30_chr5.sfs"))
+#the variable categories of the sfs
+sfs5<-norm(sfs5[-c(1,length(sfs5))])
+
+sfs <- rbind(sfs0,sfs1,sfs5)
+rownames(sfs) <- c("No filter", "maf 0.01", "maf 0.05")
+sfs_new <- as.data.frame(t(as.matrix(sfs)))
+colours <- c("red", "skyblue", "yellow")
+
+barplot(sfs,xlab="Allele frequency", legend.text=T, col = colours, border = colours,
+        names=1:length(sfs1), ylab="Proportions",main="SFS of chr5 1-1000000 in CH population", beside=T, las=1)
+###################################################
+
+file1 = 'CH_maf0_pctind0.7_cv30_chr5.mafs' #p1
+file2 = 'CH_maf0.01_pctind0.7_cv30_chr5.mafs' #p2
+file3 = 'CH_maf0.05_pctind0.7_cv30_chr5.mafs' #p3
+dat1 = read.delim(file1, header = TRUE, sep='\t')
+dat2 = read.delim(file2, header = TRUE, sep='\t')
+dat3 = read.delim(file3, header = TRUE, sep='\t')
+p1 = dat1$knownEM
+p2 = dat2$knownEM
+p3 = dat3$knownEM
+p1 =sample(p1, 50, replace = FALSE)
+p1 = sort(p1)
+p2 =sample(p2, 50, replace = FALSE) 
+p2 =sort(p2)
+p3 =sample(p3, 50, replace = FALSE)
+p3 =sort(p3)
+cnt = 1:50
+P = c(p1,p2,p3)
+ps_new <- as.data.frame(t(as.matrix(ps)))
+X = c(cnt, cnt, cnt)
+colors <- c(rep("red",50), rep("skyblue",50), rep("yellow",50))
+PCH = c(rep(17,50), rep(19,50), rep(20,50))
+plot(X, P, col = colors,
+     xlab="SNP", ylab="Allele frequency", pch=PCH)
+legend(2, 0.45, legend=c("No filter", "maf 0.01", "maf 0.05"),
+       col=c("red", "skyblue","yellow"), pch =c(17,19,20), cex=0.8)
+
+
+
