@@ -1,6 +1,6 @@
-# DelBay_project
+# HG Code Bay
 
-This repository includes the workflow and scripts for DelBay project
+This repository is a collection of the the workflow and scripts during my postdoc at Hare lab
 
 ## WGS
 
