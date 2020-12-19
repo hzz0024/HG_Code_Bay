@@ -10,7 +10,7 @@ scripts for whole-genome sequencing data trimming and processing (see Other_scri
 
 scripts for Angsd analysis
 
-## Detect the genetic signature underlie within-generation selection
+## Detect the genetic signature of within-generation selection
 
 ### SGS
 
