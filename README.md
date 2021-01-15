@@ -46,3 +46,29 @@ Scripts for Fisher's exact tests (see R_scripts -> Fisher_exact -> Fish_exact.R)
   ```
 
   3) Reveal the relationship between deltap and start p using R script Deltap_p_plot.R
+
+### Single-SNP annotation
+
+- Reference genome configuration for annotation
+
+```sh
+wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred
+# convert gtf to GenePred file
+gtfToGenePred -genePredExt ref_C_virginica-3.0_top_level.gtf cv30_refGene.txt
+# renamed the fasta file for Cv genome
+mv sequences.fa cv30.fasta #sequences.fa is the Cv genome from NCBI (including the mtDNA)
+# build Annovar annotation .fa file
+perl retrieve_seq_from_fasta.pl --format refGene --seqfile cv30.fasta cv30_refGene.txt --out cv30_refGeneMrna.fa
+```
+
+- Vcf file formatting
+
+```sh
+perl convert2annovar.pl -format vcf4 95.outlier.SNPs.inversion.recode.vcf -outfile 95.outlier.SNPs.inversion.avinput -allsample -withfreq
+```
+
+- Annotate the SNPs
+
+```sh
+perl annotate_variation.pl -geneanno -dbtype refGene -out 95.outlier.SNPs.inversion -build cv30 95.outlier.SNPs.inversion.avinput ./
+```
