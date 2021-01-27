@@ -1,0 +1,391 @@
+Sample: Cv5786_28_NY_1_4
+Read1 before filtering:
+total reads: 15952315
+total bases: 2392818785
+Q20 bases: 2353348468(98.3505%)
+Q30 bases: 2289417822(95.6787%)
+
+Read2 before filtering:
+total reads: 15952315
+total bases: 2392716783
+Q20 bases: 2323398162(97.1029%)
+Q30 bases: 2221269644(92.8346%)
+
+Read1 after filtering:
+total reads: 15908000
+total bases: 2324243767
+Q20 bases: 2307825726(99.2936%)
+Q30 bases: 2254541638(97.0011%)
+
+Read2 aftering filtering:
+total reads: 15908000
+total bases: 2289996109
+Q20 bases: 2259935034(98.6873%)
+Q30 bases: 2174241082(94.9452%)
+
+Filtering result:
+reads passed filter: 31816000
+reads failed due to low quality: 6138
+reads failed due to too many N: 52
+
+Duplication rate: 26.7193%
+
+Insert size peak (evaluated by paired-end reads): 150
+
+JSON report: /workdir/hz269/DelBay20/qual_filtered/Cv5786_28_NY_1_4_adapter_clipped_fastp.json
+HTML report: /workdir/hz269/DelBay20/qual_filtered/Cv5786_28_NY_1_4_adapter_clipped_fastp.html
+
+/programs/fastp-0.20.0/bin/fastp --trim_poly_g --cut_right -L -A --thread 1 -i /workdir/hz269/DelBay20/adapter_clipped/Cv5786_28_NY_1_4_adapter_clipped_f_paired.fastq.gz -I /workdir/hz269/DelBay20/adapter_clipped/Cv5786_28_NY_1_4_adapter_clipped_r_paired.fastq.gz -o /workdir/hz269/DelBay20/qual_filtered/Cv5786_28_NY_1_4_adapter_clipped_qual_filtered_f_paired.fastq.gz -O /workdir/hz269/DelBay20/qual_filtered/Cv5786_28_NY_1_4_adapter_clipped_qual_filtered_r_paired.fastq.gz -h /workdir/hz269/DelBay20/qual_filtered/Cv5786_28_NY_1_4_adapter_clipped_fastp.html -j /workdir/hz269/DelBay20/qual_filtered/Cv5786_28_NY_1_4_adapter_clipped_fastp.json 
+fastp v0.20.0, time used: 590 seconds
+Sample: Cv5786_29_NY_1_4
+Read1 before filtering:
+total reads: 10074532
+total bases: 1511164620
+Q20 bases: 1482031619(98.0721%)
+Q30 bases: 1431503428(94.7285%)
+
+Read2 before filtering:
+total reads: 10074532
+total bases: 1511102286
+Q20 bases: 1469734838(97.2624%)
+Q30 bases: 1408055949(93.1807%)
+
+Read1 after filtering:
+total reads: 10043456
+total bases: 1463612402
+Q20 bases: 1449852000(99.0598%)
+Q30 bases: 1406631970(96.1069%)
+
+Read2 aftering filtering:
+total reads: 10043456
+total bases: 1450938009
+Q20 bases: 1432944744(98.7599%)
+Q30 bases: 1380859716(95.1701%)
+
+Filtering result:
+reads passed filter: 20086912
+reads failed due to low quality: 4016
+reads failed due to too many N: 36
+
+Duplication rate: 23.7314%
+
+Insert size peak (evaluated by paired-end reads): 150
+
+JSON report: /workdir/hz269/DelBay20/qual_filtered/Cv5786_29_NY_1_4_adapter_clipped_fastp.json
+HTML report: /workdir/hz269/DelBay20/qual_filtered/Cv5786_29_NY_1_4_adapter_clipped_fastp.html
+
+/programs/fastp-0.20.0/bin/fastp --trim_poly_g --cut_right -L -A --thread 1 -i /workdir/hz269/DelBay20/adapter_clipped/Cv5786_29_NY_1_4_adapter_clipped_f_paired.fastq.gz -I /workdir/hz269/DelBay20/adapter_clipped/Cv5786_29_NY_1_4_adapter_clipped_r_paired.fastq.gz -o /workdir/hz269/DelBay20/qual_filtered/Cv5786_29_NY_1_4_adapter_clipped_qual_filtered_f_paired.fastq.gz -O /workdir/hz269/DelBay20/qual_filtered/Cv5786_29_NY_1_4_adapter_clipped_qual_filtered_r_paired.fastq.gz -h /workdir/hz269/DelBay20/qual_filtered/Cv5786_29_NY_1_4_adapter_clipped_fastp.html -j /workdir/hz269/DelBay20/qual_filtered/Cv5786_29_NY_1_4_adapter_clipped_fastp.json 
+fastp v0.20.0, time used: 375 seconds
+Sample: Cv5786_30_NY_1_4
+Read1 before filtering:
+total reads: 14601846
+total bases: 2190248953
+Q20 bases: 2148548764(98.0961%)
+Q30 bases: 2078989532(94.9202%)
+
+Read2 before filtering:
+total reads: 14601846
+total bases: 2190136315
+Q20 bases: 2125398292(97.0441%)
+Q30 bases: 2030819212(92.7257%)
+
+Read1 after filtering:
+total reads: 14557551
+total bases: 2120588482
+Q20 bases: 2101935710(99.1204%)
+Q30 bases: 2043211395(96.3512%)
+
+Read2 aftering filtering:
+total reads: 14557551
+total bases: 2094996944
+Q20 bases: 2066788215(98.6535%)
+Q30 bases: 1987362963(94.8623%)
+
+Filtering result:
+reads passed filter: 29115102
+reads failed due to low quality: 6296
+reads failed due to too many N: 54
+
+Duplication rate: 28.1696%
+
+Insert size peak (evaluated by paired-end reads): 150
+
+JSON report: /workdir/hz269/DelBay20/qual_filtered/Cv5786_30_NY_1_4_adapter_clipped_fastp.json
+HTML report: /workdir/hz269/DelBay20/qual_filtered/Cv5786_30_NY_1_4_adapter_clipped_fastp.html
+
+/programs/fastp-0.20.0/bin/fastp --trim_poly_g --cut_right -L -A --thread 1 -i /workdir/hz269/DelBay20/adapter_clipped/Cv5786_30_NY_1_4_adapter_clipped_f_paired.fastq.gz -I /workdir/hz269/DelBay20/adapter_clipped/Cv5786_30_NY_1_4_adapter_clipped_r_paired.fastq.gz -o /workdir/hz269/DelBay20/qual_filtered/Cv5786_30_NY_1_4_adapter_clipped_qual_filtered_f_paired.fastq.gz -O /workdir/hz269/DelBay20/qual_filtered/Cv5786_30_NY_1_4_adapter_clipped_qual_filtered_r_paired.fastq.gz -h /workdir/hz269/DelBay20/qual_filtered/Cv5786_30_NY_1_4_adapter_clipped_fastp.html -j /workdir/hz269/DelBay20/qual_filtered/Cv5786_30_NY_1_4_adapter_clipped_fastp.json 
+fastp v0.20.0, time used: 557 seconds
+Sample: Cv63_REF_1_4
+Read1 before filtering:
+total reads: 13475138
+total bases: 2021265221
+Q20 bases: 1835509900(90.8099%)
+Q30 bases: 1588386006(78.5837%)
+
+Read2 before filtering:
+total reads: 13475138
+total bases: 2021268847
+Q20 bases: 1810473646(89.5711%)
+Q30 bases: 1563747234(77.3646%)
+
+Read1 after filtering:
+total reads: 13134481
+total bases: 1627776899
+Q20 bases: 1519794963(93.3663%)
+Q30 bases: 1332193935(81.8413%)
+
+Read2 aftering filtering:
+total reads: 13134481
+total bases: 1617325443
+Q20 bases: 1503679357(92.9732%)
+Q30 bases: 1318381660(81.5162%)
+
+Filtering result:
+reads passed filter: 26268962
+reads failed due to low quality: 29300
+reads failed due to too many N: 4
+
+Duplication rate: 18.1099%
+
+Insert size peak (evaluated by paired-end reads): 1
+
+JSON report: /workdir/hz269/DelBay20/qual_filtered/Cv63_REF_1_4_adapter_clipped_fastp.json
+HTML report: /workdir/hz269/DelBay20/qual_filtered/Cv63_REF_1_4_adapter_clipped_fastp.html
+
+/programs/fastp-0.20.0/bin/fastp --trim_poly_g --cut_right -L -A --thread 1 -i /workdir/hz269/DelBay20/adapter_clipped/Cv63_REF_1_4_adapter_clipped_f_paired.fastq.gz -I /workdir/hz269/DelBay20/adapter_clipped/Cv63_REF_1_4_adapter_clipped_r_paired.fastq.gz -o /workdir/hz269/DelBay20/qual_filtered/Cv63_REF_1_4_adapter_clipped_qual_filtered_f_paired.fastq.gz -O /workdir/hz269/DelBay20/qual_filtered/Cv63_REF_1_4_adapter_clipped_qual_filtered_r_paired.fastq.gz -h /workdir/hz269/DelBay20/qual_filtered/Cv63_REF_1_4_adapter_clipped_fastp.html -j /workdir/hz269/DelBay20/qual_filtered/Cv63_REF_1_4_adapter_clipped_fastp.json 
+fastp v0.20.0, time used: 481 seconds
+Sample: Cv64_REF_1_4
+Read1 before filtering:
+total reads: 14177430
+total bases: 2126574417
+Q20 bases: 2087378095(98.1568%)
+Q30 bases: 2019342513(94.9575%)
+
+Read2 before filtering:
+total reads: 14177430
+total bases: 2126506505
+Q20 bases: 2067869009(97.2425%)
+Q30 bases: 1978954084(93.0613%)
+
+Read1 after filtering:
+total reads: 14136561
+total bases: 2062232293
+Q20 bases: 2043902030(99.1111%)
+Q30 bases: 1985761600(96.2918%)
+
+Read2 aftering filtering:
+total reads: 14136561
+total bases: 2041946473
+Q20 bases: 2015479915(98.7039%)
+Q30 bases: 1939965096(95.0057%)
+
+Filtering result:
+reads passed filter: 28273122
+reads failed due to low quality: 5146
+reads failed due to too many N: 46
+
+Duplication rate: 25.3905%
+
+Insert size peak (evaluated by paired-end reads): 150
+
+JSON report: /workdir/hz269/DelBay20/qual_filtered/Cv64_REF_1_4_adapter_clipped_fastp.json
+HTML report: /workdir/hz269/DelBay20/qual_filtered/Cv64_REF_1_4_adapter_clipped_fastp.html
+
+/programs/fastp-0.20.0/bin/fastp --trim_poly_g --cut_right -L -A --thread 1 -i /workdir/hz269/DelBay20/adapter_clipped/Cv64_REF_1_4_adapter_clipped_f_paired.fastq.gz -I /workdir/hz269/DelBay20/adapter_clipped/Cv64_REF_1_4_adapter_clipped_r_paired.fastq.gz -o /workdir/hz269/DelBay20/qual_filtered/Cv64_REF_1_4_adapter_clipped_qual_filtered_f_paired.fastq.gz -O /workdir/hz269/DelBay20/qual_filtered/Cv64_REF_1_4_adapter_clipped_qual_filtered_r_paired.fastq.gz -h /workdir/hz269/DelBay20/qual_filtered/Cv64_REF_1_4_adapter_clipped_fastp.html -j /workdir/hz269/DelBay20/qual_filtered/Cv64_REF_1_4_adapter_clipped_fastp.json 
+fastp v0.20.0, time used: 536 seconds
+Sample: Cv68_REF_1_4
+Read1 before filtering:
+total reads: 21922620
+total bases: 3288326148
+Q20 bases: 3231533656(98.2729%)
+Q30 bases: 3134192128(95.3127%)
+
+Read2 before filtering:
+total reads: 21922620
+total bases: 3288216938
+Q20 bases: 3194077430(97.1371%)
+Q30 bases: 3052066130(92.8183%)
+
+Read1 after filtering:
+total reads: 21855391
+total bases: 3191359122
+Q20 bases: 3165577929(99.1922%)
+Q30 bases: 3083069661(96.6068%)
+
+Read2 aftering filtering:
+total reads: 21855391
+total bases: 3150933005
+Q20 bases: 3107779723(98.6305%)
+Q30 bases: 2987637362(94.8175%)
+
+Filtering result:
+reads passed filter: 43710782
+reads failed due to low quality: 8706
+reads failed due to too many N: 88
+
+Duplication rate: 25.4635%
+
+Insert size peak (evaluated by paired-end reads): 150
+
+JSON report: /workdir/hz269/DelBay20/qual_filtered/Cv68_REF_1_4_adapter_clipped_fastp.json
+HTML report: /workdir/hz269/DelBay20/qual_filtered/Cv68_REF_1_4_adapter_clipped_fastp.html
+
+/programs/fastp-0.20.0/bin/fastp --trim_poly_g --cut_right -L -A --thread 1 -i /workdir/hz269/DelBay20/adapter_clipped/Cv68_REF_1_4_adapter_clipped_f_paired.fastq.gz -I /workdir/hz269/DelBay20/adapter_clipped/Cv68_REF_1_4_adapter_clipped_r_paired.fastq.gz -o /workdir/hz269/DelBay20/qual_filtered/Cv68_REF_1_4_adapter_clipped_qual_filtered_f_paired.fastq.gz -O /workdir/hz269/DelBay20/qual_filtered/Cv68_REF_1_4_adapter_clipped_qual_filtered_r_paired.fastq.gz -h /workdir/hz269/DelBay20/qual_filtered/Cv68_REF_1_4_adapter_clipped_fastp.html -j /workdir/hz269/DelBay20/qual_filtered/Cv68_REF_1_4_adapter_clipped_fastp.json 
+fastp v0.20.0, time used: 834 seconds
+Sample: Cv69_REF_1_4
+Read1 before filtering:
+total reads: 4498750
+total bases: 674800111
+Q20 bases: 653706086(96.874%)
+Q30 bases: 615770610(91.2523%)
+
+Read2 before filtering:
+total reads: 4498750
+total bases: 674765375
+Q20 bases: 657793228(97.4847%)
+Q30 bases: 631204385(93.5443%)
+
+Read1 after filtering:
+total reads: 4484400
+total bases: 645706509
+Q20 bases: 633090715(98.0462%)
+Q30 bases: 599590674(92.8581%)
+
+Read2 aftering filtering:
+total reads: 4484400
+total bases: 650908868
+Q20 bases: 643204062(98.8163%)
+Q30 bases: 620360503(95.3068%)
+
+Filtering result:
+reads passed filter: 8968800
+reads failed due to low quality: 1502
+reads failed due to too many N: 4
+
+Duplication rate: 21.0512%
+
+Insert size peak (evaluated by paired-end reads): 150
+
+JSON report: /workdir/hz269/DelBay20/qual_filtered/Cv69_REF_1_4_adapter_clipped_fastp.json
+HTML report: /workdir/hz269/DelBay20/qual_filtered/Cv69_REF_1_4_adapter_clipped_fastp.html
+
+/programs/fastp-0.20.0/bin/fastp --trim_poly_g --cut_right -L -A --thread 1 -i /workdir/hz269/DelBay20/adapter_clipped/Cv69_REF_1_4_adapter_clipped_f_paired.fastq.gz -I /workdir/hz269/DelBay20/adapter_clipped/Cv69_REF_1_4_adapter_clipped_r_paired.fastq.gz -o /workdir/hz269/DelBay20/qual_filtered/Cv69_REF_1_4_adapter_clipped_qual_filtered_f_paired.fastq.gz -O /workdir/hz269/DelBay20/qual_filtered/Cv69_REF_1_4_adapter_clipped_qual_filtered_r_paired.fastq.gz -h /workdir/hz269/DelBay20/qual_filtered/Cv69_REF_1_4_adapter_clipped_fastp.html -j /workdir/hz269/DelBay20/qual_filtered/Cv69_REF_1_4_adapter_clipped_fastp.json 
+fastp v0.20.0, time used: 171 seconds
+Sample: Cv72_CHR_1_4
+Read1 before filtering:
+total reads: 22562364
+total bases: 3384322366
+Q20 bases: 3310632611(97.8226%)
+Q30 bases: 3179701344(93.9539%)
+
+Read2 before filtering:
+total reads: 22562364
+total bases: 3384123078
+Q20 bases: 3292147410(97.2821%)
+Q30 bases: 3149678527(93.0722%)
+
+Read1 after filtering:
+total reads: 22504542
+total bases: 3271070258
+Q20 bases: 3233528469(98.8523%)
+Q30 bases: 3120183785(95.3872%)
+
+Read2 aftering filtering:
+total reads: 22504542
+total bases: 3255539428
+Q20 bases: 3213251613(98.7011%)
+Q30 bases: 3091206661(94.9522%)
+
+Filtering result:
+reads passed filter: 45009084
+reads failed due to low quality: 7038
+reads failed due to too many N: 78
+
+Duplication rate: 31.0706%
+
+Insert size peak (evaluated by paired-end reads): 150
+
+JSON report: /workdir/hz269/DelBay20/qual_filtered/Cv72_CHR_1_4_adapter_clipped_fastp.json
+HTML report: /workdir/hz269/DelBay20/qual_filtered/Cv72_CHR_1_4_adapter_clipped_fastp.html
+
+/programs/fastp-0.20.0/bin/fastp --trim_poly_g --cut_right -L -A --thread 1 -i /workdir/hz269/DelBay20/adapter_clipped/Cv72_CHR_1_4_adapter_clipped_f_paired.fastq.gz -I /workdir/hz269/DelBay20/adapter_clipped/Cv72_CHR_1_4_adapter_clipped_r_paired.fastq.gz -o /workdir/hz269/DelBay20/qual_filtered/Cv72_CHR_1_4_adapter_clipped_qual_filtered_f_paired.fastq.gz -O /workdir/hz269/DelBay20/qual_filtered/Cv72_CHR_1_4_adapter_clipped_qual_filtered_r_paired.fastq.gz -h /workdir/hz269/DelBay20/qual_filtered/Cv72_CHR_1_4_adapter_clipped_fastp.html -j /workdir/hz269/DelBay20/qual_filtered/Cv72_CHR_1_4_adapter_clipped_fastp.json 
+fastp v0.20.0, time used: 848 seconds
+Sample: Cv76_REF_1_4
+Read1 before filtering:
+total reads: 9447647
+total bases: 1417120276
+Q20 bases: 1386162782(97.8155%)
+Q30 bases: 1331927814(93.9883%)
+
+Read2 before filtering:
+total reads: 9447647
+total bases: 1417053357
+Q20 bases: 1376370084(97.129%)
+Q30 bases: 1314572175(92.768%)
+
+Read1 after filtering:
+total reads: 9419775
+total bases: 1368709695
+Q20 bases: 1353062684(98.8568%)
+Q30 bases: 1306316230(95.4414%)
+
+Read2 aftering filtering:
+total reads: 9419775
+total bases: 1359676384
+Q20 bases: 1340813105(98.6127%)
+Q30 bases: 1288085286(94.7347%)
+
+Filtering result:
+reads passed filter: 18839550
+reads failed due to low quality: 3202
+reads failed due to too many N: 24
+
+Duplication rate: 21.7628%
+
+Insert size peak (evaluated by paired-end reads): 150
+
+JSON report: /workdir/hz269/DelBay20/qual_filtered/Cv76_REF_1_4_adapter_clipped_fastp.json
+HTML report: /workdir/hz269/DelBay20/qual_filtered/Cv76_REF_1_4_adapter_clipped_fastp.html
+
+/programs/fastp-0.20.0/bin/fastp --trim_poly_g --cut_right -L -A --thread 1 -i /workdir/hz269/DelBay20/adapter_clipped/Cv76_REF_1_4_adapter_clipped_f_paired.fastq.gz -I /workdir/hz269/DelBay20/adapter_clipped/Cv76_REF_1_4_adapter_clipped_r_paired.fastq.gz -o /workdir/hz269/DelBay20/qual_filtered/Cv76_REF_1_4_adapter_clipped_qual_filtered_f_paired.fastq.gz -O /workdir/hz269/DelBay20/qual_filtered/Cv76_REF_1_4_adapter_clipped_qual_filtered_r_paired.fastq.gz -h /workdir/hz269/DelBay20/qual_filtered/Cv76_REF_1_4_adapter_clipped_fastp.html -j /workdir/hz269/DelBay20/qual_filtered/Cv76_REF_1_4_adapter_clipped_fastp.json 
+fastp v0.20.0, time used: 351 seconds
+Sample: Cv78_CHR_1_4
+Read1 before filtering:
+total reads: 28000532
+total bases: 4200032252
+Q20 bases: 4128786327(98.3037%)
+Q30 bases: 4013852686(95.5672%)
+
+Read2 before filtering:
+total reads: 28000532
+total bases: 4199836139
+Q20 bases: 4083308655(97.2254%)
+Q30 bases: 3912123784(93.1494%)
+
+Read1 after filtering:
+total reads: 27920509
+total bases: 4075866978
+Q20 bases: 4046437829(99.278%)
+Q30 bases: 3950777495(96.931%)
+
+Read2 aftering filtering:
+total reads: 27920509
+total bases: 4026785321
+Q20 bases: 3976953060(98.7625%)
+Q30 bases: 3833308893(95.1953%)
+
+Filtering result:
+reads passed filter: 55841018
+reads failed due to low quality: 11024
+reads failed due to too many N: 118
+
+Duplication rate: 29.409%
+
+Insert size peak (evaluated by paired-end reads): 150
+
+JSON report: /workdir/hz269/DelBay20/qual_filtered/Cv78_CHR_1_4_adapter_clipped_fastp.json
+HTML report: /workdir/hz269/DelBay20/qual_filtered/Cv78_CHR_1_4_adapter_clipped_fastp.html
+
+/programs/fastp-0.20.0/bin/fastp --trim_poly_g --cut_right -L -A --thread 1 -i /workdir/hz269/DelBay20/adapter_clipped/Cv78_CHR_1_4_adapter_clipped_f_paired.fastq.gz -I /workdir/hz269/DelBay20/adapter_clipped/Cv78_CHR_1_4_adapter_clipped_r_paired.fastq.gz -o /workdir/hz269/DelBay20/qual_filtered/Cv78_CHR_1_4_adapter_clipped_qual_filtered_f_paired.fastq.gz -O /workdir/hz269/DelBay20/qual_filtered/Cv78_CHR_1_4_adapter_clipped_qual_filtered_r_paired.fastq.gz -h /workdir/hz269/DelBay20/qual_filtered/Cv78_CHR_1_4_adapter_clipped_fastp.html -j /workdir/hz269/DelBay20/qual_filtered/Cv78_CHR_1_4_adapter_clipped_fastp.json 
+fastp v0.20.0, time used: 962 seconds
+Runtime: 1:35:7 (hh:mm:ss)
