@@ -1,50 +1,39 @@
-Sample: Cv5785_08_NY_1_4
+Sample: Cv76_REF_1_4
 TrimmomaticPE: Started with arguments:
- -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_16_CKDL210000056-1a-AK17401-AK11574_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_16_CKDL210000056-1a-AK17401-AK11574_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_08_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_08_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_08_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_08_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
+ -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv76_CKDL210000056-1a-AK11388-AK11352_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv76_CKDL210000056-1a-AK11388-AK11352_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv76_REF_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv76_REF_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv76_REF_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv76_REF_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
 Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
 ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Input Read Pairs: 18296547 Both Surviving: 18138159 (99.13%) Forward Only Surviving: 158072 (0.86%) Reverse Only Surviving: 312 (0.00%) Dropped: 4 (0.00%)
+Input Read Pairs: 9564656 Both Surviving: 9447647 (98.78%) Forward Only Surviving: 116928 (1.22%) Reverse Only Surviving: 81 (0.00%) Dropped: 0 (0.00%)
 TrimmomaticPE: Completed successfully
-Sample: Cv5785_09_NY_1_4
+Sample: Cv82_REF_1_4
 TrimmomaticPE: Started with arguments:
- -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_17_CKDL210000056-1a-AK11242-AK11523_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_17_CKDL210000056-1a-AK11242-AK11523_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_09_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_09_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_09_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_09_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
+ -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv82_CKDL210000056-1a-AK11457-AK12627_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv82_CKDL210000056-1a-AK11457-AK12627_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv82_REF_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv82_REF_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv82_REF_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv82_REF_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
 Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
 ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Input Read Pairs: 31284802 Both Surviving: 31043500 (99.23%) Forward Only Surviving: 240841 (0.77%) Reverse Only Surviving: 461 (0.00%) Dropped: 0 (0.00%)
+Input Read Pairs: 20954834 Both Surviving: 20786326 (99.20%) Forward Only Surviving: 168343 (0.80%) Reverse Only Surviving: 164 (0.00%) Dropped: 1 (0.00%)
 TrimmomaticPE: Completed successfully
-Sample: Cv5785_10_NY_1_4
+Sample: Cv5785_01_NY_1_4
 TrimmomaticPE: Started with arguments:
- -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_18_CKDL210000056-1a-5UDI247-AK1239_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_18_CKDL210000056-1a-5UDI247-AK1239_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_10_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_10_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_10_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_10_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
+ -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_01_CKDL210000056-1a-7UDI2744-AK11866_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_01_CKDL210000056-1a-7UDI2744-AK11866_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_01_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_01_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_01_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_01_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
 Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
 ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Input Read Pairs: 13929656 Both Surviving: 13795636 (99.04%) Forward Only Surviving: 133726 (0.96%) Reverse Only Surviving: 293 (0.00%) Dropped: 1 (0.00%)
+Input Read Pairs: 13660549 Both Surviving: 13420591 (98.24%) Forward Only Surviving: 239672 (1.75%) Reverse Only Surviving: 280 (0.00%) Dropped: 6 (0.00%)
 TrimmomaticPE: Completed successfully
-Sample: Cv5785_11_NY_1_4
+Sample: Cv5785_02_NY_1_4
 TrimmomaticPE: Started with arguments:
- -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_19_CKDL210000056-1a-AK11315-7UDI280_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_19_CKDL210000056-1a-AK11315-7UDI280_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_11_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_11_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_11_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_11_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
-Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
-Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
-Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
-Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC'
-Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
-ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Input Read Pairs: 13145141 Both Surviving: 12977011 (98.72%) Forward Only Surviving: 167901 (1.28%) Reverse Only Surviving: 226 (0.00%) Dropped: 3 (0.00%)
-TrimmomaticPE: Completed successfully
-Sample: Cv5785_12_NY_1_4
-TrimmomaticPE: Started with arguments:
- -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_02_CKDL210000056-1a-AK17133-AK11480_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_02_CKDL210000056-1a-AK17133-AK11480_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_12_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_12_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_12_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_12_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
+ -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_02_CKDL210000056-1a-AK17133-AK11480_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_02_CKDL210000056-1a-AK17133-AK11480_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_02_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_02_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_02_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_02_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
 Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
@@ -53,59 +42,70 @@ Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
 ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
 Input Read Pairs: 14175423 Both Surviving: 13920605 (98.20%) Forward Only Surviving: 254501 (1.80%) Reverse Only Surviving: 316 (0.00%) Dropped: 1 (0.00%)
 TrimmomaticPE: Completed successfully
-Sample: Cv5785_13_NY_1_4
+Sample: Cv5785_03_NY_1_4
 TrimmomaticPE: Started with arguments:
- -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_20_CKDL210000056-1a-AK11345-AK5729_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_20_CKDL210000056-1a-AK11345-AK5729_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_13_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_13_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_13_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_13_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
+ -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_03_CKDL210000056-1a-AK14337-AK17423_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_03_CKDL210000056-1a-AK14337-AK17423_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_03_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_03_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_03_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_03_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
 Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
 ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Input Read Pairs: 32161084 Both Surviving: 31928147 (99.28%) Forward Only Surviving: 232447 (0.72%) Reverse Only Surviving: 485 (0.00%) Dropped: 5 (0.00%)
+Input Read Pairs: 16722281 Both Surviving: 16364080 (97.86%) Forward Only Surviving: 357877 (2.14%) Reverse Only Surviving: 321 (0.00%) Dropped: 3 (0.00%)
 TrimmomaticPE: Completed successfully
-Sample: Cv5785_14_NY_1_4
+Sample: Cv5785_04_NY_1_4
 TrimmomaticPE: Started with arguments:
- -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_21_CKDL210000056-1a-AK11219-AK11583_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_21_CKDL210000056-1a-AK11219-AK11583_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_14_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_14_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_14_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_14_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
+ -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_04_CKDL210000056-1a-AK19836-AK12649_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_04_CKDL210000056-1a-AK19836-AK12649_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_04_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_04_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_04_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_04_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
 Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
 ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Input Read Pairs: 20588542 Both Surviving: 20450304 (99.33%) Forward Only Surviving: 137948 (0.67%) Reverse Only Surviving: 289 (0.00%) Dropped: 1 (0.00%)
+Input Read Pairs: 3091438 Both Surviving: 2995139 (96.88%) Forward Only Surviving: 96248 (3.11%) Reverse Only Surviving: 51 (0.00%) Dropped: 0 (0.00%)
 TrimmomaticPE: Completed successfully
-Sample: Cv5785_15_NY_1_4
+Sample: Cv5785_05_NY_1_4
 TrimmomaticPE: Started with arguments:
- -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_22_CKDL210000056-1a-AK8960-5UDI1709_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_22_CKDL210000056-1a-AK8960-5UDI1709_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_15_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_15_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_15_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_15_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
+ -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_05_CKDL210000056-1a-AK17010-AK11581_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_05_CKDL210000056-1a-AK17010-AK11581_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_05_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_05_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_05_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_05_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
 Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
 ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Input Read Pairs: 11503703 Both Surviving: 11421618 (99.29%) Forward Only Surviving: 81954 (0.71%) Reverse Only Surviving: 130 (0.00%) Dropped: 1 (0.00%)
+Input Read Pairs: 14038099 Both Surviving: 13743924 (97.90%) Forward Only Surviving: 293905 (2.09%) Reverse Only Surviving: 267 (0.00%) Dropped: 3 (0.00%)
 TrimmomaticPE: Completed successfully
-Sample: Cv5785_16_NY_1_4
+Sample: Cv5785_06_NY_1_4
 TrimmomaticPE: Started with arguments:
- -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_23_CKDL210000056-1a-AK11507-AK17133_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_23_CKDL210000056-1a-AK11507-AK17133_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_16_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_16_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_16_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_16_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
+ -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_06_CKDL210000056-1a-AK11652-AK11154_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_06_CKDL210000056-1a-AK11652-AK11154_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_06_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_06_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_06_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_06_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
 Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
 ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Input Read Pairs: 7411943 Both Surviving: 7328662 (98.88%) Forward Only Surviving: 83151 (1.12%) Reverse Only Surviving: 128 (0.00%) Dropped: 2 (0.00%)
+Input Read Pairs: 18082930 Both Surviving: 17933461 (99.17%) Forward Only Surviving: 149175 (0.82%) Reverse Only Surviving: 294 (0.00%) Dropped: 0 (0.00%)
 TrimmomaticPE: Completed successfully
-Sample: Cv5785_17_NY_1_4
+Sample: Cv5785_07_NY_1_4
 TrimmomaticPE: Started with arguments:
- -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_24_CKDL210000056-1a-AK11501-AK10250_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_24_CKDL210000056-1a-AK11501-AK10250_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_17_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_17_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_17_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_17_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
+ -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_07_CKDL210000056-1a-AK3948-AK9674_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_07_CKDL210000056-1a-AK3948-AK9674_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_07_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_07_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_07_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_07_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
 Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC'
 Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
 ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
-Input Read Pairs: 21134684 Both Surviving: 20991479 (99.32%) Forward Only Surviving: 142950 (0.68%) Reverse Only Surviving: 253 (0.00%) Dropped: 2 (0.00%)
+Input Read Pairs: 13821638 Both Surviving: 13766305 (99.60%) Forward Only Surviving: 55077 (0.40%) Reverse Only Surviving: 256 (0.00%) Dropped: 0 (0.00%)
 TrimmomaticPE: Completed successfully
-Runtime: 6:17:4 (hh:mm:ss)
+Sample: Cv5785_08_NY_1_4
+TrimmomaticPE: Started with arguments:
+ -threads 1 -phred33 /workdir/hz269/DelBay20/raw_fastq/Cv5785_08_CKDL210000056-1a-AK11355-AK11272_HNMTKDSXY_L4_1.fq.gz /workdir/hz269/DelBay20/raw_fastq/Cv5785_08_CKDL210000056-1a-AK11355-AK11272_HNMTKDSXY_L4_2.fq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_08_NY_1_4_adapter_clipped_f_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_08_NY_1_4_adapter_clipped_f_unpaired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_08_NY_1_4_adapter_clipped_r_paired.fastq.gz /workdir/hz269/DelBay20/adapter_clipped/Cv5785_08_NY_1_4_adapter_clipped_r_unpaired.fastq.gz ILLUMINACLIP:/workdir/hz269/DelBay20/reference/NexteraPE-PE.fa:2:30:10:1:true MINLENGTH:80
+Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
+Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
+Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
+Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTCCGAGCCCACGAGAC'
+Using Long Clipping Sequence: 'CTGTCTCTTATACACATCTGACGCTGCCGACGA'
+ILLUMINACLIP: Using 1 prefix pairs, 4 forward/reverse sequences, 0 forward only sequences, 0 reverse only sequences
+Input Read Pairs: 3577490 Both Surviving: 3512068 (98.17%) Forward Only Surviving: 65346 (1.83%) Reverse Only Surviving: 76 (0.00%) Dropped: 0 (0.00%)
+TrimmomaticPE: Completed successfully
+Runtime: 5:12:37 (hh:mm:ss)

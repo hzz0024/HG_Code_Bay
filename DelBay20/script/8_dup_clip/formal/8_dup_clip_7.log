@@ -1,0 +1,563 @@
+INFO	2021-02-02 00:50:39	MarkDuplicates	
+
+********** NOTE: Picard's command line syntax is changing.
+**********
+********** For more information, please see:
+********** https://github.com/broadinstitute/picard/wiki/Command-Line-Syntax-Transition-For-Users-(Pre-Transition)
+**********
+********** The command line looks like this in the new syntax:
+**********
+**********    MarkDuplicates -I HH13a_19_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam -O HH13a_19_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam -M HH13a_19_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt -VALIDATION_STRINGENCY SILENT -REMOVE_DUPLICATES true
+**********
+
+
+00:50:40.628 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/programs/picard-tools-2.19.2/picard.jar!/com/intel/gkl/native/libgkl_compression.so
+[Tue Feb 02 00:50:40 EST 2021] MarkDuplicates INPUT=[HH13a_19_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam] OUTPUT=HH13a_19_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam METRICS_FILE=HH13a_19_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=SILENT    MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP=50000 MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=8000 SORTING_COLLECTION_SIZE_RATIO=0.25 TAG_DUPLICATE_SET_MEMBERS=false REMOVE_SEQUENCING_DUPLICATES=false TAGGING_POLICY=DontTag CLEAR_DT=true DUPLEX_UMI=false ADD_PG_TAG_TO_READS=true ASSUME_SORTED=false DUPLICATE_SCORING_STRATEGY=SUM_OF_BASE_QUALITIES PROGRAM_RECORD_ID=MarkDuplicates PROGRAM_GROUP_NAME=MarkDuplicates READ_NAME_REGEX=<optimized capture of last three ':' separated fields as numeric values> OPTICAL_DUPLICATE_PIXEL_DISTANCE=100 MAX_OPTICAL_DUPLICATE_SET_SIZE=300000 VERBOSITY=INFO QUIET=false COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json USE_JDK_DEFLATER=false USE_JDK_INFLATER=false
+[Tue Feb 02 00:50:40 EST 2021] Executing as hz269@cbsuhare.biohpc.cornell.edu on Linux 3.10.0-957.el7.x86_64 amd64; OpenJDK 64-Bit Server VM 13.0.2+8; Deflater: Intel; Inflater: Intel; Provider GCS is not available; Picard version: 2.19.2-SNAPSHOT
+INFO	2021-02-02 00:50:40	MarkDuplicates	Start of doWork freeMemory: 194069088; totalMemory: 201326592; maxMemory: 64424509440
+INFO	2021-02-02 00:50:40	MarkDuplicates	Reading input file and constructing read end information.
+INFO	2021-02-02 00:50:40	MarkDuplicates	Will retain up to 233422135 data points before spilling to disk.
+INFO	2021-02-02 00:50:53	MarkDuplicates	Read     1,000,000 records.  Elapsed time: 00:00:10s.  Time for last 1,000,000:   10s.  Last read position: NC_035780.1:8,422,233
+INFO	2021-02-02 00:50:53	MarkDuplicates	Tracking 12812 as yet unmatched pairs. 1067 records in RAM.
+INFO	2021-02-02 00:50:59	MarkDuplicates	Read     2,000,000 records.  Elapsed time: 00:00:16s.  Time for last 1,000,000:    6s.  Last read position: NC_035780.1:33,578,863
+INFO	2021-02-02 00:50:59	MarkDuplicates	Tracking 22857 as yet unmatched pairs. 2651 records in RAM.
+INFO	2021-02-02 00:51:05	MarkDuplicates	Read     3,000,000 records.  Elapsed time: 00:00:22s.  Time for last 1,000,000:    6s.  Last read position: NC_035780.1:59,706,154
+INFO	2021-02-02 00:51:05	MarkDuplicates	Tracking 32338 as yet unmatched pairs. 3769 records in RAM.
+INFO	2021-02-02 00:51:10	MarkDuplicates	Read     4,000,000 records.  Elapsed time: 00:00:26s.  Time for last 1,000,000:    4s.  Last read position: NC_035781.1:13,685,433
+INFO	2021-02-02 00:51:10	MarkDuplicates	Tracking 40558 as yet unmatched pairs. 3365 records in RAM.
+INFO	2021-02-02 00:51:15	MarkDuplicates	Read     5,000,000 records.  Elapsed time: 00:00:31s.  Time for last 1,000,000:    5s.  Last read position: NC_035781.1:36,909,974
+INFO	2021-02-02 00:51:15	MarkDuplicates	Tracking 49522 as yet unmatched pairs. 4269 records in RAM.
+INFO	2021-02-02 00:51:20	MarkDuplicates	Read     6,000,000 records.  Elapsed time: 00:00:36s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:5,568,478
+INFO	2021-02-02 00:51:20	MarkDuplicates	Tracking 58450 as yet unmatched pairs. 6276 records in RAM.
+INFO	2021-02-02 00:51:24	MarkDuplicates	Read     7,000,000 records.  Elapsed time: 00:00:41s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:34,199,668
+INFO	2021-02-02 00:51:24	MarkDuplicates	Tracking 67584 as yet unmatched pairs. 7534 records in RAM.
+INFO	2021-02-02 00:51:28	MarkDuplicates	Read     8,000,000 records.  Elapsed time: 00:00:45s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:54,206,428
+INFO	2021-02-02 00:51:28	MarkDuplicates	Tracking 75603 as yet unmatched pairs. 8347 records in RAM.
+INFO	2021-02-02 00:51:34	MarkDuplicates	Read     9,000,000 records.  Elapsed time: 00:00:51s.  Time for last 1,000,000:    5s.  Last read position: NC_035783.1:1,831,350
+INFO	2021-02-02 00:51:34	MarkDuplicates	Tracking 83910 as yet unmatched pairs. 7343 records in RAM.
+INFO	2021-02-02 00:51:39	MarkDuplicates	Read    10,000,000 records.  Elapsed time: 00:00:56s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:20,840,030
+INFO	2021-02-02 00:51:39	MarkDuplicates	Tracking 91996 as yet unmatched pairs. 8045 records in RAM.
+INFO	2021-02-02 00:51:43	MarkDuplicates	Read    11,000,000 records.  Elapsed time: 00:01:00s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:46,095,301
+INFO	2021-02-02 00:51:43	MarkDuplicates	Tracking 101058 as yet unmatched pairs. 8905 records in RAM.
+INFO	2021-02-02 00:51:48	MarkDuplicates	Read    12,000,000 records.  Elapsed time: 00:01:05s.  Time for last 1,000,000:    5s.  Last read position: NC_035784.1:8,816,069
+INFO	2021-02-02 00:51:48	MarkDuplicates	Tracking 110081 as yet unmatched pairs. 17457 records in RAM.
+INFO	2021-02-02 00:51:54	MarkDuplicates	Read    13,000,000 records.  Elapsed time: 00:01:11s.  Time for last 1,000,000:    6s.  Last read position: NC_035784.1:29,483,796
+INFO	2021-02-02 00:51:54	MarkDuplicates	Tracking 118321 as yet unmatched pairs. 18703 records in RAM.
+INFO	2021-02-02 00:51:59	MarkDuplicates	Read    14,000,000 records.  Elapsed time: 00:01:16s.  Time for last 1,000,000:    5s.  Last read position: NC_035784.1:51,175,116
+INFO	2021-02-02 00:51:59	MarkDuplicates	Tracking 127148 as yet unmatched pairs. 20173 records in RAM.
+INFO	2021-02-02 00:52:04	MarkDuplicates	Read    15,000,000 records.  Elapsed time: 00:01:21s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:71,433,144
+INFO	2021-02-02 00:52:04	MarkDuplicates	Tracking 135425 as yet unmatched pairs. 21507 records in RAM.
+INFO	2021-02-02 00:52:09	MarkDuplicates	Read    16,000,000 records.  Elapsed time: 00:01:25s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:98,257,395
+INFO	2021-02-02 00:52:09	MarkDuplicates	Tracking 144844 as yet unmatched pairs. 23153 records in RAM.
+INFO	2021-02-02 00:52:16	MarkDuplicates	Read    17,000,000 records.  Elapsed time: 00:01:32s.  Time for last 1,000,000:    7s.  Last read position: NC_035785.1:43,765,897
+INFO	2021-02-02 00:52:16	MarkDuplicates	Tracking 155246 as yet unmatched pairs. 12144 records in RAM.
+INFO	2021-02-02 00:52:22	MarkDuplicates	Read    18,000,000 records.  Elapsed time: 00:01:39s.  Time for last 1,000,000:    6s.  Last read position: NC_035786.1:42,497,460
+INFO	2021-02-02 00:52:22	MarkDuplicates	Tracking 164689 as yet unmatched pairs. 13476 records in RAM.
+INFO	2021-02-02 00:52:27	MarkDuplicates	Read    19,000,000 records.  Elapsed time: 00:01:44s.  Time for last 1,000,000:    5s.  Last read position: NC_035787.1:28,839,098
+INFO	2021-02-02 00:52:27	MarkDuplicates	Tracking 173694 as yet unmatched pairs. 18284 records in RAM.
+INFO	2021-02-02 00:52:33	MarkDuplicates	Read    20,000,000 records.  Elapsed time: 00:01:50s.  Time for last 1,000,000:    6s.  Last read position: NC_035787.1:65,332,440
+INFO	2021-02-02 00:52:33	MarkDuplicates	Tracking 183159 as yet unmatched pairs. 19319 records in RAM.
+INFO	2021-02-02 00:52:39	MarkDuplicates	Read    21,000,000 records.  Elapsed time: 00:01:56s.  Time for last 1,000,000:    5s.  Last read position: NC_035788.1:49,395,924
+INFO	2021-02-02 00:52:39	MarkDuplicates	Tracking 193424 as yet unmatched pairs. 29877 records in RAM.
+INFO	2021-02-02 00:52:43	MarkDuplicates	Read    22,000,000 records.  Elapsed time: 00:02:00s.  Time for last 1,000,000:    4s.  Last read position: NC_035788.1:80,743,724
+INFO	2021-02-02 00:52:43	MarkDuplicates	Tracking 202391 as yet unmatched pairs. 31035 records in RAM.
+INFO	2021-02-02 00:52:45	MarkDuplicates	Read 22401710 records. 205725 pairs never matched.
+INFO	2021-02-02 00:52:46	MarkDuplicates	After buildSortedReadEndLists freeMemory: 5639606008; totalMemory: 12020875264; maxMemory: 64424509440
+INFO	2021-02-02 00:52:46	MarkDuplicates	Will retain up to 2013265920 duplicate indices before spilling to disk.
+INFO	2021-02-02 00:53:00	MarkDuplicates	Traversing read pair information and detecting duplicates.
+INFO	2021-02-02 00:53:05	MarkDuplicates	Traversing fragment information and detecting duplicates.
+INFO	2021-02-02 00:53:08	MarkDuplicates	Sorting list of duplicate records.
+INFO	2021-02-02 00:53:08	MarkDuplicates	After generateDuplicateIndexes freeMemory: 21594384240; totalMemory: 37723570176; maxMemory: 64424509440
+INFO	2021-02-02 00:53:08	MarkDuplicates	Marking 6221641 records as duplicates.
+INFO	2021-02-02 00:53:08	MarkDuplicates	Found 160892 optical duplicate clusters.
+INFO	2021-02-02 00:53:08	MarkDuplicates	Reads are assumed to be ordered by: coordinate
+INFO	2021-02-02 00:56:24	MarkDuplicates	Written    10,000,000 records.  Elapsed time: 00:03:15s.  Time for last 10,000,000:  195s.  Last read position: NC_035784.1:48,019,411
+INFO	2021-02-02 00:58:24	MarkDuplicates	Before output close freeMemory: 354387008; totalMemory: 369098752; maxMemory: 64424509440
+INFO	2021-02-02 00:58:24	MarkDuplicates	After output close freeMemory: 47694064; totalMemory: 58720256; maxMemory: 64424509440
+[Tue Feb 02 00:58:24 EST 2021] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 7.74 minutes.
+Runtime.totalMemory()=58720256
+Overlap Statistics:
+Number of overlapping pairs: 72271
+Average # Reference Bases Overlapped: 52.6752
+Variance of Reference Bases overlapped: 1657.43
+Number of times orientation causes additional clipping: 8985
+Number of times the forward strand was clipped: 41867
+Number of times the reverse strand was clipped: 30404
+WARNING: did not find expected overlapping mates for 247 records.
+Completed ClipOverlap Successfully.
+INFO	2021-02-02 01:03:07	MarkDuplicates	
+
+********** NOTE: Picard's command line syntax is changing.
+**********
+********** For more information, please see:
+********** https://github.com/broadinstitute/picard/wiki/Command-Line-Syntax-Transition-For-Users-(Pre-Transition)
+**********
+********** The command line looks like this in the new syntax:
+**********
+**********    MarkDuplicates -I HH13a_20_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam -O HH13a_20_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam -M HH13a_20_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt -VALIDATION_STRINGENCY SILENT -REMOVE_DUPLICATES true
+**********
+
+
+01:03:07.620 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/programs/picard-tools-2.19.2/picard.jar!/com/intel/gkl/native/libgkl_compression.so
+[Tue Feb 02 01:03:07 EST 2021] MarkDuplicates INPUT=[HH13a_20_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam] OUTPUT=HH13a_20_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam METRICS_FILE=HH13a_20_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=SILENT    MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP=50000 MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=8000 SORTING_COLLECTION_SIZE_RATIO=0.25 TAG_DUPLICATE_SET_MEMBERS=false REMOVE_SEQUENCING_DUPLICATES=false TAGGING_POLICY=DontTag CLEAR_DT=true DUPLEX_UMI=false ADD_PG_TAG_TO_READS=true ASSUME_SORTED=false DUPLICATE_SCORING_STRATEGY=SUM_OF_BASE_QUALITIES PROGRAM_RECORD_ID=MarkDuplicates PROGRAM_GROUP_NAME=MarkDuplicates READ_NAME_REGEX=<optimized capture of last three ':' separated fields as numeric values> OPTICAL_DUPLICATE_PIXEL_DISTANCE=100 MAX_OPTICAL_DUPLICATE_SET_SIZE=300000 VERBOSITY=INFO QUIET=false COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json USE_JDK_DEFLATER=false USE_JDK_INFLATER=false
+[Tue Feb 02 01:03:07 EST 2021] Executing as hz269@cbsuhare.biohpc.cornell.edu on Linux 3.10.0-957.el7.x86_64 amd64; OpenJDK 64-Bit Server VM 13.0.2+8; Deflater: Intel; Inflater: Intel; Provider GCS is not available; Picard version: 2.19.2-SNAPSHOT
+INFO	2021-02-02 01:03:07	MarkDuplicates	Start of doWork freeMemory: 160421424; totalMemory: 167772160; maxMemory: 64424509440
+INFO	2021-02-02 01:03:07	MarkDuplicates	Reading input file and constructing read end information.
+INFO	2021-02-02 01:03:07	MarkDuplicates	Will retain up to 233422135 data points before spilling to disk.
+INFO	2021-02-02 01:03:15	MarkDuplicates	Read     1,000,000 records.  Elapsed time: 00:00:05s.  Time for last 1,000,000:    5s.  Last read position: NC_035780.1:13,441,517
+INFO	2021-02-02 01:03:15	MarkDuplicates	Tracking 12286 as yet unmatched pairs. 1083 records in RAM.
+INFO	2021-02-02 01:03:22	MarkDuplicates	Read     2,000,000 records.  Elapsed time: 00:00:12s.  Time for last 1,000,000:    6s.  Last read position: NC_035780.1:42,730,003
+INFO	2021-02-02 01:03:22	MarkDuplicates	Tracking 22345 as yet unmatched pairs. 2777 records in RAM.
+INFO	2021-02-02 01:03:26	MarkDuplicates	Read     3,000,000 records.  Elapsed time: 00:00:16s.  Time for last 1,000,000:    4s.  Last read position: NC_035781.1:6,485,640
+INFO	2021-02-02 01:03:26	MarkDuplicates	Tracking 30534 as yet unmatched pairs. 2342 records in RAM.
+INFO	2021-02-02 01:03:30	MarkDuplicates	Read     4,000,000 records.  Elapsed time: 00:00:20s.  Time for last 1,000,000:    4s.  Last read position: NC_035781.1:31,196,234
+INFO	2021-02-02 01:03:30	MarkDuplicates	Tracking 38647 as yet unmatched pairs. 3160 records in RAM.
+INFO	2021-02-02 01:03:34	MarkDuplicates	Read     5,000,000 records.  Elapsed time: 00:00:24s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:6,835,482
+INFO	2021-02-02 01:03:34	MarkDuplicates	Tracking 47978 as yet unmatched pairs. 5057 records in RAM.
+INFO	2021-02-02 01:03:38	MarkDuplicates	Read     6,000,000 records.  Elapsed time: 00:00:29s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:40,773,161
+INFO	2021-02-02 01:03:38	MarkDuplicates	Tracking 56380 as yet unmatched pairs. 6155 records in RAM.
+INFO	2021-02-02 01:03:42	MarkDuplicates	Read     7,000,000 records.  Elapsed time: 00:00:33s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:63,440,575
+INFO	2021-02-02 01:03:42	MarkDuplicates	Tracking 64529 as yet unmatched pairs. 7007 records in RAM.
+INFO	2021-02-02 01:03:47	MarkDuplicates	Read     8,000,000 records.  Elapsed time: 00:00:37s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:16,156,247
+INFO	2021-02-02 01:03:47	MarkDuplicates	Tracking 73096 as yet unmatched pairs. 6503 records in RAM.
+INFO	2021-02-02 01:03:51	MarkDuplicates	Read     9,000,000 records.  Elapsed time: 00:00:41s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:45,562,758
+INFO	2021-02-02 01:03:51	MarkDuplicates	Tracking 81881 as yet unmatched pairs. 7176 records in RAM.
+INFO	2021-02-02 01:03:55	MarkDuplicates	Read    10,000,000 records.  Elapsed time: 00:00:46s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:13,595,041
+INFO	2021-02-02 01:03:55	MarkDuplicates	Tracking 90631 as yet unmatched pairs. 14890 records in RAM.
+INFO	2021-02-02 01:03:59	MarkDuplicates	Read    11,000,000 records.  Elapsed time: 00:00:50s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:39,893,120
+INFO	2021-02-02 01:03:59	MarkDuplicates	Tracking 98940 as yet unmatched pairs. 16180 records in RAM.
+INFO	2021-02-02 01:04:03	MarkDuplicates	Read    12,000,000 records.  Elapsed time: 00:00:54s.  Time for last 1,000,000:    3s.  Last read position: NC_035784.1:65,620,777
+INFO	2021-02-02 01:04:03	MarkDuplicates	Tracking 107651 as yet unmatched pairs. 17601 records in RAM.
+INFO	2021-02-02 01:04:07	MarkDuplicates	Read    13,000,000 records.  Elapsed time: 00:00:58s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:94,847,208
+INFO	2021-02-02 01:04:07	MarkDuplicates	Tracking 117116 as yet unmatched pairs. 19033 records in RAM.
+INFO	2021-02-02 01:04:12	MarkDuplicates	Read    14,000,000 records.  Elapsed time: 00:01:02s.  Time for last 1,000,000:    4s.  Last read position: NC_035785.1:46,826,476
+INFO	2021-02-02 01:04:12	MarkDuplicates	Tracking 128073 as yet unmatched pairs. 10211 records in RAM.
+INFO	2021-02-02 01:04:16	MarkDuplicates	Read    15,000,000 records.  Elapsed time: 00:01:07s.  Time for last 1,000,000:    4s.  Last read position: NC_035786.1:53,125,573
+INFO	2021-02-02 01:04:16	MarkDuplicates	Tracking 137202 as yet unmatched pairs. 11104 records in RAM.
+INFO	2021-02-02 01:04:21	MarkDuplicates	Read    16,000,000 records.  Elapsed time: 00:01:11s.  Time for last 1,000,000:    4s.  Last read position: NC_035787.1:51,031,490
+INFO	2021-02-02 01:04:21	MarkDuplicates	Tracking 146586 as yet unmatched pairs. 15277 records in RAM.
+INFO	2021-02-02 01:04:25	MarkDuplicates	Read    17,000,000 records.  Elapsed time: 00:01:16s.  Time for last 1,000,000:    4s.  Last read position: NC_035788.1:29,751,116
+INFO	2021-02-02 01:04:25	MarkDuplicates	Tracking 156072 as yet unmatched pairs. 23453 records in RAM.
+INFO	2021-02-02 01:04:29	MarkDuplicates	Read    18,000,000 records.  Elapsed time: 00:01:19s.  Time for last 1,000,000:    3s.  Last read position: NC_035788.1:78,355,910
+INFO	2021-02-02 01:04:29	MarkDuplicates	Tracking 166429 as yet unmatched pairs. 25685 records in RAM.
+INFO	2021-02-02 01:04:31	MarkDuplicates	Read 18409818 records. 170104 pairs never matched.
+INFO	2021-02-02 01:04:32	MarkDuplicates	After buildSortedReadEndLists freeMemory: 4531283632; totalMemory: 10443816960; maxMemory: 64424509440
+INFO	2021-02-02 01:04:32	MarkDuplicates	Will retain up to 2013265920 duplicate indices before spilling to disk.
+INFO	2021-02-02 01:04:40	MarkDuplicates	Traversing read pair information and detecting duplicates.
+INFO	2021-02-02 01:04:43	MarkDuplicates	Traversing fragment information and detecting duplicates.
+INFO	2021-02-02 01:04:45	MarkDuplicates	Sorting list of duplicate records.
+INFO	2021-02-02 01:04:46	MarkDuplicates	After generateDuplicateIndexes freeMemory: 20814237240; totalMemory: 36943429632; maxMemory: 64424509440
+INFO	2021-02-02 01:04:46	MarkDuplicates	Marking 4574919 records as duplicates.
+INFO	2021-02-02 01:04:46	MarkDuplicates	Found 136293 optical duplicate clusters.
+INFO	2021-02-02 01:04:46	MarkDuplicates	Reads are assumed to be ordered by: coordinate
+INFO	2021-02-02 01:07:44	MarkDuplicates	Written    10,000,000 records.  Elapsed time: 00:02:57s.  Time for last 10,000,000:  177s.  Last read position: NC_035785.1:14,329,037
+INFO	2021-02-02 01:09:01	MarkDuplicates	Before output close freeMemory: 321094336; totalMemory: 335544320; maxMemory: 64424509440
+INFO	2021-02-02 01:09:01	MarkDuplicates	After output close freeMemory: 105670968; totalMemory: 117440512; maxMemory: 64424509440
+[Tue Feb 02 01:09:01 EST 2021] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 5.90 minutes.
+Runtime.totalMemory()=117440512
+Overlap Statistics:
+Number of overlapping pairs: 74013
+Average # Reference Bases Overlapped: 64.4915
+Variance of Reference Bases overlapped: 2055.55
+Number of times orientation causes additional clipping: 7526
+Number of times the forward strand was clipped: 45540
+Number of times the reverse strand was clipped: 28473
+WARNING: did not find expected overlapping mates for 160 records.
+Completed ClipOverlap Successfully.
+INFO	2021-02-02 01:12:39	MarkDuplicates	
+
+********** NOTE: Picard's command line syntax is changing.
+**********
+********** For more information, please see:
+********** https://github.com/broadinstitute/picard/wiki/Command-Line-Syntax-Transition-For-Users-(Pre-Transition)
+**********
+********** The command line looks like this in the new syntax:
+**********
+**********    MarkDuplicates -I HH13a_21_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam -O HH13a_21_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam -M HH13a_21_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt -VALIDATION_STRINGENCY SILENT -REMOVE_DUPLICATES true
+**********
+
+
+01:12:39.747 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/programs/picard-tools-2.19.2/picard.jar!/com/intel/gkl/native/libgkl_compression.so
+[Tue Feb 02 01:12:39 EST 2021] MarkDuplicates INPUT=[HH13a_21_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam] OUTPUT=HH13a_21_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam METRICS_FILE=HH13a_21_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=SILENT    MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP=50000 MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=8000 SORTING_COLLECTION_SIZE_RATIO=0.25 TAG_DUPLICATE_SET_MEMBERS=false REMOVE_SEQUENCING_DUPLICATES=false TAGGING_POLICY=DontTag CLEAR_DT=true DUPLEX_UMI=false ADD_PG_TAG_TO_READS=true ASSUME_SORTED=false DUPLICATE_SCORING_STRATEGY=SUM_OF_BASE_QUALITIES PROGRAM_RECORD_ID=MarkDuplicates PROGRAM_GROUP_NAME=MarkDuplicates READ_NAME_REGEX=<optimized capture of last three ':' separated fields as numeric values> OPTICAL_DUPLICATE_PIXEL_DISTANCE=100 MAX_OPTICAL_DUPLICATE_SET_SIZE=300000 VERBOSITY=INFO QUIET=false COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json USE_JDK_DEFLATER=false USE_JDK_INFLATER=false
+[Tue Feb 02 01:12:39 EST 2021] Executing as hz269@cbsuhare.biohpc.cornell.edu on Linux 3.10.0-957.el7.x86_64 amd64; OpenJDK 64-Bit Server VM 13.0.2+8; Deflater: Intel; Inflater: Intel; Provider GCS is not available; Picard version: 2.19.2-SNAPSHOT
+INFO	2021-02-02 01:12:39	MarkDuplicates	Start of doWork freeMemory: 160421128; totalMemory: 167772160; maxMemory: 64424509440
+INFO	2021-02-02 01:12:39	MarkDuplicates	Reading input file and constructing read end information.
+INFO	2021-02-02 01:12:39	MarkDuplicates	Will retain up to 233422135 data points before spilling to disk.
+INFO	2021-02-02 01:12:47	MarkDuplicates	Read     1,000,000 records.  Elapsed time: 00:00:05s.  Time for last 1,000,000:    5s.  Last read position: NC_035780.1:24,224,845
+INFO	2021-02-02 01:12:47	MarkDuplicates	Tracking 11938 as yet unmatched pairs. 1321 records in RAM.
+INFO	2021-02-02 01:12:53	MarkDuplicates	Read     2,000,000 records.  Elapsed time: 00:00:11s.  Time for last 1,000,000:    5s.  Last read position: NC_035780.1:62,424,880
+INFO	2021-02-02 01:12:53	MarkDuplicates	Tracking 21885 as yet unmatched pairs. 2747 records in RAM.
+INFO	2021-02-02 01:12:58	MarkDuplicates	Read     3,000,000 records.  Elapsed time: 00:00:16s.  Time for last 1,000,000:    4s.  Last read position: NC_035781.1:29,468,712
+INFO	2021-02-02 01:12:58	MarkDuplicates	Tracking 29799 as yet unmatched pairs. 2511 records in RAM.
+INFO	2021-02-02 01:13:04	MarkDuplicates	Read     4,000,000 records.  Elapsed time: 00:00:22s.  Time for last 1,000,000:    5s.  Last read position: NC_035782.1:16,145,067
+INFO	2021-02-02 01:13:04	MarkDuplicates	Tracking 38620 as yet unmatched pairs. 4325 records in RAM.
+INFO	2021-02-02 01:13:08	MarkDuplicates	Read     5,000,000 records.  Elapsed time: 00:00:26s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:52,126,960
+INFO	2021-02-02 01:13:08	MarkDuplicates	Tracking 46875 as yet unmatched pairs. 5254 records in RAM.
+INFO	2021-02-02 01:13:12	MarkDuplicates	Read     6,000,000 records.  Elapsed time: 00:00:30s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:11,044,829
+INFO	2021-02-02 01:13:12	MarkDuplicates	Tracking 54905 as yet unmatched pairs. 4901 records in RAM.
+INFO	2021-02-02 01:13:16	MarkDuplicates	Read     7,000,000 records.  Elapsed time: 00:00:35s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:46,158,602
+INFO	2021-02-02 01:13:16	MarkDuplicates	Tracking 63468 as yet unmatched pairs. 5608 records in RAM.
+INFO	2021-02-02 01:13:21	MarkDuplicates	Read     8,000,000 records.  Elapsed time: 00:00:40s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:20,850,861
+INFO	2021-02-02 01:13:21	MarkDuplicates	Tracking 72284 as yet unmatched pairs. 11444 records in RAM.
+INFO	2021-02-02 01:13:25	MarkDuplicates	Read     9,000,000 records.  Elapsed time: 00:00:44s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:54,529,498
+INFO	2021-02-02 01:13:25	MarkDuplicates	Tracking 80689 as yet unmatched pairs. 13153 records in RAM.
+INFO	2021-02-02 01:13:30	MarkDuplicates	Read    10,000,000 records.  Elapsed time: 00:00:48s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:88,568,875
+INFO	2021-02-02 01:13:30	MarkDuplicates	Tracking 89569 as yet unmatched pairs. 14605 records in RAM.
+INFO	2021-02-02 01:13:34	MarkDuplicates	Read    11,000,000 records.  Elapsed time: 00:00:52s.  Time for last 1,000,000:    4s.  Last read position: NC_035786.1:8,660,643
+INFO	2021-02-02 01:13:34	MarkDuplicates	Tracking 100442 as yet unmatched pairs. 8146 records in RAM.
+INFO	2021-02-02 01:13:39	MarkDuplicates	Read    12,000,000 records.  Elapsed time: 00:00:57s.  Time for last 1,000,000:    5s.  Last read position: NC_035787.1:18,551,168
+INFO	2021-02-02 01:13:39	MarkDuplicates	Tracking 109186 as yet unmatched pairs. 11411 records in RAM.
+INFO	2021-02-02 01:13:44	MarkDuplicates	Read    13,000,000 records.  Elapsed time: 00:01:02s.  Time for last 1,000,000:    4s.  Last read position: NC_035788.1:7,519,601
+INFO	2021-02-02 01:13:44	MarkDuplicates	Tracking 118709 as yet unmatched pairs. 17700 records in RAM.
+INFO	2021-02-02 01:13:49	MarkDuplicates	Read    14,000,000 records.  Elapsed time: 00:01:07s.  Time for last 1,000,000:    4s.  Last read position: NC_035788.1:77,435,634
+INFO	2021-02-02 01:13:49	MarkDuplicates	Tracking 128886 as yet unmatched pairs. 19760 records in RAM.
+INFO	2021-02-02 01:13:50	MarkDuplicates	Read 14344468 records. 131857 pairs never matched.
+INFO	2021-02-02 01:13:52	MarkDuplicates	After buildSortedReadEndLists freeMemory: 4496192008; totalMemory: 9932111872; maxMemory: 64424509440
+INFO	2021-02-02 01:13:52	MarkDuplicates	Will retain up to 2013265920 duplicate indices before spilling to disk.
+INFO	2021-02-02 01:14:01	MarkDuplicates	Traversing read pair information and detecting duplicates.
+INFO	2021-02-02 01:14:03	MarkDuplicates	Traversing fragment information and detecting duplicates.
+INFO	2021-02-02 01:14:05	MarkDuplicates	Sorting list of duplicate records.
+INFO	2021-02-02 01:14:06	MarkDuplicates	After generateDuplicateIndexes freeMemory: 19975376584; totalMemory: 36104568832; maxMemory: 64424509440
+INFO	2021-02-02 01:14:06	MarkDuplicates	Marking 3304503 records as duplicates.
+INFO	2021-02-02 01:14:06	MarkDuplicates	Found 108291 optical duplicate clusters.
+INFO	2021-02-02 01:14:06	MarkDuplicates	Reads are assumed to be ordered by: coordinate
+INFO	2021-02-02 01:17:23	MarkDuplicates	Written    10,000,000 records.  Elapsed time: 00:03:16s.  Time for last 10,000,000:  196s.  Last read position: NC_035788.1:6,993,521
+INFO	2021-02-02 01:17:47	MarkDuplicates	Before output close freeMemory: 321027672; totalMemory: 335544320; maxMemory: 64424509440
+INFO	2021-02-02 01:17:47	MarkDuplicates	After output close freeMemory: 105604608; totalMemory: 117440512; maxMemory: 64424509440
+[Tue Feb 02 01:17:47 EST 2021] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 5.13 minutes.
+Runtime.totalMemory()=117440512
+Overlap Statistics:
+Number of overlapping pairs: 120629
+Average # Reference Bases Overlapped: 68.3141
+Variance of Reference Bases overlapped: 1958.32
+Number of times orientation causes additional clipping: 6058
+Number of times the forward strand was clipped: 73557
+Number of times the reverse strand was clipped: 47072
+WARNING: did not find expected overlapping mates for 188 records.
+Completed ClipOverlap Successfully.
+INFO	2021-02-02 01:20:39	MarkDuplicates	
+
+********** NOTE: Picard's command line syntax is changing.
+**********
+********** For more information, please see:
+********** https://github.com/broadinstitute/picard/wiki/Command-Line-Syntax-Transition-For-Users-(Pre-Transition)
+**********
+********** The command line looks like this in the new syntax:
+**********
+**********    MarkDuplicates -I HH13a_22_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam -O HH13a_22_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam -M HH13a_22_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt -VALIDATION_STRINGENCY SILENT -REMOVE_DUPLICATES true
+**********
+
+
+01:20:39.819 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/programs/picard-tools-2.19.2/picard.jar!/com/intel/gkl/native/libgkl_compression.so
+[Tue Feb 02 01:20:39 EST 2021] MarkDuplicates INPUT=[HH13a_22_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam] OUTPUT=HH13a_22_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam METRICS_FILE=HH13a_22_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=SILENT    MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP=50000 MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=8000 SORTING_COLLECTION_SIZE_RATIO=0.25 TAG_DUPLICATE_SET_MEMBERS=false REMOVE_SEQUENCING_DUPLICATES=false TAGGING_POLICY=DontTag CLEAR_DT=true DUPLEX_UMI=false ADD_PG_TAG_TO_READS=true ASSUME_SORTED=false DUPLICATE_SCORING_STRATEGY=SUM_OF_BASE_QUALITIES PROGRAM_RECORD_ID=MarkDuplicates PROGRAM_GROUP_NAME=MarkDuplicates READ_NAME_REGEX=<optimized capture of last three ':' separated fields as numeric values> OPTICAL_DUPLICATE_PIXEL_DISTANCE=100 MAX_OPTICAL_DUPLICATE_SET_SIZE=300000 VERBOSITY=INFO QUIET=false COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json USE_JDK_DEFLATER=false USE_JDK_INFLATER=false
+[Tue Feb 02 01:20:39 EST 2021] Executing as hz269@cbsuhare.biohpc.cornell.edu on Linux 3.10.0-957.el7.x86_64 amd64; OpenJDK 64-Bit Server VM 13.0.2+8; Deflater: Intel; Inflater: Intel; Provider GCS is not available; Picard version: 2.19.2-SNAPSHOT
+INFO	2021-02-02 01:20:39	MarkDuplicates	Start of doWork freeMemory: 160419008; totalMemory: 167772160; maxMemory: 64424509440
+INFO	2021-02-02 01:20:39	MarkDuplicates	Reading input file and constructing read end information.
+INFO	2021-02-02 01:20:39	MarkDuplicates	Will retain up to 233422135 data points before spilling to disk.
+INFO	2021-02-02 01:20:48	MarkDuplicates	Read     1,000,000 records.  Elapsed time: 00:00:06s.  Time for last 1,000,000:    6s.  Last read position: NC_035780.1:8,377,555
+INFO	2021-02-02 01:20:48	MarkDuplicates	Tracking 13620 as yet unmatched pairs. 1294 records in RAM.
+INFO	2021-02-02 01:20:54	MarkDuplicates	Read     2,000,000 records.  Elapsed time: 00:00:12s.  Time for last 1,000,000:    5s.  Last read position: NC_035780.1:33,307,181
+INFO	2021-02-02 01:20:54	MarkDuplicates	Tracking 23298 as yet unmatched pairs. 2864 records in RAM.
+INFO	2021-02-02 01:20:59	MarkDuplicates	Read     3,000,000 records.  Elapsed time: 00:00:17s.  Time for last 1,000,000:    5s.  Last read position: NC_035780.1:59,211,150
+INFO	2021-02-02 01:20:59	MarkDuplicates	Tracking 32782 as yet unmatched pairs. 4014 records in RAM.
+INFO	2021-02-02 01:21:04	MarkDuplicates	Read     4,000,000 records.  Elapsed time: 00:00:21s.  Time for last 1,000,000:    4s.  Last read position: NC_035781.1:13,347,323
+INFO	2021-02-02 01:21:04	MarkDuplicates	Tracking 40917 as yet unmatched pairs. 3323 records in RAM.
+INFO	2021-02-02 01:21:08	MarkDuplicates	Read     5,000,000 records.  Elapsed time: 00:00:25s.  Time for last 1,000,000:    4s.  Last read position: NC_035781.1:36,024,995
+INFO	2021-02-02 01:21:08	MarkDuplicates	Tracking 49619 as yet unmatched pairs. 4200 records in RAM.
+INFO	2021-02-02 01:21:13	MarkDuplicates	Read     6,000,000 records.  Elapsed time: 00:00:30s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:3,616,592
+INFO	2021-02-02 01:21:13	MarkDuplicates	Tracking 58159 as yet unmatched pairs. 6276 records in RAM.
+INFO	2021-02-02 01:21:17	MarkDuplicates	Read     7,000,000 records.  Elapsed time: 00:00:34s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:33,808,401
+INFO	2021-02-02 01:21:17	MarkDuplicates	Tracking 67514 as yet unmatched pairs. 7544 records in RAM.
+INFO	2021-02-02 01:21:21	MarkDuplicates	Read     8,000,000 records.  Elapsed time: 00:00:39s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:53,756,526
+INFO	2021-02-02 01:21:21	MarkDuplicates	Tracking 75165 as yet unmatched pairs. 8446 records in RAM.
+INFO	2021-02-02 01:21:28	MarkDuplicates	Read     9,000,000 records.  Elapsed time: 00:00:45s.  Time for last 1,000,000:    6s.  Last read position: NC_035783.1:1,363,309
+INFO	2021-02-02 01:21:28	MarkDuplicates	Tracking 83576 as yet unmatched pairs. 7277 records in RAM.
+INFO	2021-02-02 01:21:32	MarkDuplicates	Read    10,000,000 records.  Elapsed time: 00:00:50s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:20,092,145
+INFO	2021-02-02 01:21:32	MarkDuplicates	Tracking 91431 as yet unmatched pairs. 7901 records in RAM.
+INFO	2021-02-02 01:21:38	MarkDuplicates	Read    11,000,000 records.  Elapsed time: 00:00:55s.  Time for last 1,000,000:    5s.  Last read position: NC_035783.1:45,643,041
+INFO	2021-02-02 01:21:38	MarkDuplicates	Tracking 100365 as yet unmatched pairs. 8785 records in RAM.
+INFO	2021-02-02 01:21:43	MarkDuplicates	Read    12,000,000 records.  Elapsed time: 00:01:00s.  Time for last 1,000,000:    5s.  Last read position: NC_035784.1:8,614,038
+INFO	2021-02-02 01:21:43	MarkDuplicates	Tracking 109220 as yet unmatched pairs. 17561 records in RAM.
+INFO	2021-02-02 01:21:47	MarkDuplicates	Read    13,000,000 records.  Elapsed time: 00:01:04s.  Time for last 1,000,000:    3s.  Last read position: NC_035784.1:29,241,889
+INFO	2021-02-02 01:21:47	MarkDuplicates	Tracking 117480 as yet unmatched pairs. 18859 records in RAM.
+INFO	2021-02-02 01:21:51	MarkDuplicates	Read    14,000,000 records.  Elapsed time: 00:01:08s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:50,588,669
+INFO	2021-02-02 01:21:51	MarkDuplicates	Tracking 125321 as yet unmatched pairs. 20226 records in RAM.
+INFO	2021-02-02 01:21:55	MarkDuplicates	Read    15,000,000 records.  Elapsed time: 00:01:13s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:71,403,835
+INFO	2021-02-02 01:21:55	MarkDuplicates	Tracking 134070 as yet unmatched pairs. 21518 records in RAM.
+INFO	2021-02-02 01:21:59	MarkDuplicates	Read    16,000,000 records.  Elapsed time: 00:01:16s.  Time for last 1,000,000:    3s.  Last read position: NC_035784.1:97,679,630
+INFO	2021-02-02 01:21:59	MarkDuplicates	Tracking 143619 as yet unmatched pairs. 23232 records in RAM.
+INFO	2021-02-02 01:22:03	MarkDuplicates	Read    17,000,000 records.  Elapsed time: 00:01:21s.  Time for last 1,000,000:    4s.  Last read position: NC_035785.1:43,737,558
+INFO	2021-02-02 01:22:03	MarkDuplicates	Tracking 154186 as yet unmatched pairs. 12296 records in RAM.
+INFO	2021-02-02 01:22:08	MarkDuplicates	Read    18,000,000 records.  Elapsed time: 00:01:26s.  Time for last 1,000,000:    4s.  Last read position: NC_035786.1:42,440,173
+INFO	2021-02-02 01:22:08	MarkDuplicates	Tracking 163770 as yet unmatched pairs. 13272 records in RAM.
+INFO	2021-02-02 01:22:12	MarkDuplicates	Read    19,000,000 records.  Elapsed time: 00:01:30s.  Time for last 1,000,000:    4s.  Last read position: NC_035787.1:28,341,604
+INFO	2021-02-02 01:22:12	MarkDuplicates	Tracking 172677 as yet unmatched pairs. 18272 records in RAM.
+INFO	2021-02-02 01:22:17	MarkDuplicates	Read    20,000,000 records.  Elapsed time: 00:01:34s.  Time for last 1,000,000:    4s.  Last read position: NC_035787.1:64,963,223
+INFO	2021-02-02 01:22:17	MarkDuplicates	Tracking 182076 as yet unmatched pairs. 19337 records in RAM.
+INFO	2021-02-02 01:22:22	MarkDuplicates	Read    21,000,000 records.  Elapsed time: 00:01:40s.  Time for last 1,000,000:    5s.  Last read position: NC_035788.1:47,165,319
+INFO	2021-02-02 01:22:22	MarkDuplicates	Tracking 192332 as yet unmatched pairs. 29322 records in RAM.
+INFO	2021-02-02 01:22:27	MarkDuplicates	Read    22,000,000 records.  Elapsed time: 00:01:44s.  Time for last 1,000,000:    4s.  Last read position: NC_035788.1:80,055,437
+INFO	2021-02-02 01:22:27	MarkDuplicates	Tracking 202129 as yet unmatched pairs. 30882 records in RAM.
+INFO	2021-02-02 01:22:29	MarkDuplicates	Read 22415272 records. 205836 pairs never matched.
+INFO	2021-02-02 01:22:30	MarkDuplicates	After buildSortedReadEndLists freeMemory: 6619233440; totalMemory: 13002342400; maxMemory: 64424509440
+INFO	2021-02-02 01:22:30	MarkDuplicates	Will retain up to 2013265920 duplicate indices before spilling to disk.
+INFO	2021-02-02 01:22:38	MarkDuplicates	Traversing read pair information and detecting duplicates.
+INFO	2021-02-02 01:22:42	MarkDuplicates	Traversing fragment information and detecting duplicates.
+INFO	2021-02-02 01:22:44	MarkDuplicates	Sorting list of duplicate records.
+INFO	2021-02-02 01:22:45	MarkDuplicates	After generateDuplicateIndexes freeMemory: 21619542616; totalMemory: 37748736000; maxMemory: 64424509440
+INFO	2021-02-02 01:22:45	MarkDuplicates	Marking 5643392 records as duplicates.
+INFO	2021-02-02 01:22:45	MarkDuplicates	Found 190893 optical duplicate clusters.
+INFO	2021-02-02 01:22:45	MarkDuplicates	Reads are assumed to be ordered by: coordinate
+INFO	2021-02-02 01:25:40	MarkDuplicates	Written    10,000,000 records.  Elapsed time: 00:02:55s.  Time for last 10,000,000:  175s.  Last read position: NC_035784.1:37,692,985
+INFO	2021-02-02 01:27:42	MarkDuplicates	Before output close freeMemory: 271431608; totalMemory: 285212672; maxMemory: 64424509440
+INFO	2021-02-02 01:27:43	MarkDuplicates	After output close freeMemory: 47619832; totalMemory: 58720256; maxMemory: 64424509440
+[Tue Feb 02 01:27:43 EST 2021] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 7.05 minutes.
+Runtime.totalMemory()=58720256
+Overlap Statistics:
+Number of overlapping pairs: 87304
+Average # Reference Bases Overlapped: 55.3064
+Variance of Reference Bases overlapped: 1756.93
+Number of times orientation causes additional clipping: 9773
+Number of times the forward strand was clipped: 53914
+Number of times the reverse strand was clipped: 33390
+WARNING: did not find expected overlapping mates for 288 records.
+Completed ClipOverlap Successfully.
+INFO	2021-02-02 01:32:16	MarkDuplicates	
+
+********** NOTE: Picard's command line syntax is changing.
+**********
+********** For more information, please see:
+********** https://github.com/broadinstitute/picard/wiki/Command-Line-Syntax-Transition-For-Users-(Pre-Transition)
+**********
+********** The command line looks like this in the new syntax:
+**********
+**********    MarkDuplicates -I HH13a_23_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam -O HH13a_23_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam -M HH13a_23_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt -VALIDATION_STRINGENCY SILENT -REMOVE_DUPLICATES true
+**********
+
+
+01:32:17.168 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/programs/picard-tools-2.19.2/picard.jar!/com/intel/gkl/native/libgkl_compression.so
+[Tue Feb 02 01:32:17 EST 2021] MarkDuplicates INPUT=[HH13a_23_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam] OUTPUT=HH13a_23_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam METRICS_FILE=HH13a_23_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=SILENT    MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP=50000 MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=8000 SORTING_COLLECTION_SIZE_RATIO=0.25 TAG_DUPLICATE_SET_MEMBERS=false REMOVE_SEQUENCING_DUPLICATES=false TAGGING_POLICY=DontTag CLEAR_DT=true DUPLEX_UMI=false ADD_PG_TAG_TO_READS=true ASSUME_SORTED=false DUPLICATE_SCORING_STRATEGY=SUM_OF_BASE_QUALITIES PROGRAM_RECORD_ID=MarkDuplicates PROGRAM_GROUP_NAME=MarkDuplicates READ_NAME_REGEX=<optimized capture of last three ':' separated fields as numeric values> OPTICAL_DUPLICATE_PIXEL_DISTANCE=100 MAX_OPTICAL_DUPLICATE_SET_SIZE=300000 VERBOSITY=INFO QUIET=false COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json USE_JDK_DEFLATER=false USE_JDK_INFLATER=false
+[Tue Feb 02 01:32:17 EST 2021] Executing as hz269@cbsuhare.biohpc.cornell.edu on Linux 3.10.0-957.el7.x86_64 amd64; OpenJDK 64-Bit Server VM 13.0.2+8; Deflater: Intel; Inflater: Intel; Provider GCS is not available; Picard version: 2.19.2-SNAPSHOT
+INFO	2021-02-02 01:32:17	MarkDuplicates	Start of doWork freeMemory: 160418928; totalMemory: 167772160; maxMemory: 64424509440
+INFO	2021-02-02 01:32:17	MarkDuplicates	Reading input file and constructing read end information.
+INFO	2021-02-02 01:32:17	MarkDuplicates	Will retain up to 233422135 data points before spilling to disk.
+INFO	2021-02-02 01:32:25	MarkDuplicates	Read     1,000,000 records.  Elapsed time: 00:00:06s.  Time for last 1,000,000:    6s.  Last read position: NC_035780.1:8,028,751
+INFO	2021-02-02 01:32:25	MarkDuplicates	Tracking 13447 as yet unmatched pairs. 1368 records in RAM.
+INFO	2021-02-02 01:32:30	MarkDuplicates	Read     2,000,000 records.  Elapsed time: 00:00:11s.  Time for last 1,000,000:    5s.  Last read position: NC_035780.1:31,824,366
+INFO	2021-02-02 01:32:30	MarkDuplicates	Tracking 23986 as yet unmatched pairs. 3001 records in RAM.
+INFO	2021-02-02 01:32:35	MarkDuplicates	Read     3,000,000 records.  Elapsed time: 00:00:15s.  Time for last 1,000,000:    4s.  Last read position: NC_035780.1:57,145,985
+INFO	2021-02-02 01:32:35	MarkDuplicates	Tracking 33542 as yet unmatched pairs. 4201 records in RAM.
+INFO	2021-02-02 01:32:40	MarkDuplicates	Read     4,000,000 records.  Elapsed time: 00:00:20s.  Time for last 1,000,000:    5s.  Last read position: NC_035781.1:10,428,853
+INFO	2021-02-02 01:32:40	MarkDuplicates	Tracking 42031 as yet unmatched pairs. 3497 records in RAM.
+INFO	2021-02-02 01:32:44	MarkDuplicates	Read     5,000,000 records.  Elapsed time: 00:00:25s.  Time for last 1,000,000:    4s.  Last read position: NC_035781.1:30,037,202
+INFO	2021-02-02 01:32:44	MarkDuplicates	Tracking 50520 as yet unmatched pairs. 4451 records in RAM.
+INFO	2021-02-02 01:32:49	MarkDuplicates	Read     6,000,000 records.  Elapsed time: 00:00:29s.  Time for last 1,000,000:    4s.  Last read position: NC_035781.1:53,038,533
+INFO	2021-02-02 01:32:49	MarkDuplicates	Tracking 59267 as yet unmatched pairs. 5212 records in RAM.
+INFO	2021-02-02 01:32:53	MarkDuplicates	Read     7,000,000 records.  Elapsed time: 00:00:33s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:26,156,283
+INFO	2021-02-02 01:32:53	MarkDuplicates	Tracking 69042 as yet unmatched pairs. 7796 records in RAM.
+INFO	2021-02-02 01:32:57	MarkDuplicates	Read     8,000,000 records.  Elapsed time: 00:00:37s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:48,084,425
+INFO	2021-02-02 01:32:57	MarkDuplicates	Tracking 76923 as yet unmatched pairs. 8713 records in RAM.
+INFO	2021-02-02 01:33:01	MarkDuplicates	Read     9,000,000 records.  Elapsed time: 00:00:41s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:64,526,527
+INFO	2021-02-02 01:33:01	MarkDuplicates	Tracking 85105 as yet unmatched pairs. 9654 records in RAM.
+INFO	2021-02-02 01:33:06	MarkDuplicates	Read    10,000,000 records.  Elapsed time: 00:00:46s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:12,728,547
+INFO	2021-02-02 01:33:06	MarkDuplicates	Tracking 93847 as yet unmatched pairs. 8216 records in RAM.
+INFO	2021-02-02 01:33:10	MarkDuplicates	Read    11,000,000 records.  Elapsed time: 00:00:50s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:33,427,958
+INFO	2021-02-02 01:33:10	MarkDuplicates	Tracking 102354 as yet unmatched pairs. 8930 records in RAM.
+INFO	2021-02-02 01:33:14	MarkDuplicates	Read    12,000,000 records.  Elapsed time: 00:00:55s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:55,327,013
+INFO	2021-02-02 01:33:14	MarkDuplicates	Tracking 112037 as yet unmatched pairs. 9744 records in RAM.
+INFO	2021-02-02 01:33:19	MarkDuplicates	Read    13,000,000 records.  Elapsed time: 00:00:59s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:16,441,309
+INFO	2021-02-02 01:33:19	MarkDuplicates	Tracking 120819 as yet unmatched pairs. 19404 records in RAM.
+INFO	2021-02-02 01:33:24	MarkDuplicates	Read    14,000,000 records.  Elapsed time: 00:01:05s.  Time for last 1,000,000:    5s.  Last read position: NC_035784.1:37,181,510
+INFO	2021-02-02 01:33:24	MarkDuplicates	Tracking 129455 as yet unmatched pairs. 20807 records in RAM.
+INFO	2021-02-02 01:33:29	MarkDuplicates	Read    15,000,000 records.  Elapsed time: 00:01:10s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:57,494,053
+INFO	2021-02-02 01:33:29	MarkDuplicates	Tracking 137944 as yet unmatched pairs. 22474 records in RAM.
+INFO	2021-02-02 01:33:34	MarkDuplicates	Read    16,000,000 records.  Elapsed time: 00:01:14s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:76,620,974
+INFO	2021-02-02 01:33:34	MarkDuplicates	Tracking 146035 as yet unmatched pairs. 23597 records in RAM.
+INFO	2021-02-02 01:33:39	MarkDuplicates	Read    17,000,000 records.  Elapsed time: 00:01:19s.  Time for last 1,000,000:    5s.  Last read position: NC_035785.1:10,746,343
+INFO	2021-02-02 01:33:39	MarkDuplicates	Tracking 156847 as yet unmatched pairs. 12510 records in RAM.
+INFO	2021-02-02 01:33:44	MarkDuplicates	Read    18,000,000 records.  Elapsed time: 00:01:25s.  Time for last 1,000,000:    5s.  Last read position: NC_035786.1:1,583,140
+INFO	2021-02-02 01:33:44	MarkDuplicates	Tracking 167066 as yet unmatched pairs. 13632 records in RAM.
+INFO	2021-02-02 01:33:49	MarkDuplicates	Read    19,000,000 records.  Elapsed time: 00:01:29s.  Time for last 1,000,000:    4s.  Last read position: NC_035786.1:46,535,212
+INFO	2021-02-02 01:33:49	MarkDuplicates	Tracking 176191 as yet unmatched pairs. 14333 records in RAM.
+INFO	2021-02-02 01:33:53	MarkDuplicates	Read    20,000,000 records.  Elapsed time: 00:01:33s.  Time for last 1,000,000:    4s.  Last read position: NC_035787.1:28,776,923
+INFO	2021-02-02 01:33:53	MarkDuplicates	Tracking 184725 as yet unmatched pairs. 19757 records in RAM.
+INFO	2021-02-02 01:33:57	MarkDuplicates	Read    21,000,000 records.  Elapsed time: 00:01:37s.  Time for last 1,000,000:    4s.  Last read position: NC_035787.1:63,509,579
+INFO	2021-02-02 01:33:57	MarkDuplicates	Tracking 194222 as yet unmatched pairs. 20989 records in RAM.
+INFO	2021-02-02 01:34:02	MarkDuplicates	Read    22,000,000 records.  Elapsed time: 00:01:42s.  Time for last 1,000,000:    4s.  Last read position: NC_035788.1:43,356,833
+INFO	2021-02-02 01:34:02	MarkDuplicates	Tracking 204420 as yet unmatched pairs. 31058 records in RAM.
+INFO	2021-02-02 01:34:06	MarkDuplicates	Read    23,000,000 records.  Elapsed time: 00:01:46s.  Time for last 1,000,000:    4s.  Last read position: NC_035788.1:75,855,568
+INFO	2021-02-02 01:34:06	MarkDuplicates	Tracking 214068 as yet unmatched pairs. 32767 records in RAM.
+INFO	2021-02-02 01:34:09	MarkDuplicates	Read 23602058 records. 219658 pairs never matched.
+INFO	2021-02-02 01:34:11	MarkDuplicates	After buildSortedReadEndLists freeMemory: 7948320480; totalMemory: 14470348800; maxMemory: 64424509440
+INFO	2021-02-02 01:34:11	MarkDuplicates	Will retain up to 2013265920 duplicate indices before spilling to disk.
+INFO	2021-02-02 01:34:21	MarkDuplicates	Traversing read pair information and detecting duplicates.
+INFO	2021-02-02 01:34:25	MarkDuplicates	Traversing fragment information and detecting duplicates.
+INFO	2021-02-02 01:34:27	MarkDuplicates	Sorting list of duplicate records.
+INFO	2021-02-02 01:34:28	MarkDuplicates	After generateDuplicateIndexes freeMemory: 21820869288; totalMemory: 37950062592; maxMemory: 64424509440
+INFO	2021-02-02 01:34:28	MarkDuplicates	Marking 6473206 records as duplicates.
+INFO	2021-02-02 01:34:28	MarkDuplicates	Found 206827 optical duplicate clusters.
+INFO	2021-02-02 01:34:28	MarkDuplicates	Reads are assumed to be ordered by: coordinate
+INFO	2021-02-02 01:37:16	MarkDuplicates	Written    10,000,000 records.  Elapsed time: 00:02:48s.  Time for last 10,000,000:  168s.  Last read position: NC_035784.1:32,628,340
+INFO	2021-02-02 01:39:28	MarkDuplicates	Before output close freeMemory: 155332464; totalMemory: 167772160; maxMemory: 64424509440
+INFO	2021-02-02 01:39:28	MarkDuplicates	After output close freeMemory: 47686896; totalMemory: 58720256; maxMemory: 64424509440
+[Tue Feb 02 01:39:28 EST 2021] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 7.18 minutes.
+Runtime.totalMemory()=58720256
+Overlap Statistics:
+Number of overlapping pairs: 67841
+Average # Reference Bases Overlapped: 54.8666
+Variance of Reference Bases overlapped: 1808.29
+Number of times orientation causes additional clipping: 9977
+Number of times the forward strand was clipped: 42208
+Number of times the reverse strand was clipped: 25633
+WARNING: did not find expected overlapping mates for 345 records.
+Completed ClipOverlap Successfully.
+INFO	2021-02-02 01:44:00	MarkDuplicates	
+
+********** NOTE: Picard's command line syntax is changing.
+**********
+********** For more information, please see:
+********** https://github.com/broadinstitute/picard/wiki/Command-Line-Syntax-Transition-For-Users-(Pre-Transition)
+**********
+********** The command line looks like this in the new syntax:
+**********
+**********    MarkDuplicates -I HH13a_24_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam -O HH13a_24_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam -M HH13a_24_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt -VALIDATION_STRINGENCY SILENT -REMOVE_DUPLICATES true
+**********
+
+
+01:44:01.155 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/programs/picard-tools-2.19.2/picard.jar!/com/intel/gkl/native/libgkl_compression.so
+[Tue Feb 02 01:44:01 EST 2021] MarkDuplicates INPUT=[HH13a_24_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam] OUTPUT=HH13a_24_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam METRICS_FILE=HH13a_24_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=SILENT    MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP=50000 MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=8000 SORTING_COLLECTION_SIZE_RATIO=0.25 TAG_DUPLICATE_SET_MEMBERS=false REMOVE_SEQUENCING_DUPLICATES=false TAGGING_POLICY=DontTag CLEAR_DT=true DUPLEX_UMI=false ADD_PG_TAG_TO_READS=true ASSUME_SORTED=false DUPLICATE_SCORING_STRATEGY=SUM_OF_BASE_QUALITIES PROGRAM_RECORD_ID=MarkDuplicates PROGRAM_GROUP_NAME=MarkDuplicates READ_NAME_REGEX=<optimized capture of last three ':' separated fields as numeric values> OPTICAL_DUPLICATE_PIXEL_DISTANCE=100 MAX_OPTICAL_DUPLICATE_SET_SIZE=300000 VERBOSITY=INFO QUIET=false COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json USE_JDK_DEFLATER=false USE_JDK_INFLATER=false
+[Tue Feb 02 01:44:01 EST 2021] Executing as hz269@cbsuhare.biohpc.cornell.edu on Linux 3.10.0-957.el7.x86_64 amd64; OpenJDK 64-Bit Server VM 13.0.2+8; Deflater: Intel; Inflater: Intel; Provider GCS is not available; Picard version: 2.19.2-SNAPSHOT
+INFO	2021-02-02 01:44:01	MarkDuplicates	Start of doWork freeMemory: 160420240; totalMemory: 167772160; maxMemory: 64424509440
+INFO	2021-02-02 01:44:01	MarkDuplicates	Reading input file and constructing read end information.
+INFO	2021-02-02 01:44:01	MarkDuplicates	Will retain up to 233422135 data points before spilling to disk.
+INFO	2021-02-02 01:44:09	MarkDuplicates	Read     1,000,000 records.  Elapsed time: 00:00:05s.  Time for last 1,000,000:    5s.  Last read position: NC_035780.1:9,758,503
+INFO	2021-02-02 01:44:09	MarkDuplicates	Tracking 13369 as yet unmatched pairs. 1190 records in RAM.
+INFO	2021-02-02 01:44:14	MarkDuplicates	Read     2,000,000 records.  Elapsed time: 00:00:11s.  Time for last 1,000,000:    5s.  Last read position: NC_035780.1:37,089,695
+INFO	2021-02-02 01:44:14	MarkDuplicates	Tracking 24198 as yet unmatched pairs. 2931 records in RAM.
+INFO	2021-02-02 01:44:19	MarkDuplicates	Read     3,000,000 records.  Elapsed time: 00:00:15s.  Time for last 1,000,000:    4s.  Last read position: NC_035780.1:62,729,849
+INFO	2021-02-02 01:44:19	MarkDuplicates	Tracking 33307 as yet unmatched pairs. 4076 records in RAM.
+INFO	2021-02-02 01:44:24	MarkDuplicates	Read     4,000,000 records.  Elapsed time: 00:00:20s.  Time for last 1,000,000:    4s.  Last read position: NC_035781.1:17,748,636
+INFO	2021-02-02 01:44:24	MarkDuplicates	Tracking 41624 as yet unmatched pairs. 3613 records in RAM.
+INFO	2021-02-02 01:44:30	MarkDuplicates	Read     5,000,000 records.  Elapsed time: 00:00:27s.  Time for last 1,000,000:    6s.  Last read position: NC_035781.1:41,551,174
+INFO	2021-02-02 01:44:30	MarkDuplicates	Tracking 49667 as yet unmatched pairs. 4438 records in RAM.
+INFO	2021-02-02 01:44:35	MarkDuplicates	Read     6,000,000 records.  Elapsed time: 00:00:31s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:16,537,235
+INFO	2021-02-02 01:44:35	MarkDuplicates	Tracking 59234 as yet unmatched pairs. 6503 records in RAM.
+INFO	2021-02-02 01:44:39	MarkDuplicates	Read     7,000,000 records.  Elapsed time: 00:00:35s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:42,138,863
+INFO	2021-02-02 01:44:39	MarkDuplicates	Tracking 67853 as yet unmatched pairs. 7722 records in RAM.
+INFO	2021-02-02 01:44:43	MarkDuplicates	Read     8,000,000 records.  Elapsed time: 00:00:40s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:61,493,091
+INFO	2021-02-02 01:44:43	MarkDuplicates	Tracking 76068 as yet unmatched pairs. 8550 records in RAM.
+INFO	2021-02-02 01:44:48	MarkDuplicates	Read     9,000,000 records.  Elapsed time: 00:00:44s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:11,616,678
+INFO	2021-02-02 01:44:48	MarkDuplicates	Tracking 84983 as yet unmatched pairs. 7474 records in RAM.
+INFO	2021-02-02 01:44:52	MarkDuplicates	Read    10,000,000 records.  Elapsed time: 00:00:48s.  Time for last 1,000,000:    3s.  Last read position: NC_035783.1:34,171,966
+INFO	2021-02-02 01:44:52	MarkDuplicates	Tracking 93840 as yet unmatched pairs. 8239 records in RAM.
+INFO	2021-02-02 01:44:56	MarkDuplicates	Read    11,000,000 records.  Elapsed time: 00:00:52s.  Time for last 1,000,000:    4s.  Last read position: NC_035783.1:57,347,215
+INFO	2021-02-02 01:44:56	MarkDuplicates	Tracking 103519 as yet unmatched pairs. 9062 records in RAM.
+INFO	2021-02-02 01:45:00	MarkDuplicates	Read    12,000,000 records.  Elapsed time: 00:00:57s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:21,227,672
+INFO	2021-02-02 01:45:00	MarkDuplicates	Tracking 111957 as yet unmatched pairs. 17954 records in RAM.
+INFO	2021-02-02 01:45:05	MarkDuplicates	Read    13,000,000 records.  Elapsed time: 00:01:01s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:43,921,523
+INFO	2021-02-02 01:45:05	MarkDuplicates	Tracking 120402 as yet unmatched pairs. 19225 records in RAM.
+INFO	2021-02-02 01:45:10	MarkDuplicates	Read    14,000,000 records.  Elapsed time: 00:01:06s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:65,750,007
+INFO	2021-02-02 01:45:10	MarkDuplicates	Tracking 129017 as yet unmatched pairs. 20819 records in RAM.
+INFO	2021-02-02 01:45:15	MarkDuplicates	Read    15,000,000 records.  Elapsed time: 00:01:11s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:89,619,212
+INFO	2021-02-02 01:45:15	MarkDuplicates	Tracking 138082 as yet unmatched pairs. 22246 records in RAM.
+INFO	2021-02-02 01:45:21	MarkDuplicates	Read    16,000,000 records.  Elapsed time: 00:01:17s.  Time for last 1,000,000:    5s.  Last read position: NC_035785.1:40,050,198
+INFO	2021-02-02 01:45:21	MarkDuplicates	Tracking 149564 as yet unmatched pairs. 11926 records in RAM.
+INFO	2021-02-02 01:45:25	MarkDuplicates	Read    17,000,000 records.  Elapsed time: 00:01:22s.  Time for last 1,000,000:    4s.  Last read position: NC_035786.1:42,542,198
+INFO	2021-02-02 01:45:25	MarkDuplicates	Tracking 159422 as yet unmatched pairs. 12954 records in RAM.
+INFO	2021-02-02 01:45:31	MarkDuplicates	Read    18,000,000 records.  Elapsed time: 00:01:27s.  Time for last 1,000,000:    5s.  Last read position: NC_035787.1:32,435,718
+INFO	2021-02-02 01:45:31	MarkDuplicates	Tracking 168705 as yet unmatched pairs. 17308 records in RAM.
+INFO	2021-02-02 01:45:35	MarkDuplicates	Read    19,000,000 records.  Elapsed time: 00:01:32s.  Time for last 1,000,000:    4s.  Last read position: NC_035787.1:72,357,839
+INFO	2021-02-02 01:45:35	MarkDuplicates	Tracking 178498 as yet unmatched pairs. 18587 records in RAM.
+INFO	2021-02-02 01:45:41	MarkDuplicates	Read    20,000,000 records.  Elapsed time: 00:01:37s.  Time for last 1,000,000:    5s.  Last read position: NC_035788.1:56,089,461
+INFO	2021-02-02 01:45:41	MarkDuplicates	Tracking 189632 as yet unmatched pairs. 28456 records in RAM.
+INFO	2021-02-02 01:45:46	MarkDuplicates	Read    21,000,000 records.  Elapsed time: 00:01:42s.  Time for last 1,000,000:    4s.  Last read position: NC_035788.1:91,983,828
+INFO	2021-02-02 01:45:46	MarkDuplicates	Tracking 198760 as yet unmatched pairs. 29880 records in RAM.
+INFO	2021-02-02 01:45:46	MarkDuplicates	Read 21146646 records. 200291 pairs never matched.
+INFO	2021-02-02 01:45:47	MarkDuplicates	After buildSortedReadEndLists freeMemory: 4914955032; totalMemory: 11148460032; maxMemory: 64424509440
+INFO	2021-02-02 01:45:47	MarkDuplicates	Will retain up to 2013265920 duplicate indices before spilling to disk.
+INFO	2021-02-02 01:45:57	MarkDuplicates	Traversing read pair information and detecting duplicates.
+INFO	2021-02-02 01:46:02	MarkDuplicates	Traversing fragment information and detecting duplicates.
+INFO	2021-02-02 01:46:05	MarkDuplicates	Sorting list of duplicate records.
+INFO	2021-02-02 01:46:06	MarkDuplicates	After generateDuplicateIndexes freeMemory: 21384663936; totalMemory: 37513854976; maxMemory: 64424509440
+INFO	2021-02-02 01:46:06	MarkDuplicates	Marking 5704787 records as duplicates.
+INFO	2021-02-02 01:46:06	MarkDuplicates	Found 140354 optical duplicate clusters.
+INFO	2021-02-02 01:46:06	MarkDuplicates	Reads are assumed to be ordered by: coordinate
+INFO	2021-02-02 01:49:21	MarkDuplicates	Written    10,000,000 records.  Elapsed time: 00:03:15s.  Time for last 10,000,000:  195s.  Last read position: NC_035784.1:59,193,402
+INFO	2021-02-02 01:51:18	MarkDuplicates	Before output close freeMemory: 213450864; totalMemory: 226492416; maxMemory: 64424509440
+INFO	2021-02-02 01:51:18	MarkDuplicates	After output close freeMemory: 47688408; totalMemory: 58720256; maxMemory: 64424509440
+[Tue Feb 02 01:51:18 EST 2021] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 7.29 minutes.
+Runtime.totalMemory()=58720256
+Overlap Statistics:
+Number of overlapping pairs: 66709
+Average # Reference Bases Overlapped: 54.9584
+Variance of Reference Bases overlapped: 1805.14
+Number of times orientation causes additional clipping: 9130
+Number of times the forward strand was clipped: 37175
+Number of times the reverse strand was clipped: 29534
+WARNING: did not find expected overlapping mates for 297 records.
+Completed ClipOverlap Successfully.
+INFO	2021-02-02 01:55:47	MarkDuplicates	
+
+********** NOTE: Picard's command line syntax is changing.
+**********
+********** For more information, please see:
+********** https://github.com/broadinstitute/picard/wiki/Command-Line-Syntax-Transition-For-Users-(Pre-Transition)
+**********
+********** The command line looks like this in the new syntax:
+**********
+**********    MarkDuplicates -I HH13a_25_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam -O HH13a_25_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam -M HH13a_25_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt -VALIDATION_STRINGENCY SILENT -REMOVE_DUPLICATES true
+**********
+
+
+01:55:48.144 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/programs/picard-tools-2.19.2/picard.jar!/com/intel/gkl/native/libgkl_compression.so
+[Tue Feb 02 01:55:48 EST 2021] MarkDuplicates INPUT=[HH13a_25_CT_1_4_pe_bt2_CV30_masked_minq20_sorted.bam] OUTPUT=HH13a_25_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dedup.bam METRICS_FILE=HH13a_25_CT_1_4_pe_bt2_CV30_masked_minq20_sorted_dupstat.txt REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=SILENT    MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP=50000 MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=8000 SORTING_COLLECTION_SIZE_RATIO=0.25 TAG_DUPLICATE_SET_MEMBERS=false REMOVE_SEQUENCING_DUPLICATES=false TAGGING_POLICY=DontTag CLEAR_DT=true DUPLEX_UMI=false ADD_PG_TAG_TO_READS=true ASSUME_SORTED=false DUPLICATE_SCORING_STRATEGY=SUM_OF_BASE_QUALITIES PROGRAM_RECORD_ID=MarkDuplicates PROGRAM_GROUP_NAME=MarkDuplicates READ_NAME_REGEX=<optimized capture of last three ':' separated fields as numeric values> OPTICAL_DUPLICATE_PIXEL_DISTANCE=100 MAX_OPTICAL_DUPLICATE_SET_SIZE=300000 VERBOSITY=INFO QUIET=false COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json USE_JDK_DEFLATER=false USE_JDK_INFLATER=false
+[Tue Feb 02 01:55:48 EST 2021] Executing as hz269@cbsuhare.biohpc.cornell.edu on Linux 3.10.0-957.el7.x86_64 amd64; OpenJDK 64-Bit Server VM 13.0.2+8; Deflater: Intel; Inflater: Intel; Provider GCS is not available; Picard version: 2.19.2-SNAPSHOT
+INFO	2021-02-02 01:55:48	MarkDuplicates	Start of doWork freeMemory: 160420256; totalMemory: 167772160; maxMemory: 64424509440
+INFO	2021-02-02 01:55:48	MarkDuplicates	Reading input file and constructing read end information.
+INFO	2021-02-02 01:55:48	MarkDuplicates	Will retain up to 233422135 data points before spilling to disk.
+INFO	2021-02-02 01:55:57	MarkDuplicates	Read     1,000,000 records.  Elapsed time: 00:00:06s.  Time for last 1,000,000:    6s.  Last read position: NC_035780.1:32,787,144
+INFO	2021-02-02 01:55:57	MarkDuplicates	Tracking 11570 as yet unmatched pairs. 1357 records in RAM.
+INFO	2021-02-02 01:56:02	MarkDuplicates	Read     2,000,000 records.  Elapsed time: 00:00:11s.  Time for last 1,000,000:    5s.  Last read position: NC_035781.1:12,069,673
+INFO	2021-02-02 01:56:02	MarkDuplicates	Tracking 20580 as yet unmatched pairs. 1627 records in RAM.
+INFO	2021-02-02 01:56:07	MarkDuplicates	Read     3,000,000 records.  Elapsed time: 00:00:16s.  Time for last 1,000,000:    4s.  Last read position: NC_035781.1:55,669,087
+INFO	2021-02-02 01:56:07	MarkDuplicates	Tracking 29093 as yet unmatched pairs. 2549 records in RAM.
+INFO	2021-02-02 01:56:11	MarkDuplicates	Read     4,000,000 records.  Elapsed time: 00:00:21s.  Time for last 1,000,000:    4s.  Last read position: NC_035782.1:50,347,782
+INFO	2021-02-02 01:56:11	MarkDuplicates	Tracking 37977 as yet unmatched pairs. 4232 records in RAM.
+INFO	2021-02-02 01:56:16	MarkDuplicates	Read     5,000,000 records.  Elapsed time: 00:00:26s.  Time for last 1,000,000:    5s.  Last read position: NC_035783.1:14,683,853
+INFO	2021-02-02 01:56:16	MarkDuplicates	Tracking 46277 as yet unmatched pairs. 4070 records in RAM.
+INFO	2021-02-02 01:56:20	MarkDuplicates	Read     6,000,000 records.  Elapsed time: 00:00:30s.  Time for last 1,000,000:    3s.  Last read position: NC_035783.1:57,401,353
+INFO	2021-02-02 01:56:20	MarkDuplicates	Tracking 54857 as yet unmatched pairs. 4762 records in RAM.
+INFO	2021-02-02 01:56:25	MarkDuplicates	Read     7,000,000 records.  Elapsed time: 00:00:34s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:40,070,482
+INFO	2021-02-02 01:56:25	MarkDuplicates	Tracking 63509 as yet unmatched pairs. 10132 records in RAM.
+INFO	2021-02-02 01:56:29	MarkDuplicates	Read     8,000,000 records.  Elapsed time: 00:00:39s.  Time for last 1,000,000:    4s.  Last read position: NC_035784.1:80,985,444
+INFO	2021-02-02 01:56:29	MarkDuplicates	Tracking 72275 as yet unmatched pairs. 11576 records in RAM.
+INFO	2021-02-02 01:56:34	MarkDuplicates	Read     9,000,000 records.  Elapsed time: 00:00:43s.  Time for last 1,000,000:    4s.  Last read position: NC_035786.1:14,728,709
+INFO	2021-02-02 01:56:34	MarkDuplicates	Tracking 83200 as yet unmatched pairs. 6879 records in RAM.
+INFO	2021-02-02 01:56:39	MarkDuplicates	Read    10,000,000 records.  Elapsed time: 00:00:48s.  Time for last 1,000,000:    4s.  Last read position: NC_035787.1:46,428,731
+INFO	2021-02-02 01:56:39	MarkDuplicates	Tracking 92441 as yet unmatched pairs. 9845 records in RAM.
+INFO	2021-02-02 01:56:43	MarkDuplicates	Read    11,000,000 records.  Elapsed time: 00:00:52s.  Time for last 1,000,000:    4s.  Last read position: NC_035788.1:60,646,447
+INFO	2021-02-02 01:56:43	MarkDuplicates	Tracking 102719 as yet unmatched pairs. 15714 records in RAM.
+INFO	2021-02-02 01:56:45	MarkDuplicates	Read 11559313 records. 107182 pairs never matched.
+INFO	2021-02-02 01:56:47	MarkDuplicates	After buildSortedReadEndLists freeMemory: 5612081576; totalMemory: 10720641024; maxMemory: 64424509440
+INFO	2021-02-02 01:56:47	MarkDuplicates	Will retain up to 2013265920 duplicate indices before spilling to disk.
+INFO	2021-02-02 01:56:56	MarkDuplicates	Traversing read pair information and detecting duplicates.
+INFO	2021-02-02 01:56:59	MarkDuplicates	Traversing fragment information and detecting duplicates.
+INFO	2021-02-02 01:57:00	MarkDuplicates	Sorting list of duplicate records.
+INFO	2021-02-02 01:57:01	MarkDuplicates	After generateDuplicateIndexes freeMemory: 19522393240; totalMemory: 35651584000; maxMemory: 64424509440
+INFO	2021-02-02 01:57:01	MarkDuplicates	Marking 4549159 records as duplicates.
+INFO	2021-02-02 01:57:01	MarkDuplicates	Found 90820 optical duplicate clusters.
+INFO	2021-02-02 01:57:01	MarkDuplicates	Reads are assumed to be ordered by: coordinate
+INFO	2021-02-02 01:59:24	MarkDuplicates	Before output close freeMemory: 320965088; totalMemory: 335544320; maxMemory: 64424509440
+INFO	2021-02-02 01:59:24	MarkDuplicates	After output close freeMemory: 72321288; totalMemory: 83886080; maxMemory: 64424509440
+[Tue Feb 02 01:59:24 EST 2021] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 3.61 minutes.
+Runtime.totalMemory()=83886080
+Overlap Statistics:
+Number of overlapping pairs: 24376
+Average # Reference Bases Overlapped: 44.7218
+Variance of Reference Bases overlapped: 1400.58
+Number of times orientation causes additional clipping: 4731
+Number of times the forward strand was clipped: 15573
+Number of times the reverse strand was clipped: 8803
+WARNING: did not find expected overlapping mates for 154 records.
+Completed ClipOverlap Successfully.
+Runtime: 1:10:41 (hh:mm:ss)
