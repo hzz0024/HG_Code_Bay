@@ -14,11 +14,11 @@ For initial saf file, some parameter setting examples can be found [https://gith
 
 for pop in CH REF HC COH ARN SR NB
 do
-    echo -e 'module load angsd/0.931\n###this script will work on bamfiles by population and calculate saf  & maf\n# maybe edit\ntarget="'$pop'"\nNB_CPU=20 #change accordingly\nREGIONS="-rf chr_list.txt" #optional\n#REGIONS="" # to remove the options to focus on a limited number of regions\n\n#prepare variables - avoid to modify\nsource /scratch/hzz0024/DelBay19_Sep/01_scripts/01_config.sh\nN_IND=$(wc -l $'$pop' | cut -d " " -f 1)\nMIN_IND=$(($N_IND*7/10))\n\necho "Ouput can be used for depth evaluation with all individuals listed in "$'$pop'\necho "keep loci with at leat one read for n individuals = "$MIN_IND", which is 70% of total "$N_IND" individuals"\n\nangsd -P $NB_CPU -doMaf 1 -dosaf 1 -doCounts 1 -GL 1 -doMajorMinor 1 -anc $ANC -remove_bads 1 -minInd $MIN_IND -setMaxDepth 200 -minQ 20 -minMapQ 30 -b $'$pop' $REGIONS -out "/scratch/hzz0024/DelBay19_Sep/11_SFS/"$target"_SFS_cv30"' >> formal/'09_theta_'$pop'_cv30.sh'
+    echo -e 'module load angsd/0.931\n###this script will work on bamfiles by population and calculate saf  & maf\n# maybe edit\ntarget="'$pop'"\nNB_CPU=20 #change accordingly\nREGIONS="-rf chr_list.txt" #optional\n#REGIONS="" # to remove the options to focus on a limited number of regions\n\n#prepare variables - avoid to modify\nsource /scratch/hzz0024/DelBay19_Sep/01_scripts/01_config.sh\nN_IND=$(wc -l $'$pop' | cut -d " " -f 1)\nMIN_IND=$(($N_IND*7/10))\n\necho "Ouput can be used for depth evaluation with all individuals listed in "$'$pop'\necho "keep loci with at leat one read for n individuals = "$MIN_IND", which is 70% of total "$N_IND" individuals"\n\nangsd -P $NB_CPU -doMaf 1 -dosaf 1 -doCounts 1 -GL 1 -doMajorMinor 1 -anc $ANC -remove_bads 1 -minQ 20 -minMapQ 30 -b $'$pop' $REGIONS -out "/scratch/hzz0024/DelBay19_Sep/11_SFS/"$target"_SFS_cv30"' >> formal/'09_theta_'$pop'_cv30.sh'
 done
 
 # an example 
-angsd -P $NB_CPU -doMaf 1 -dosaf 1 -doCounts 1 -GL 1 -doMajorMinor 1 -anc $ANC -remove_bads 1 -minInd $MIN_IND -setMaxDepth 200 -minQ 20 -minMapQ 30 -b $CH $REGIONS -out "/scratch/hzz0024/DelBay19_Sep/11_SFS/"$target"_SFS_cv30"
+angsd -P $NB_CPU -doMaf 1 -dosaf 1 -doCounts 1 -GL 1 -doMajorMinor 1 -anc $ANC -setMaxDepth 200 -minQ 20 -minMapQ 30 -b $CH $REGIONS -out "/scratch/hzz0024/DelBay19_Sep/11_SFS/"$target"_SFS_cv30"
 ```
 2) produce the sfs file
 
