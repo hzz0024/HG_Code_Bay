@@ -101,7 +101,7 @@ h2 = as.list(h2)
 par(mfrow=c(1,1))
 manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 5), xlim = c(16534778, 16560000), highlight1 = h1$V1, highlight2 = h2$V1, logp=FALSE, cex.axis = 0.8, ylim = c(-0.6, 0.6),
           col=c("grey","black"),genomewideline=F, suggestiveline=F,
-          ylab="CH_REF dxy", cex.lab=1, main = "CH-REF chr5:150 SNP/window ",) 
+          ylab="CH_REF dxy", cex.lab=1, main = "CH-REF chr5:150 SNP/window",) 
 # draw lines
 #idx = dat1$chromo == 5
 #lines(dat1$position[idx], delta_p[idx],col='gray90')

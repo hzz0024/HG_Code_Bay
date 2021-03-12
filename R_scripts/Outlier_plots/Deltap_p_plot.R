@@ -1,6 +1,6 @@
 
 ##########################
-#  eveal the relation-   #
+#  rveal the relation-   #
 #ship between deltap     #
 #and start p, first plot #
 ##########################

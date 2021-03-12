@@ -3,8 +3,8 @@ library(ggplot2)
 manhattan.plot<-function(chr, pos, pvalue, 
                          sig.level=NA, annotate=NULL, ann.default=list(),
                          should.thin=T, thin.pos.places=2, thin.logp.places=2, 
-                         xlab="Chromosome", ylab=expression(-log[10](fdr)),
-                         col=c("gray","darkgray"), panel.extra=NULL, pch=20, cex=0.8,...) {
+                         xlab="Chromosome", ylab=expression(-log[10](FDR)),
+                         col=c("gray","black"), panel.extra=NULL, pch=20, cex=0.2,...) {
   
   if (length(chr)==0) stop("chromosome vector is empty")
   if (length(pos)==0) stop("position vector is empty")
@@ -122,13 +122,13 @@ manhattan.plot<-function(chr, pos, pvalue,
   rm(pos, pvalue)
   gc()
   
-  #custom axis to print chromosome names
+  #custom axis to print chromosome names, draw axis ticks and labels
   axis.chr <- function(side,...) {
     if(side=="bottom") {
       panel.axis(side=side, outside=T,
                  at=((posmax+posmin)/2+posshift),
                  labels=levels(chr), 
-                 ticks=F, rot=0,
+                 ticks=T, rot=0, # text.cex changes the label size
                  check.overlap=F
       )
     } else if (side=="top" || side=="right") {
@@ -154,7 +154,7 @@ manhattan.plot<-function(chr, pos, pvalue,
          panel=function(x, y, ..., getgenpos) {
            if(!is.na(sig.level)) {
              #add significance line (if requested)
-             panel.abline(h=-log10(sig.level), lty=2, col = 'red');
+             panel.abline(h=-log10(sig.level), lty=2, lwd = 2, col = 'red');
            }
            panel.superpose(x, y, ..., getgenpos=getgenpos);
            if(!is.null(panel.extra)) {
@@ -194,14 +194,17 @@ manhattan.plot<-function(chr, pos, pvalue,
              do.call("panel.text", gt)
            }
          },
-         xlab=xlab, ylab=ylab, 
+         xlab=list("Chromosome", fontsize = 22), # change the font size for x and y labels @HG
+         ylab=list(expression(-log[10](FDR)),fontsize = 22),
+         trellis.par.set(axis.text=list(cex=2)), # set size for axis label value 
+         #xlab=xlab, ylab=ylab,
          panel.extra=panel.extra, getgenpos=getGenPos, ...
   );
 }
 
 make_plot <- function(file_name){
   dat = read.delim(file_name, header = FALSE, sep='\t')
-  manhattan.plot(dat$V1, dat$V2, dat$V3, sig.level=0.1)
+  manhattan.plot(dat$V1, dat$V2, dat$V3, sig.level=0.05)
 }
 
 make_plot("REF-CH-NB-HC_out_all_z.txt")
