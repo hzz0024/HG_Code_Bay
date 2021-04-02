@@ -76,3 +76,12 @@ perl annotate_variation.pl -geneanno -dbtype refGene -out 95.outlier.SNPs.invers
 ### Convert vcf to bed
 
 awk '! /\#/' input.vcf | awk '{if(length($4) > length($5)) print $1"\t"($2-1)"\t"($2+length($4)-1); else print $1"\t"($2-1)"\t"($2+length($5)-1)}' > output.bed
+
+
+### Format the markdown file for pdf download
+
+```sh
+pip3 install grip
+grip your_markdown.md --export your_markdown.html
+# https://superuser.com/questions/689056/how-can-i-convert-github-flavored-markdown-to-a-pdf
+```sh
