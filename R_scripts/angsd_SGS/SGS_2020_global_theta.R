@@ -3,7 +3,7 @@ library(gtools)
 library(hash)
 args = commandArgs(trailingOnly=TRUE)
 # to prevent scientific notation caused issue
-options(scipen=999)
+#options(scipen=999)
 #######################
 # Divide the snp list #
 #######################
@@ -28,7 +28,7 @@ message(paste0('num_split:',num_split))
 
 nreps = as.numeric(args[3])
 if(is.null(args[3])){
-  nreps = 10000
+  nreps = 100000
 }
 message(paste0('nreps:',nreps))
 
@@ -226,15 +226,15 @@ for(i in idxs){
   
   # quantile test for p-value
   if(obs_delta>0){
-    res = quantile.test(delta_ps,xstar=obs_delta, quantile=0.95, alternative="quantile.less")
-    p_value=res$p.value
-  }else if(obs_delta<0){
-    res = quantile.test(delta_ps,xstar=obs_delta, quantile=0.05, alternative="quantile.greater")
-    p_value=res$p.value
-  }else{
-    message('obs_delta is 0')
-    p_value=1.0
-  }
+     res = quantile.test(delta_ps,xstar=obs_delta, quantile=0.95, alternative="quantile.less")
+     p_value=res$p.value
+   }else if(obs_delta<0){
+     res = quantile.test(delta_ps,xstar=obs_delta, quantile=0.05, alternative="quantile.greater")
+     p_value=res$p.value
+   }else{
+     message('obs_delta is 0')
+     p_value=1.0
+   }
 
   cat(dat_ref$chromo[i])
   cat('\t')

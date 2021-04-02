@@ -77,7 +77,7 @@ library(export)
 setwd('~/Documents/Ryan_workplace/DelBay_adult/04_heterozygosity/plot/')
 file = "DelBay_het_comp.csv"
 file = "DelBay_het_chr.csv"
-file = "DelBay_minq20.csv"
+file = "DelBay_minq20_formal.csv"
 df <- read.delim(file, header = TRUE, sep=',')
 ggplot(df, aes(x=Het_minq20, y=Het_minq20, shape=Pop)) +
   geom_point()
