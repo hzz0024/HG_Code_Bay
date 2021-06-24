@@ -1,5 +1,6 @@
 # HG Code Bay
 
+Test
 This repository is a collection of the the workflow and scripts during my postdoc at Hare lab
 
 ## WGS
