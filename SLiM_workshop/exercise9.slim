@@ -1,0 +1,62 @@
+// set up a simple neutral simulation
+initialize() {
+	defineConstant("simID", getSeed());
+	initializeMutationRate(1e-7);
+	
+	// m1 mutation type: neutral
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeMutationType("m2", 1.0, "f", 0.5);
+	
+	// g1 genomic element type: uses m1 for all mutations
+	initializeGenomicElementType("g1", m1, 1.0);
+	
+	// uniform chromosome of length 100 kb with uniform recombination
+	initializeGenomicElement(g1, 0, 99999);
+	initializeRecombinationRate(1e-8);
+}
+
+// create a population of 500 individuals
+1 {
+	sim.addSubpop("p1", 500);
+}
+
+// output samples of 10 genomes periodically, all fixed mutations at end
+1000 late() {
+	target = sample(p1.genomes, 1);
+	target.addNewDrawnMutation(m2, 10000);
+	sim.outputFull("/tmp/slim_" + simID + ".txt");
+}
+
+1000:100000 late() {
+	sweep = sim.mutationsOfType(m2);
+	
+	if (size(sweep) == 0)
+	{ 
+		if (any(sim.substitutions.mutationType == m2))
+		{ 
+			cat(simID + ":FIXED\n");
+			sim.simulationFinished();
+		}
+//		fixed = ( sum(sim.substitutions.mutationType == m2) == 1);
+//		catn(sim.generation + ": " + (fixed ? "FIXED" else "LOST"));
+//		sim.simulationFinished();
+//		}
+//		else
+		else
+		{
+			cat(simID + ": LOST - RESTARTING\n");
+			sim.readFromPopulationFile("/tmp/slim_" + simID + ".txt");
+		}
+	}
+	else
+		{
+			freq = sim.mutationFrequencies(NULL, sweep);
+			catn(sim.generation + ": " + freq);
+		}
+	}
+
+100000 late() { 
+	catn("TIME EXPIRED");
+	sim.simulationFinished();
+}
+

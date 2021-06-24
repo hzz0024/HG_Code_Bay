@@ -1,0 +1,41 @@
+initialize() {
+	initializeMutationRate(2.36e-8);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 10000);
+	initializeRecombinationRate(1e-8);
+}
+
+1 {sim.addSubpop("p1", 731); }
+52080 {p1.setSubpopulationSize(1447);}
+58000 late() {
+	p1.outputSample(216);
+	p2.outputSample(198);
+	p1.outputSample(206);
+}
+55960 {
+	sim.addSubpopSplit("p2", 186, p1);
+	p1.setMigrationRates(p2, 15e-5);
+	p2.setMigrationRates(p1, 15e-5);
+}
+57080 {
+	sim.addSubpopSplit("p3", 55, p2);
+	p2.setSubpopulationSize(103);
+	p1.setMigrationRates(c(p2,p3), c(2.5e-5, 0.78e-5));
+	p2.setMigrationRates(c(p1,p3), c(2.5e-5, 3.11e-5));
+	p3.setMigrationRates(c(p1,p2), c(0.78e-5, 3.11e-5));
+}
+57080:58000 {
+	t=sim.generation - 57080;
+	p2_size = round(103 * exp(0.0038*t));
+	p3_size = round(55 * exp(0.0048*t));
+	p2.setSubpopulationSize(asInteger(p2_size));
+	p3.setSubpopulationSize(asInteger(p3_size));
+}
+58001 early() {
+	sim.addSubpop("p4", 90000);
+	p4.setMigrationRates(c(p1,p2,p3), c(0.3, 0.4, 0.3));
+}
+58001 late() {
+	c(p1,p2,p3).setSubpopulationSize(0);
+}

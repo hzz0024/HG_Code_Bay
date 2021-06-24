@@ -16,7 +16,7 @@ id = paste0(dat0$chromo,'_',dat0$position)
 dat1$SNP <- id
 dat1$deltaP <- delta_p
 file2 = 'REF19_REF20_CHR19_CHR20_out_0.05_696.csv' 
-h2 = read.delim(file2, header = FALSE, sep=',')
+h2 = plread.delim(file2, header = FALSE, sep=',')
 h2 = as.list(h2)
 
 jpeg("Mahattan_control.jpg", width = 16, height = 9, units = 'in', res = 300)

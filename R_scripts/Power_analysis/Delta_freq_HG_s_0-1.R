@@ -151,7 +151,7 @@ Levene <- function(s)
   {
   P <- seq(0,0.99,0.01)
   #P <- seq(0,0.99,0.01)
-  DpLev <- (s*(P-(P^2)))/(1-(2*s*P)+s) # original code
+  #DpLev <- (s*(P-(P^2)))/(1-(2*s*P)+s) # original code
   #DpLev <- (s*(P-(P^2)))/(1-(2*s*P)+s+1e-10) # add 1e-10 to deal with 0 denominator issue
   DpLev <- s*P*(1-P)/(1 + 2*s*P - s)  
   }
@@ -166,8 +166,9 @@ s <- sort(rep(seq(0,0.99,0.01),100))
 #delta <- unlist(lapply(seq(0,0.495,0.005),Levene))
 delta <- unlist(lapply(seq(0,0.99,0.01),Levene))
 data <- data.frame(p,s,delta)
+write.table(data, "./data.csv", sep=",", quote=F, row.names=T, col.names=NA)
 d <- ggplot(data, aes(p, s, z = delta))
-deltap <- d + stat_summary2d() + scale_fill_gradient2(name = "Delta p", high = "red", mid = "grey",low = "black",midpoint = 0.05,guide = "colourbar")
+d + stat_summary2d() + scale_fill_gradient2(name = "Delta p", high = "red", mid = "grey",low = "black",midpoint = 0.05,guide = "colourbar")
 
 
 ##############################
@@ -271,8 +272,9 @@ Power <- function(N, K, data)
   d <- data
   d$powerz <- NA
   d$powerfish <- NA
+  d$mean_deltap <- NA
   for (r in (1:nrow(data)))
-  #for (r in (9670:9670))
+  #for (r in (1:100))
     {
     # first replicate
     RAC1 <- rbinom(100,(2*N),data[r,1])
@@ -341,34 +343,11 @@ Power <- function(N, K, data)
     PVz_adj = p.adjust(PVz, method = 'BH')
     d$powerz[r] <- length(which(PVz_adj<0.05))
     d$powerfish[r] <- length(which(PVfish_adj<0.05))
+    d$mean_deltap[r] <- mean(DP_mean)
     print(r)
     }
   d
   }
-
-POW100 <- Power(100,100,data)
-write.table(POW100, "./POW100_s0-0.99.csv", sep=",", quote=T, row.names=T, col.names=NA)
-# Summary plot (N0=100,N1=100) #
-D <- ggplot(POW100, aes(p, s, z = powerz))
-D <- D + stat_summary2d() + theme_bw() + labs(x="",y="")
-D + scale_fill_gradient2(name="",limits=c(0,100),breaks=c(0,25,50,75,100),high="red",mid="grey",low="blue",midpoint=50,guide="colourbar")
-
-E <- ggplot(POW100, aes(p, s, z = powerfish))
-E <- E + stat_summary2d() + theme_bw() + labs(x="",y="")
-E + scale_fill_gradient2(name="",limits=c(0,100),breaks=c(0,25,50,75,100),high="red",mid="grey",low="blue",midpoint=50,guide="colourbar")
-
-G <- ggplot(POW100, aes(p, s, z = (powerz-powerfish)))
-G <- G + stat_summary2d() + theme_bw() + labs(x="",y="")
-G +  scale_fill_gradient2(name="",limits=c(0,20),breaks=c(0,5,10,15,20),high="red",mid="grey",low="blue",midpoint=10,guide="colourbar")
-
-
-# detailed plots #
-D <- ggplot(POW100, aes(p, s, z = powerz))
-D + stat_summary2d(bins=100) + theme_bw() + scale_fill_gradient2(name="Power Z",high="red",mid="grey",low="royalblue",midpoint=40,guide="colourbar")
-E <- ggplot(POW100, aes(p, s, z = powerfish))
-E + stat_summary2d(bins=100) + theme_bw() + scale_fill_gradient2(name="Power Fisher",high="red",mid="grey",low="royalblue",midpoint=40,guide="colourbar")
-G <- ggplot(POW100, aes(p, s, z = (powerz-powerfish)))
-G + stat_summary2d(bins=100) + theme_bw() + scale_fill_gradient2(name="power difference",high="red",mid="grey",low="royalblue",midpoint=10,guide="colourbar")
 
 POW50 <- Power(50,50,data)
 write.table(POW50, "./POW50_s0-0.99.csv", sep=",", quote=T, row.names=T, col.names=NA)
@@ -395,29 +374,43 @@ E + stat_summary2d(bins=100) + theme_bw() + scale_fill_gradient2(name="Power Fis
 G <- ggplot(POW50, aes(p, s, z = (powerfish-powerz)))
 G + stat_summary2d(bins=100) + theme_bw() + scale_fill_gradient2(name="power difference",high="red",mid="grey",low="royalblue",midpoint=10,guide="colourbar")
 
+###################################### formal plot ###################################### 
 install.packages("ggplot2")
 library("ggplot2")
 library("gridExtra")
 require(grid)
 
-file1 = "POW100.csv"
-POW100 <- read.delim(file1, header = TRUE, sep=',')
-D1 <- ggplot(POW100, aes(p, s, z = powerz))
-plot100 <- D1 + stat_summary2d(bins=100) + theme_bw() + scale_fill_gradient2(name="Power Z",high="red",mid="grey",low="royalblue",midpoint=40,guide="colourbar")
-
-file2 = "POW50.csv"
+file2 = "POW50_s0-0.99.csv"
+file2 = "POW_100_50_s0-0.99.csv"
 POW50 <- read.delim(file2, header = TRUE, sep=',')
 
-d <- ggplot(data, aes(p, s, z = delta))
-d <- d + stat_summary2d() + theme_bw() + labs(x="p",y="")
-deltap <- d + stat_summary2d() + scale_fill_gradient2(name = expression(Delta~p), limits=c(0,0.5), high = "red", mid = "grey",low = "#B6E5D8",midpoint = 0.2,guide = "colourbar")
+# data delta p
+D2 <- ggplot(POW50, aes(p, s, z=mean_deltap))
+D2 <- D2 + stat_summary2d() + theme_bw() + labs(x=expression(italic(p)*0),y="Selection coefficient")
+plot50_0 <- D2+ scale_fill_gradient2(name=expression(Delta~italic(p)),limits=c(-0.1,0.4),breaks=c(-0.1,0.0,0.1,0.2,0.3, 0.4),high="red",mid="grey",low="#B6E5D8",midpoint=0.0,guide="colourbar") +
+  theme(text = element_text(size=20))
+plot50_0
 
 D2 <- ggplot(POW50, aes(p, s, z = powerz))
-D2 <- D2 + stat_summary2d() + theme_bw() + labs(x="p",y="")
-plot50 <- D2+ scale_fill_gradient2(name="Power",limits=c(0,100),breaks=c(0,20,40,60,80),high="red",mid="grey",low="#B6E5D8",midpoint=40,guide="colourbar")
+D2 <- D2 + stat_summary2d() + theme_bw() + labs(x=expression(italic(p)*0),y="Selection coefficient")
+plot50_1 <- D2+ scale_fill_gradient2(name="Power",limits=c(0,1),breaks=c(0,0.2,0.4,0.6, 0.8, 1),high="red",mid="grey",low="#B6E5D8",midpoint=0.5,guide="colourbar") +
+  theme(text = element_text(size=20))
+plot50_1
 
-grid.arrange( deltap, plot50, nrow = 1)
-grid_arrange_shared_legend(plot100, plot50, position = "right")
+D2 <- ggplot(POW50, aes(s , mean_deltap , z = powerz))
+D2 <- D2 + stat_summary2d() + theme_classic() + labs(x="Selection coefficient",y=expression(Delta~italic(p)))
+plot50_2 <- D2+ scale_fill_gradient2(name="Power",limits=c(0,1),breaks=c(0,0.2,0.4,0.6, 0.8, 1),high="red",mid="grey",low="#B6E5D8",midpoint=0.5,guide="colourbar") +
+  theme(text = element_text(size=20))
+plot50_2
+
+D2 <- ggplot(POW50, aes(p , mean_deltap , z = powerz))
+D2 <- D2 + stat_summary2d() + theme_classic() + labs(x=expression(italic(p)*0),y=expression(Delta~italic(p)))
+plot50_3 <- D2+ scale_fill_gradient2(name="Power",limits=c(0,1),breaks=c(0,0.2,0.4,0.6, 0.8, 1),high="red",mid="grey",low="#B6E5D8",midpoint=0.5,guide="colourbar") +
+  theme(text = element_text(size=20))
+plot50_3
+
+grid.arrange(plot50_0, plot50_1, plot50_2, plot50_3, nrow = 2)
+grid_arrange_shared_legend(plot50_2, plot50_3, position = "right")
 
 # function for merging legend
 grid_arrange_shared_legend <-
@@ -461,4 +454,78 @@ grid_arrange_shared_legend <-
     invisible(combined)
     
   }
+
+
+
+library("ggplot2")
+library("gridExtra")
+require(grid)
+file1 = "POW50_s0-0.99.csv"
+
+POW50 <- read.delim(file1, header = TRUE, sep=',')
+
+D1 <- ggplot(POW50, aes(p, s, z = powerz))
+D1 <- D1 + stat_summary2d() + theme_bw() + labs(x=expression(italic(p)*0),y="Selection coefficient")
+plot50_1 <- D1+ scale_fill_gradient2(name="Power",limits=c(0,1),breaks=c(0,0.2,0.4,0.6, 0.8, 1),high="red",mid="grey",low="#B6E5D8",midpoint=0.5,guide="colourbar") +
+  theme(text = element_text(size=20)) + 
+  ggtitle(expression(Combined~Fisher~italic(p)~italic(N)[0]~{textstyle("=")}~50~{textstyle(",")}~italic(N)[1]~{textstyle("=")}~50))+
+  theme(plot.title = element_text(size=14))
+plot50_1
+
+file2 = "POW_100_50_s0-0.99.csv"
+
+POW100_50 <- read.delim(file2, header = TRUE, sep=',')
+D2 <- ggplot(POW100_50, aes(p, s, z = powerz))
+D2 <- D2 + stat_summary2d() + theme_bw() + labs(x=expression(italic(p)*0),y="")
+plot50_2 <- D2+ scale_fill_gradient2(name="Power",limits=c(0,1),breaks=c(0,0.2,0.4,0.6, 0.8, 1),high="red",mid="grey",low="#B6E5D8",midpoint=0.5,guide="colourbar") +
+  theme(text = element_text(size=20)) + 
+  ggtitle(expression(Combined~Fisher~italic(p)~italic(N)[0]~{textstyle("=")}~100~{textstyle(",")}~italic(N)[1]~{textstyle("=")}~50))+
+  theme(plot.title = element_text(size=14))
+plot50_2
+
+jpeg("power_comp.jpg", width = 16, height = 9, units = 'in', res = 300)
+grid_arrange_shared_legend(plot50_1, plot50_2,ncol=2, nrow = 1, position = "right")
+dev.off()
+
+file2 = "POW_200_50_s0-0.99.csv"
+
+POW200_50 <- read.delim(file2, header = TRUE, sep=',')
+D3 <- ggplot(POW200_50, aes(p, s, z = powerz))
+D3 <- D3 + stat_summary2d() + theme_bw() + labs(x=expression(italic(p)*0),y="Selection coefficient")
+plot50_3 <- D3+ scale_fill_gradient2(name="Power",limits=c(0,1),breaks=c(0,0.2,0.4,0.6, 0.8, 1),high="red",mid="grey",low="#B6E5D8",midpoint=0.5,guide="colourbar") +
+  theme(text = element_text(size=20)) + 
+  ggtitle(expression(Combined~Fisher~italic(p)~italic(N)[0]~{textstyle("=")}~200~{textstyle(",")}~italic(N)[1]~{textstyle("=")}~50))+
+  theme(plot.title = element_text(size=14))
+plot50_3
+
+
+file2 = "POW_300_50_s0-0.99.csv"
+
+POW300_50 <- read.delim(file2, header = TRUE, sep=',')
+D4 <- ggplot(POW300_50, aes(p, s, z = powerz))
+D4 <- D4 + stat_summary2d() + theme_bw() + labs(x=expression(italic(p)*0),y="")
+plot50_4 <- D4+ scale_fill_gradient2(name="Power",limits=c(0,1),breaks=c(0,0.2,0.4,0.6, 0.8, 1),high="red",mid="grey",low="#B6E5D8",midpoint=0.5,guide="colourbar") +
+  theme(text = element_text(size=20)) + 
+  ggtitle(expression(Combined~Fisher~italic(p)~italic(N)[0]~{textstyle("=")}~300~{textstyle(",")}~italic(N)[1]~{textstyle("=")}~50))+
+  theme(plot.title = element_text(size=14))
+plot50_4
+
+
+jpeg("power_comp.jpg", width = 10, height = 9, units = 'in', res = 300)
+grid_arrange_shared_legend(plot50_1, plot50_2, plot50_3, plot50_4,ncol=2, nrow = 2, position = "right")
+dev.off()
+
+dat = as.data.frame(cbind(POW50$p, POW50$s, POW50$powerz, POW100_50$powerz))
+colnames(dat) <- c("p","s","pow50", "pow100")
+G <- ggplot(dat, aes(p, s, z = (pow100-pow50)))
+G <- G + stat_summary2d() + theme_bw() + labs(x="",y="")
+G + scale_fill_gradient2(name="Power",limits=c(-0.1,0.4),breaks=c(0,0.1,0.2,0.3),high="red",mid="grey",low="#B6E5D8",midpoint=0.1,guide="colourbar")
+
+
+jpeg("power_diff.jpg", width = 10, height = 9, units = 'in', res = 300)
+G + stat_summary2d(bins=100) + theme_bw() + scale_fill_gradient2(name="power",high="red",mid="grey",low="royalblue",midpoint=0.0,guide="colourbar")+
+  theme(text = element_text(size=20)) + labs(x=expression(italic(p)*0),y="Selection coefficient")+
+  ggtitle(expression(Power~difference~(~italic(N)[0]~{textstyle("=")}~100~{textstyle(",")}~italic(N)[1]~{textstyle("=")}~50)~{textstyle("-")}~(italic(N)[0]~{textstyle("=")}~50~{textstyle(",")}~italic(N)[1]~{textstyle("=")}~50)))+
+  theme(plot.title = element_text(size=14))
+dev.off()
 

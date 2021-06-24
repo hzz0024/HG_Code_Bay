@@ -23,8 +23,6 @@ write.table(share_snps, "./Del19_20_0p7x_share_snps.list", sep="\t", quote=F, ro
 #write.table(df2_pt, "./Del20_private_site.list", sep="\t", quote=F, row.names=F, col.names=F)
 #write.table(share_snps, "./Del19_20_global_share_snps.list", sep="\t", quote=F, row.names=F, col.names=F)
 
-
-
 find_shared <- function(f1_name,f2_name) {
   file1 = f1_name
   df1 <- read.delim(file1, header = FALSE, sep='\t')

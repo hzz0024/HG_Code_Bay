@@ -5,7 +5,7 @@ manhattan.plot<-function(chr, pos, pvalue,
                          should.thin=T, thin.pos.places=2, thin.logp.places=2, 
                          xlab="Chromosome", ylab=expression(-log[10](FDR)),
                          col=c("gray","black"), panel.extra=NULL, pch=20, cex=0.2,...) {
-  
+                         #col=c("red","red"), panel.extra=NULL, pch=20, cex=0.8,...) {
   if (length(chr)==0) stop("chromosome vector is empty")
   if (length(pos)==0) stop("position vector is empty")
   if (length(pvalue)==0) stop("pvalue vector is empty")
@@ -204,19 +204,13 @@ manhattan.plot<-function(chr, pos, pvalue,
 
 make_plot <- function(file_name){
   dat = read.delim(file_name, header = FALSE, sep='\t')
-  manhattan.plot(dat$V1, dat$V2, dat$V3, sig.level=0.05)
+  dat$V1 <- factor(dat$V1, levels = c('1', '2', '3', '4', '5', '6', '7', '8', '9', '10'))
+  dat_sort <- dat[with(dat, order(V1, V2)),]
+  manhattan.plot(dat_sort$V1, dat_sort$V2, dat_sort$V4, sig.level=0.05)
 }
 
-make_plot("REF-CH-NB-HC_out_all_z.txt")
-make_plot("REF-CH-SR-HC_out_all_z.txt")
-make_plot("SR-REF-COH-ARN_out_all_z.txt")
+make_plot("REF19_CHR19_NB_HC_out_all_fish.txt")
 
-make_plot("REF-CH-NB-HC_out_all_fish.txt")
-make_plot("REF-CH-SR-HC_out_all_fish.txt")
-make_plot("SR-REF-COH-ARN_out_all_fish.txt")
-
-make_plot("REF19_SR_ARN_COH_out_all_fish_new.txt")
-make_plot("REF19_SR_ARN_COH_out_all_fish_old.txt")
 
 make_ID <- function(file_name, global_name){
   dat = read.delim(file_name, header = FALSE, sep='\t')

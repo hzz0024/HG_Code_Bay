@@ -24,4 +24,32 @@ for (pop in c("HC", "ARN", "COH", "NB", "SR")){
   write.table(outlier_list,paste0("./outlier_mafs/", pop,"_maf0.05_pctind0.7_maxdepth3.mafs"), row.names = FALSE, col.names = TRUE, sep="\t", quote = FALSE)
 }
 
+# extract 3006 SNPs and format it into a region file
+fname1 = 'Del19_SGS_outlier_3006.list'  
+dat_sites = read.delim(fname1, header = FALSE, sep='\t')
+range = paste0(dat_sites$V1, ":",dat_sites$V2-1, "-", dat_sites$V2)
+write.table(range, "./outlier_mafs/outlier_3006_list.txt", row.names = FALSE, col.names = TRUE, sep="\t", quote = FALSE)
+
+############################################################
+# extract LD pruning SNPs and format it into angsd site file
+setwd("~/Documents/Ryan_workplace/DelBay_adult/15_ngsLD")
+fname1 = 'WILD_all_test_unlinked.id'  
+dat_sites = read.delim(fname1, header = FALSE, sep=':')
+dat_sites$id = paste0(dat_sites$V1,'_',dat_sites$V2)
+colnames(dat_sites) <- c("chr","pos", "id")
+# specify the number of decimal point
+options("scipen"=100, "digits"=6)
+
+
+fname = "Del19_20_global_share_snps.list"  
+df = read.delim(fname, header = FALSE, sep='\t')
+df$id = paste0(df$V1,'_',df$V2)
+pruned_list <- as.data.frame(cbind(df$V1[df$id %in% dat_sites$id], 
+                                    df$V2[df$id %in% dat_sites$id], 
+                                    df$V3[df$id %in% dat_sites$id], 
+                                    df$V4[df$id %in% dat_sites$id]))
+write.table(pruned_list,"WILD_all_test_pruned.list", row.names = FALSE, col.names = FALSE, sep="\t", quote = FALSE)
+
+
+
 
