@@ -5,10 +5,13 @@
 ###############################################################
 
 library(ggplot2)
-setwd("~/Documents/Ryan_workplace/DelBay_adult/13_env_gen_association/plot_outlier_trend/")
-setwd("/Volumes/cornell/Cohort_adaptation/DelBay_adult/GE_association")
+#setwd("~/Documents/Ryan_workplace/DelBay_adult/13_env_gen_association/plot_outlier_trend/")
+#setwd("/Volumes/cornell/Cohort_adaptation/DelBay_adult/GE_association")
 #load bf values
 #bf_allsnps<-read.table("allsnps.controlled.env.output_summary_betai_reg.out", header = T)
+setwd("~/Documents/HG/DelBay_adult/13_env_gen_association/salinity1")
+setwd("~/Documents/HG/DelBay_adult/13_env_gen_association/salinity2")
+setwd("~/Documents/HG/DelBay_adult/13_env_gen_association/salinity3")
 bf_allsnps1<-read.table("allsnps.controlled.env.1.output_summary_betai_reg.out", header = T)
 bf_allsnps2<-read.table("allsnps.controlled.env.2.output_summary_betai_reg.out", header = T)
 bf_allsnps3<-read.table("allsnps.controlled.env.3.output_summary_betai_reg.out", header = T)
@@ -19,8 +22,8 @@ bf_allsnps7<-read.table("allsnps.controlled.env.7.output_summary_betai_reg.out",
 bf_allsnps8<-read.table("allsnps.controlled.env.8.output_summary_betai_reg.out", header = T)
 bf_allsnps9<-read.table("allsnps.controlled.env.9.output_summary_betai_reg.out", header = T)
 bf_allsnps10<-read.table("allsnps.controlled.env.10.output_summary_betai_reg.out", header = T)
-head(bf_allsnps)
-colnames(bf_allsnps) <- c("COVARIABLE","MRK","M_Pearson","SD_Pearson", "Bayes_Factor", "Beta_is","SD_Beta_is","eBPis")
+head(bf_allsnps1)
+#colnames(bf_allsnps) <- c("COVARIABLE","MRK","M_Pearson","SD_Pearson", "Bayes_Factor", "Beta_is","SD_Beta_is","eBPis")
 colnames(bf_allsnps1) <- c("COVARIABLE","MRK","M_Pearson","SD_Pearson", "Bayes_Factor", "Beta_is","SD_Beta_is","eBPis")
 colnames(bf_allsnps2) <- c("COVARIABLE","MRK","M_Pearson","SD_Pearson", "Bayes_Factor", "Beta_is","SD_Beta_is","eBPis")
 colnames(bf_allsnps3) <- c("COVARIABLE","MRK","M_Pearson","SD_Pearson", "Bayes_Factor", "Beta_is","SD_Beta_is","eBPis")
@@ -31,16 +34,19 @@ colnames(bf_allsnps7) <- c("COVARIABLE","MRK","M_Pearson","SD_Pearson", "Bayes_F
 colnames(bf_allsnps8) <- c("COVARIABLE","MRK","M_Pearson","SD_Pearson", "Bayes_Factor", "Beta_is","SD_Beta_is","eBPis")
 colnames(bf_allsnps9) <- c("COVARIABLE","MRK","M_Pearson","SD_Pearson", "Bayes_Factor", "Beta_is","SD_Beta_is","eBPis")
 colnames(bf_allsnps10) <- c("COVARIABLE","MRK","M_Pearson","SD_Pearson", "Bayes_Factor", "Beta_is","SD_Beta_is","eBPis")
-head(bf_allsnps)
+#head(bf_allsnps)
 head(bf_allsnps1)
-cor(bf_allsnps$Bayes_Factor,bf_allsnps1$Bayes_Factor) 
+cor(bf_allsnps1$Bayes_Factor,bf_allsnps3$Bayes_Factor) 
 cor(bf_allsnps1$Bayes_Factor,bf_allsnps2$Bayes_Factor)
 #load position info about the SNPs.
 SNP_pos<-read.table("by_pop_0.05_pctind0.7_maxdepth3.snps", header=T)
 SNP_pos$position = SNP_pos$position/1e+7
 #should be same nb of rows
-dim(bf_allsnps)
+dim(bf_allsnps1)
 dim(SNP_pos)
+
+#tmpdata = cbind(bf_allsnps1$Bayes_Factor, bf_allsnps2$Bayes_Factor,bf_allsnps3$Bayes_Factor,bf_allsnps4$Bayes_Factor,bf_allsnps5$Bayes_Factor
+#                ,bf_allsnps6$Bayes_Factor,bf_allsnps7$Bayes_Factor)
 
 tmpdata = cbind(bf_allsnps1$Bayes_Factor, bf_allsnps2$Bayes_Factor,bf_allsnps3$Bayes_Factor,bf_allsnps4$Bayes_Factor,bf_allsnps5$Bayes_Factor
                 ,bf_allsnps6$Bayes_Factor,bf_allsnps7$Bayes_Factor,bf_allsnps8$Bayes_Factor,bf_allsnps9$Bayes_Factor,bf_allsnps10$Bayes_Factor)
@@ -111,9 +117,10 @@ bf_pos<-cbind(SNP_pos, bf_pos_sort$BF_median)
 # outlier<-bf_pos[bf_pos$BF.dB.>=threshold_fdr0.05,]
 #outlier<-bf_pos[bf_pos$BF.dB.>=10,]
 outlier<-bf_pos[bf_pos$`bf_pos_sort$BF_median`>= 20,]
+#outlier<-bf_pos[bf_pos$`bf_pos_sort$BF_median`>= 10,]
 length(outlier$chromo)
 outlier$id = paste0(outlier$chromo,'_',outlier$position) 
-write.table(outlier, "./salinity_2032113_outlier_BF20.txt", row.names=F, quote=F, sep="\t")
+write.table(outlier, "./salinity_2032113_outlier_BF10.txt", row.names=F, quote=F, sep="\t")
 
 bf_allsnps0<-read.table("allsnps.controlled.env.output_summary_betai_reg.out", header = T)
 bf_pos0<-cbind(SNP_pos, bf_allsnps0)
@@ -139,15 +146,16 @@ write.table(outlier2, "./salinity_2032113_outlier_BF20_2.txt", row.names=F, quot
 s2 <- intersect(outlier0$id, (intersect(outlier1$id, outlier2$id)))
 length(s2)
 
-s1 <- intersect(outlier0$id, outlier1$id)
+s1 <- intersect(outlier1$id, outlier2$id)
 length(s1)
 
 ###############################################################
 ############### Plot the allele frequency trend ###############
 ###############################################################
 
-setwd("~/Documents/Ryan_workplace/DelBay_adult/13_env_gen_association/plot_outlier_trend")
-setwd("/Volumes/cornell/Cohort_adaptation/DelBay_adult/GE_association")
+#setwd("~/Documents/Ryan_workplace/DelBay_adult/13_env_gen_association/plot_outlier_trend")
+#setwd("/Volumes/cornell/Cohort_adaptation/DelBay_adult/GE_association")
+setwd("~/Documents/HG/DelBay_adult/13_env_gen_association/salinity2")
 # load the outliers from BayePass with BF > 20 (produced from last step)
 fname1 = 'salinity_2032113_outlier_BF20.txt' 
 #fname1 = 'salinity_2032113_outlier_BF10.txt'  
@@ -205,7 +213,7 @@ i <- c(seq(6,11), seq(13,16))
 outlier_list[ , i] <- apply(outlier_list[ , i], 2,            # Specify own function within apply
                             function(x) as.numeric(as.character(x)))
 sapply(outlier_list, class)
-write.table(outlier_list,"GEA_BF20_outlier.txt", row.names = FALSE, col.names = TRUE, sep="\t", quote = FALSE)
+write.table(outlier_list,"GEA_BF10_outlier.txt", row.names = FALSE, col.names = TRUE, sep="\t", quote = FALSE)
 
 # count how many SNPs with positive or negative delta_p change
 pos_challenge <- length(outlier_list$id[which(outlier_list$Cdelta_p>0)])
@@ -229,6 +237,7 @@ df_neg_direction <- outlier_list[which(outlier_list$Wdelta_p<0 & outlier_list$Cd
 message("SNPs share the same pos direction: ", length(df_pos_direction$chromo))
 message("SNPs share the same neg direction: ", length(df_neg_direction$chromo))
 df_same_direction <- rbind(df_pos_direction, df_neg_direction)
+message("SNPs share the same direction: ", length(df_same_direction$chromo))
 
 write.table(df_same_direction,"GEA_outlier_same_direction.txt", row.names = FALSE, col.names = TRUE, sep="\t", quote = FALSE)
 # show the distribution of delta_ps
@@ -363,7 +372,7 @@ dev.off()
 #######################
 # plot distribution
 
-jpeg("EA_33_outlier_19_direction_trend.jpg", width = 16, height = 9, units = 'in', res = 300)
+jpeg("EA_31_outlier_19_direction_trend.jpg", width = 16, height = 9, units = 'in', res = 300)
 par(mfrow=c(1,1))
 # rank order based NB frequency
 df_same_direction_rank <- df_same_direction[with(df_same_direction, order(freqRef)),]

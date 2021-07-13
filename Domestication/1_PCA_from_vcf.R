@@ -234,4 +234,3 @@ p1
 jpeg("PCA_606.jpg", width = 10, height = 8, units = 'in', res = 300)
 p1
 dev.off()
-

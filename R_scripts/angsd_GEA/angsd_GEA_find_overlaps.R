@@ -15,6 +15,7 @@
 # bed format files are used to find the intrersection regions from different contrasts
 #load file
 setwd("~/Documents/Ryan_workplace/DelBay_adult/13_env_gen_association/plot_outlier_trend")
+setwd("~/Documents/HG/DelBay_adult/13_env_gen_association/salinity2/annotation")
 
 bed_format <- function(input, output){
   #input= "GEA_BF20_outlier.txt"
@@ -32,7 +33,8 @@ bed_format <- function(input, output){
   #have a look
   head(outlier_temp_SGS)
   #which columns shoud we keep?
-  outlier_temp_SGS_bed<-outlier_temp_SGS[,c(1,18,19,5)]
+  #outlier_temp_SGS_bed<-outlier_temp_SGS[,c(1,18,19,5)]
+  outlier_temp_SGS_bed<-outlier_temp_SGS[,c(1,17,18,5)]
   colnames(outlier_temp_SGS_bed) <- c("chromosome", "start", "stop", "id_snp")
   head(outlier_temp_SGS_bed)
   #save your file
@@ -40,3 +42,4 @@ bed_format <- function(input, output){
 }
 
 bed_format("GEA_BF20_outlier.txt", "./bed/GEA_BF20_outlier.bed" )
+bed_format("GEA_BF10_outlier.txt", "./bed/GEA_BF10_outlier.bed" )
