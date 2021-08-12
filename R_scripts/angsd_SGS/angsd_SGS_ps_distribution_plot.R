@@ -104,7 +104,7 @@ ggplot(data = test) +
 setwd("~/Documents/Ryan_workplace/DelBay19_adult/11_SGS")
 # load the ps datasets
 dat1 = read.delim('ps_Del19_challenge.txt', header = FALSE, sep='\t')
-dat2 = read.delim("ps_HC_NB_challenge.txt", header = FALSE, sep='\t')
+dat2 = read.delim("ps_Del19_HC_NB.txt", header = FALSE, sep='\t')
 head(dat1)
 # combine two ps together
 dat_deltap <- data.frame(Contrast = factor(rep(c("Del19","HC_NB"), each=length(dat1$V5))), Delta_p = c(dat1$V5, dat2$V5))
@@ -128,8 +128,8 @@ dev.off()
 
 # load the ps datasets
 dat1 = read.delim('ps_Del19_challenge.txt', header = FALSE, sep='\t')
-dat2 = read.delim("ps_HC_NB_challenge.txt", header = FALSE, sep='\t')
-dat3 = read.delim("ps_HC_SR_challenge.txt", header = FALSE, sep='\t')
+dat2 = read.delim("ps_Del19_HC_NB.txt", header = FALSE, sep='\t')
+dat3 = read.delim("ps_Del19_HC_SR.txt", header = FALSE, sep='\t')
 head(dat1)
 length(dat1$V3)
 # combine two ps together

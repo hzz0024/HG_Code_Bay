@@ -23,7 +23,7 @@ bed_format <- function(input, output){
   #what's its dimension?
   dim(outlier_temp_SGS)
   #which size around the SNP
-  window<-10000
+  window<-1000
   #add a vector with start position
   outlier_temp_SGS$start<-outlier_temp_SGS$position-(window/2)
   #oups it can't be ngative! replace negative by 0

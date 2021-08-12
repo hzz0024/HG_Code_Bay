@@ -1,0 +1,20 @@
+# Rice genome fasta file : Osativa_204.fa
+# Rice genome gff3 file : Osativa_204_gene.gff3
+1. Edit snpEff.config and insert specific database information
+cd ./snpEff/
+vi snpEffect.config insert:
+# Rice genome, version Osativa_204
+Osativa_204.genome : Rice
+2. Create directory "Osativa_204" in snpEff data directory
+cd ./snpEff/data/
+mkdir Osativa_204
+mv Osativa_204_gene.gff3 ./snpEff/data/Osativa_204/genes.gff
+mv Osativa_204.fa ./snpEff/data/genomes/Osativa_204.fa
+3. Create database
+cd ./snpEff/
+java -jar snpEff.jar build -gff3 -v Osativa_204
+4. Make annotation
+cd ./snpEff/
+java -Xmx8g -jar snpEff.jar Osativa_204 data/*.vcf > *.eff.vcf
+java -Xmx24g -jar snpEff.jar P_eduilis /home/software/snpEff/data/P_heterocycla_v1.0.Scaffolds.edited.maf.snp.filter.vcf > P_heterocycla_v1.0.Scaffolds.edited.maf.snp.eff.vcf
+java -Xmx24g -jar snpEff.jar P_eduilis /home/software/snpEff/data/P_heterocycla_v1.0.Scaffolds.edited.maf.indels.filter.vcf > P_heterocycla_v1.0.Scaffolds.edited.maf.indels.eff.vcf

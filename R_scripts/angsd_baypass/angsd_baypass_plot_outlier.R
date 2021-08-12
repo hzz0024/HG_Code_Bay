@@ -116,8 +116,8 @@ bf_pos<-cbind(SNP_pos, bf_pos_sort$BF_median)
 # 
 # outlier<-bf_pos[bf_pos$BF.dB.>=threshold_fdr0.05,]
 #outlier<-bf_pos[bf_pos$BF.dB.>=10,]
-outlier<-bf_pos[bf_pos$`bf_pos_sort$BF_median`>= 20,]
-#outlier<-bf_pos[bf_pos$`bf_pos_sort$BF_median`>= 10,]
+#outlier<-bf_pos[bf_pos$`bf_pos_sort$BF_median`>= 20,]
+outlier<-bf_pos[bf_pos$`bf_pos_sort$BF_median`>= 10,]
 length(outlier$chromo)
 outlier$id = paste0(outlier$chromo,'_',outlier$position) 
 write.table(outlier, "./salinity_2032113_outlier_BF10.txt", row.names=F, quote=F, sep="\t")
@@ -157,8 +157,8 @@ length(s1)
 #setwd("/Volumes/cornell/Cohort_adaptation/DelBay_adult/GE_association")
 setwd("~/Documents/HG/DelBay_adult/13_env_gen_association/salinity2")
 # load the outliers from BayePass with BF > 20 (produced from last step)
-fname1 = 'salinity_2032113_outlier_BF20.txt' 
-#fname1 = 'salinity_2032113_outlier_BF10.txt'  
+#fname1 = 'salinity_2032113_outlier_BF20.txt' 
+fname1 = 'salinity_2032113_outlier_BF10.txt'  
 outlier = read.delim(fname1, header = TRUE, sep='\t')
 #outlier$id = paste0(outlier$chromo,'_',outlier$position)
 
@@ -372,7 +372,7 @@ dev.off()
 #######################
 # plot distribution
 
-jpeg("EA_31_outlier_19_direction_trend.jpg", width = 16, height = 9, units = 'in', res = 300)
+jpeg("EA_32_outlier_19_direction_trend.jpg", width = 16, height = 9, units = 'in', res = 300)
 par(mfrow=c(1,1))
 # rank order based NB frequency
 df_same_direction_rank <- df_same_direction[with(df_same_direction, order(freqRef)),]
@@ -434,20 +434,17 @@ dev.off()
 ###########################
 daf<-read.table("ps_Del19_challenge.txt", header = F)
 head(daf)
-
 colnames(daf) <- c("chr","pos","freqSurv","freqRef", "delta_p", "ps","outlier")
 head(daf)
 daf$id = paste0(daf$chr,'_',daf$pos)
 snp_id = as.data.frame(daf$id)
-
+library(dplyr)
 n_bootstraps=1000
 boot_cnt = rep(0, n_bootstraps)
 a = seq(1,2032113,1)
 for (i in 1:n_bootstraps){
   o1 = sample_n(snp_id, 2979)
   o2 = sample_n(snp_id, 33)
-  #o1 = sample(a, 2979, replace = FALSE)
-  #o2 = sample(a, 226, replace = FALSE)
   cnt = length(intersect(o1$`daf$id`, o2$`daf$id`))
   boot_cnt[i] = cnt
 }

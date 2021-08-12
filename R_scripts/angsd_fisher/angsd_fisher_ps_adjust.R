@@ -6,7 +6,7 @@ setwd("~/Documents/Ryan_workplace/DelBay_adult/08_fish_exact/Fish_exact_z_1x")
 # load the p-values (2032113 SNPs, from global shared 1x coverage data)
 
 ps_adj <- function(pname, outname) {
-  pname = "./REF19_SR_ARN_COH_out_all_fish.txt" 
+  #pname = "./REF19_SR_ARN_COH_out_all_fish.txt" 
   dat = read.delim(pname, header = FALSE, sep='\t')
   chr_str_list = c('NC_035780.1','NC_035781.1','NC_035782.1','NC_035783.1','NC_035784.1','NC_035785.1','NC_035786.1','NC_035787.1','NC_035788.1','NC_035789.1')
   for(i in seq(10)) 
@@ -27,6 +27,7 @@ ps_adj <- function(pname, outname) {
   message("Number of outliers:" ,length(outlier$id))
 }
 
+ps_adj("REF19_CHR19_NB_HC_out_all_fish.txt", "REF19_CHR19_NB_HC_out_0.05_fish.txt")
 ps_adj("./Del20_data/ps_Del20_challenge.txt", "Del20_SGS_outlier.list")
 ps_adj("./Del19_data/ps_Del19_challenge.txt", "Del19_SGS_outlier.list")
 ps_adj("./WILD_HC_NB_data/ps_HC_NB_challenge.txt", "HC_NB_SGS_outlier.list")

@@ -6,21 +6,34 @@
 library(psych)    # Used to investigate correlations among predictors
 library(vegan)    # Used to run RDA
 
+
+# format the environment file
+ENV_FILE<-"test1_env.txt"
+VAR<-c(2,3,4,9)
+
+env_all<-read.table(ENV_FILE, header=T)
+env<-env_all[,VAR-1]
+
+#prepare files for env assoc
+write.table(t(env), "env_baypass", quote=F, row.names=F, col.names=F)
+write.table(env, "env_lfmm.env", quote=F, row.names=F, col.names=F)
+write.table(env, "env_rda", quote=F)
+
 # below is the script scriptRDA.r in https://github.com/clairemerot/selection_analysis/blob/master/01_scripts/Rscripts/scriptRDA.r
 # code R
 library(vegan)
 
-argv <- commandArgs(T)
-MAF_FILE <- argv[1]
-OUTPUT_FOLDER <- argv[2]
-ENV<-argv[3]
-ENV_FOLDER<-argv[4]
+# set up the working folder
+setwd("~/Documents/HG/DelBay_adult/13_env_gen_association/RDA/test")
 
-
+#argv <- commandArgs(T)
+MAF_FILE <- "by_pop_0.05_pctind0.7_maxdepth3.mafs.rda"
+OUTPUT_FOLDER <- "./output"
+ENV<- "salinity2_env2.txt"
+ENV_FOLDER<- "./"
 
 data_maf<-read.table(MAF_FILE, header=TRUE)
 head(data_maf)
-
 
 data_freq<-t(data_maf)
 data_env<-read.table(paste0(ENV_FOLDER, "/",ENV), header=TRUE)
@@ -42,10 +55,15 @@ dev.off()
 
 #plot RDA SNP are red at the cener of the plot
 #population are black #vector are env predictorss
-jpeg(file=paste0(OUTPUT_FOLDER,ENV,"_rda_1-2_1-3.jpg"))
-par(mfrow=c(1,2))
+jpeg(file=paste0(OUTPUT_FOLDER,ENV,"_rda_1-2.jpg"))
+par(mfrow=c(1,1))
+#par(mfrow=c(1,2))
 plot(pop6rda, scaling=3)
 text(pop6rda, display="sites", col=1, scaling=3)
+dev.off()
+
+jpeg(file=paste0(OUTPUT_FOLDER,ENV,"_rda_1-3.jpg"))
+par(mfrow=c(1,1))
 plot(pop6rda, choices=c(1,3), scaling=3)#axis 1 and 3
 text(pop6rda, display="sites", col=1, scaling=3)
 dev.off()
@@ -76,12 +94,12 @@ ncand<-length(cand1) + length ( cand2) #+ length ( cand3)#total nb of snps
 lim<-3
 
 if (ncand==0){
-  cand1 <- outliers(load.rda[,1],2.5) 
-  cand2 <- outliers(load.rda[,2],2.5) 
+  cand1 <- outliers(load.rda[,1],2) 
+  cand2 <- outliers(load.rda[,2],2) 
   #cand3 <- outliers(load.rda[,3],2) 
   ncand<-length(cand1) + length ( cand2) #+ length ( cand3)#total nb of snps
-  lim<-2.5
-  print("no SNP outlier with 3 sd, re-run with 2.5sd")
+  lim<-2
+  print("no SNP outlier with 3 sd, re-run with 2 sd")
 }
 
 
@@ -146,8 +164,8 @@ for (i in 1:length(sel)) {           #
   col.pred[foo] <- env[i]
 }
 
-col.pred[grep("LG",col.pred)] <- '#f1eef6' # non-candidate SNPs make them transparent
-col.pred[grep("scaffold",col.pred)] <- '#f1eef6' # non-candidate SNPs make them transparent
+col.pred[grep("NC",col.pred)] <- '#f1eef6' # non-candidate SNPs make them transparent
+#col.pred[grep("scaffold",col.pred)] <- '#f1eef6' # non-candidate SNPs make them transparent
 empty <- col.pred
 empty[grep("#f1eef6",empty)] <- rgb(0,1,0, alpha=0) # transparent
 empty.outline <- ifelse(empty=="#00FF0000","#00FF0000","gray32")
@@ -184,4 +202,3 @@ write.table(signif.axis, paste0(OUTPUT_FOLDER,ENV,"_signifaxisrda.txt"), quote=F
 #variance inflexion factor
 vif.cca(pop6rda)
 
-{"mode":"full","isActive":false}

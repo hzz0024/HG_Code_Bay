@@ -11,7 +11,6 @@
 
 #######################
 #  make bed file      #
-#######################
 # bed format files are used to find the intrersection regions from different contrasts
 #load file
 setwd("~/Documents/Ryan_workplace/DelBay_adult/11_SGS")
