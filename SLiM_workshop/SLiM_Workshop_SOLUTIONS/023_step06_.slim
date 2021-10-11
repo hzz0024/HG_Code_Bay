@@ -1,0 +1,19 @@
+initialize() {
+	if (exists("slimgui")) {
+		defineConstant("MU", 1e-7);
+		defineConstant("R", 1e-8);
+		defineConstant("N", 500);
+		defineConstant("G", N*10);
+	}
+	
+	initializeMutationRate(MU);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 99999);
+	initializeRecombinationRate(R);
+}
+1 {
+	sim.rescheduleScriptBlock(s1, start=G, end=G);
+	sim.addSubpop("p1", N);
+}
+s1 5000 late() { sim.outputFixedMutations(); }

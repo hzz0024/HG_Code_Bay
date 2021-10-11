@@ -1,0 +1,15 @@
+initialize() {
+	initializeSLiMOptions(nucleotideBased=T);
+	defineConstant("L", 1e6);
+	initializeAncestralNucleotides(randomNucleotides(L));
+	initializeMutationTypeNuc("m1", 0.5, "f", 0.0);
+	initializeGenomicElementType("g1", m1, 1.0, mmJukesCantor(1e-7 / 3));
+	initializeGenomicElement(g1, 0, L-1);
+	initializeRecombinationRate(1e-8);
+}
+1 {
+	sim.addSubpop("p1", 500);
+}
+1000 late() { p1.outputSample(10); }
+2000 late() { p1.outputSample(10); }
+2000 late() { sim.outputFixedMutations(); }

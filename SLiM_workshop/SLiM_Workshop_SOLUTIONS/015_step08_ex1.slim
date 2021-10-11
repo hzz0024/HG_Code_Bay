@@ -1,0 +1,84 @@
+// set up a simple neutral nonWF simulation
+initialize() {
+	initializeSLiMModelType("nonWF");
+	defineConstant("K", 500);	// carrying capacity
+	
+	// neutral mutations, which are allowed to fix
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	m1.convertToSubstitution = T;
+	initializeMutationType("m2", 0.5, "f", -0.1);
+	
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 99999);
+	initializeMutationRate(1e-7);
+	initializeRecombinationRate(1e-8);
+}
+
+// each individual reproduces itself once
+reproduction() {
+	for (s in sim.subpopulations)
+	{
+		// randomize the order of s.individuals
+		parents = sample(s.individuals, s.individualCount);
+		
+		// draw monogamous pairs and generate litters
+		for (i in seq(0, s.individualCount - 2, by=2))
+		{
+			parent1 = parents[i];
+			parent2 = parents[i + 1];
+			litterSize = rpois(1, 2.7);
+			
+			for (j in seqLen(litterSize))
+				s.addCrossed(parent1, parent2);
+		}
+	}
+	
+	// disable this callback for this generation
+	self.active = 0;
+}
+
+// create an initial population of 10 individuals
+1 early() {
+	sim.addSubpop("p1", 10);
+	sim.addSubpop("p2", 10);
+	p1.genomes.addNewDrawnMutation(m2, 10000);
+}
+
+// migration between p1 and p2
+early() {
+	// plan the migration
+	n_p1mig = asInteger(round(p1.individualCount * 0.01));
+	p1mig = sample(p1.individuals, n_p1mig);
+	n_p2mig = asInteger(round(p2.individualCount * 0.01));
+	p2mig = sample(p2.individuals, n_p2mig);
+	
+	// then put it into effect
+	p1.takeMigrants(p2mig);
+	p2.takeMigrants(p1mig);
+}
+
+// provide density-dependent selection
+early() {
+	for (s in sim.subpopulations)
+	{
+		inds = s.individuals;
+		inds.fitnessScaling = ifelse(inds.age <= 2, 1.0, 0.0);
+		
+		s.fitnessScaling = K / sum(inds.fitnessScaling);
+	}
+}
+
+late() {
+	cat(sim.generation + ": ");
+	
+	for (s in sim.subpopulations)
+	{
+		inds = p1.individuals;
+		cat(size(inds) + " (" + max(inds.age) + ", "
+			+ mean(inds.age) + ")  ");
+	}
+	catn();
+}
+
+// output all fixed mutations at end
+10000 late() { sim.outputFixedMutations(); }

@@ -13,7 +13,8 @@ options(scipen=999)
 hudson_fst <- function(headname, titlename){
   jpeg(paste0(headname,"sliding.zfst.hudson.jpg"), width = 16, height = 9, units = 'in', res = 300)
   par(mfrow=c(1,1))
-  for(win in c(1000)){
+  par(mar=c(4,8,1,5))
+  for(win in c(10000)){
     name = paste0(headname, win, "bp.", "s", win/5, ".csv")
     DT = read.delim(name, header = TRUE, sep=',')
     mid_pos <- round((DT$start + DT$end)/2)
@@ -36,7 +37,7 @@ hudson_fst <- function(headname, titlename){
     print(paste0("Number of outlier in ", titlename," at 99.9% quantile is ", cnt, " (window size ", win, ")" ))
     manhattan(dat, chr="chr",bp="mid_pos",p="zfst", highlight1 = outlier, logp=FALSE, cex.axis = 1, ylim = c(0, max(dat$zfst)+0.2), #subset(dat, chr == 8)
               col=c("grey","black"),genomewideline=F, suggestiveline=F,
-              ylab="ZFst", cex.lab=1.5, main = paste0(titlename, " ZFst window size:", win, ' bp'), cex.main=1.5)
+              ylab=expression(ZF[italic(ST)]), cex.lab=1.5, main = paste0(titlename, " ZFst window size:", win, ' bp, step size: ', win/5, " bp"), cex.main=1.5)
     dev.off()
   }
   
@@ -45,7 +46,7 @@ hudson_fst <- function(headname, titlename){
     key = as.character(chr)
     chrom_hash[[key]] = list()
   }
-  windows = c(1000)
+  windows = c(10000)
   for(win in windows){
     name = paste0(headname, win, "bp.", "s", win/5, ".csv")
     DT = read.delim(name, header = TRUE, sep=',')
@@ -130,7 +131,7 @@ hudson_fst <- function(headname, titlename){
   outlier_DT = outlier_DT[order(outlier_DT$chr, outlier_DT$st),]
   print(paste0("Number of outliers in ", titlename, " is ", length(outlier_DT$SNP)))
   #jpeg("CS_NEH_noinvers_overlaps.jpg", width = 16, height = 9, units = 'in', res = 300)
-  win = 1000
+  win = 10000
   name = paste0(headname, win, "bp.", "s", win/5, ".csv")
   DT = read.delim(name, header = TRUE, sep=',')
   mid_pos <- round((DT$start + DT$end)/2)

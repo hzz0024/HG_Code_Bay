@@ -31,7 +31,7 @@ ps_adj <- function(pname, delta_name, outname1, outname2) {
   adj = p.adjust(ps, method = 'BH')
   #adj = p.adjust(ps, method = 'bonferroni')
   # check how many SNPs with FDR < 0.05
-  adj_cut = 0.1
+  adj_cut = 0.01
   length(adj[adj<adj_cut])
   outlier2 <- as.data.frame(cbind(dat1$V1[adj<adj_cut], dat1$V2[adj<adj_cut], id[adj<adj_cut], dat1$V3[adj<adj_cut], adj[adj<adj_cut], dat2$V3[adj<adj_cut], dat2$V4[adj<adj_cut]))
   colnames(outlier2) <- c("chr","pos", "id", "p_value","fdr", "dp1", "dp2")
@@ -42,9 +42,9 @@ ps_adj <- function(pname, delta_name, outname1, outname2) {
   message("Number of outliers (p< ", adj_cut, ") with the same directionality: " ,share2)
 }
 
-ps_adj("REF19_CHR19_NB_HC_out_all_fish.txt", "alt_REF19_CHR19_NB_HC.txt","REF19_CHR19_NB_HC_ps_0.05.txt", "REF19_CHR19_NB_HC_adj_0.1.txt")
-ps_adj("REF19_CHR19_SR_HC_out_all_fish.txt", "alt_REF19_CHR19_SR_HC.txt","REF19_CHR19_SR_HC_ps_0.05.txt", "REF19_CHR19_SR_HC_adj_0.05.txt")
-ps_adj("REF19_SR_ARN_COH_out_all_fish.txt", "alt_REF19_SR_ARN_COH.txt","REF19_SR_ARN_COH_ps_0.05.txt", "REF19_SR_ARN_COH_adj_0.05.txt")
+ps_adj("REF19_CHR19_NB_HC_out_all_fish.txt", "alt_REF19_CHR19_NB_HC.txt","REF19_CHR19_NB_HC_ps_0.05.txt", "REF19_CHR19_NB_HC_adj_0.01.txt")
+ps_adj("REF19_CHR19_SR_HC_out_all_fish.txt", "alt_REF19_CHR19_SR_HC.txt","REF19_CHR19_SR_HC_ps_0.05.txt", "REF19_CHR19_SR_HC_adj_0.01.txt")
+ps_adj("REF19_SR_ARN_COH_out_all_fish.txt", "alt_REF19_SR_ARN_COH.txt","REF19_SR_ARN_COH_ps_0.05.txt", "REF19_SR_ARN_COH_adj_0.01.txt")
 
 
 ps_adj("./Del20_data/ps_Del20_challenge.txt", "Del20_SGS_outlier.list")

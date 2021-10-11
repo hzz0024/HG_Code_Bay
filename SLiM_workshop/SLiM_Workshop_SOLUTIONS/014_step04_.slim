@@ -1,0 +1,49 @@
+// Keywords: quantitative trait
+
+initialize() {
+	initializeMutationRate(1e-7);
+	initializeMutationType("m1", 0.5, "f", 0.0);       // neutral
+	initializeMutationType("m2", 0.5, "n", 0.0, 0.5);  // QTLs
+	m2.convertToSubstitution = F;
+	initializeGenomicElementType("g1", m1, 1);
+	initializeGenomicElementType("g2", m2, 1);
+	initializeGenomicElement(g1, 0, 20000);
+	initializeGenomicElement(g2, 20001, 30000);
+	initializeGenomicElement(g1, 30001, 99999);
+	initializeRecombinationRate(1e-8);
+}
+fitness(m2) { return 1.0; }
+1 {
+	sim.addSubpop("p1", 500);
+	sim.setValue("history", NULL);
+	
+	defineConstant("pdfPath", writeTempFile("plot_", ".pdf", ""));
+	if (exists("slimgui"))
+		slimgui.openDocument(pdfPath);
+}
+1: late() {
+	inds = sim.subpopulations.individuals;
+	phenotypes = inds.sumOfMutationsOfType(m2);
+	inds.fitnessScaling = 1.5 - (phenotypes - 10.0)^2 * 0.005;
+	
+	m = mean(phenotypes);
+	h = c(sim.getValue("history"), m);
+	sim.setValue("history", h);
+	
+	if (sim.generation % 100 == 0)
+	{
+		rstr = paste(c('{',
+			'x <- (1:' + size(h) + ')',
+			'y <- c(' + paste(h, sep=", ") + ')',
+			'quartz(width=4, height=4, type="pdf", file="' + pdfPath + '")',
+			'plot(x=x, y=y, xlim=c(0, 5000), ylim=c(-1, 11), type="l")',
+			'dev.off()',
+			'}'), sep="\n");
+		
+		scriptPath = writeTempFile("plot_", ".R", rstr);
+		system("/usr/local/bin/Rscript", args=scriptPath);
+	}
+}
+5000 late() {
+	print(sim.getValue("history"));
+}

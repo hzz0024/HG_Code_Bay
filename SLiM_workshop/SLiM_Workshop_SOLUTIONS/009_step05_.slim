@@ -1,0 +1,43 @@
+initialize() {
+	defineConstant("simID", getSeed());
+	initializeMutationRate(1e-7);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeMutationType("m2", 1.0, "f", 0.0);  // introduced mutation
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 99999);
+	initializeRecombinationRate(1e-8);
+}
+1 { sim.addSubpop("p1", 500); }
+1000 late() {
+	target = sample(p1.genomes, 1);
+	target.addNewDrawnMutation(m2, 10000);
+	sim.outputFull("/tmp/slim_" + simID + ".txt");
+}
+1000:100000 late() {
+	sweep = sim.mutationsOfType(m2);
+	
+	if (size(sweep) == 0)
+	{
+		if (any(sim.substitutions.mutationType == m2))
+		{
+			cat(simID + ": FIXED\n");
+			sim.simulationFinished();
+		}
+		else
+		{
+			cat(simID + ": LOST - RESTARTING\n");
+			sim.readFromPopulationFile("/tmp/slim_" + simID + ".txt");
+			setSeed(rdunif(1, 0, asInteger(2^62) - 1));
+			catn("# NEW SEED: " + getSeed());
+		}
+	}
+	else
+	{
+		freq = sim.mutationFrequencies(NULL, sweep);
+		catn(sim.generation + ": " + freq);
+	}
+}
+100000 late() {
+	catn("TIME EXPIRED");
+	sim.simulationFinished();
+}

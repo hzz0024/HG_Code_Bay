@@ -11,12 +11,11 @@
 # $angsd -i $sample -GL 1 -minQ 20 -minmapq 30 -anc $ANC -dosaf 1 -fold 1 $REGIONS -out $SAMPLE_ID
 # $realSFS $SAMPLE_ID".saf.idx" > $SAMPLE_ID".ml"
 # done
-
-
-
+####################################################
 ####### format data and produce the csv file #######
+####################################################
 library(data.table)
-setwd("~/Documents/HG/DelBay19_adult/04_heterozygosity/results")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay_all_angsd_final/04_heterozygosity/Angsd_output")
 files <- list.files(pattern="*.ml", full.names=TRUE, recursive=FALSE)
 outs = sapply(files, function(x) {
   t <- read.delim(x, header = FALSE, sep=' ')
@@ -24,52 +23,57 @@ outs = sapply(files, function(x) {
   out = unlist(out)
   print(out)
 })
-write.table(outs, "./DelBay19_het_summary.csv", sep=",", quote=T, row.names=T, col.names=NA)
+write.table(outs, "./DelBay_het_summary.csv", sep=",", quote=T, row.names=T, col.names=NA)
 
-####### plot the het for different minq results #######
+####################################################
+####### plot the het for different populations #####
+####################################################
 library("ggplot2")
 library("Hmisc")
 library("gtable")
 library("gridExtra")
 library(export)
+library(cowplot) 
 
-############################### below are analysis across all sequenced bam files ##############################
-####### format data and produce the csv file #######
-library(data.table)
-setwd("~/Documents/Ryan_workplace/DelBay_adult/04_heterozygosity/plot/")
-files <- list.files(pattern="*.ml", full.names=TRUE, recursive=FALSE)
-outs = sapply(files, function(x) {
-  t <- read.delim(x, header = FALSE, sep=' ')
-  out <- (t[2]/sum(t[1:2]))
-  out = unlist(out)
-  print(out)
-})
-write.table(outs, "./DelBay19_het_summary.csv", sep=",", quote=T, row.names=T, col.names=NA)
-
-####### plot the het for different minq results #######
-library("ggplot2")
-library("Hmisc")
-library("gtable")
-library("gridExtra")
-library(export)
-setwd("~/Documents/HG/DelBay19_adult/04_heterozygosity/plot")
-file = "DelBay19_het_summary.csv"
-df <- read.delim(file, header = TRUE, sep=',')
+setwd("~/Dropbox/Mac/Documents/HG/DelBay_all_angsd_final/04_heterozygosity/plot")
+file = "DelBay_het_summary.csv"
+df <- read.delim(file, header = TRUE, sep='\t')
+# reorder the populations # https://www.r-graph-gallery.com/22-order-boxplot-labels-by-names.html
+df$Pop <- factor(df$Pop , levels=c("HC", "ARN", "COH", "SR", "NB", "19 Surv.","19 Ref","20 Surv.","20 Ref"))
 
 p1 <- ggplot(df, aes(x=Pop, y=Heterozygosity, fill=as.factor(Pop))) +
-  #ylim(0.0056, 0.009) + color=as.factor(Batch), shape=as.factor(Batch)
-  geom_boxplot(position=position_dodge(0.8))+
-  #geom_dotplot(binaxis='y', stackdir='center', dotsize = 0.5, position=position_dodge(0.8))+
-  theme(legend.position="right")
+  geom_boxplot(fatten = NULL, alpha = 0.8)+
+  stat_summary(fun.y = mean, geom = "errorbar", aes(ymax = ..y.., ymin = ..y..),
+               width = 0.75, size = 1, linetype = "solid")+
+  theme(legend.position="right")+
+  scale_fill_manual(values=c("#1BA3C6", "#33A65C", "#F8B620", "#E03426", "#EB73B3", "#AEC7E8", "#FF7F0E", "#9EDAE5", "#FFBB78")) +
+  theme_cowplot() 
+
 p1
 
-graph2ppt(file="04_het.pptx", width=10, height=6)
+graph2ppt(file="04_het_no_eq.pptx", width=10, height=6)
 
-p2 <- ggplot(df, aes(x=Pop, y=Heterozygosity, fill=as.factor(Pop))) + 
-  ylim(0.0, 0.009) + #color=as.factor(Batch), shape=as.factor(Batch)
-  geom_boxplot(position=position_dodge(0.8))+
-  geom_dotplot(binaxis='y', stackdir='center', dotsize = 0.5, position=position_dodge(0.8))+
-  theme(legend.position="top")
-p2
-grid.arrange(p1, p2, nrow = 1)
-graph2ppt(file="all_441",width=18,height=9)
+####################################################
+####### plot the het for different populations #####
+####### after coverage equalization            #####
+####################################################
+
+setwd("~/Dropbox/Mac/Documents/HG/DelBay_all_angsd_final/04_heterozygosity/plot")
+
+file = "DelBay_het_summary_downsampled.csv"
+df <- read.delim(file, header = TRUE, sep='\t')
+# reorder the populations # https://www.r-graph-gallery.com/22-order-boxplot-labels-by-names.html
+df$Pop <- factor(df$Pop , levels=c("HC", "ARN", "COH", "SR", "NB", "19 Surv.","19 Ref","20 Surv.","20 Ref"))
+
+p1 <- ggplot(df, aes(x=Pop, y=Heterozygosity, fill=as.factor(Pop))) +
+  geom_boxplot(fatten = NULL, alpha = 0.8)+
+  # plot the mean values
+  stat_summary(fun.y = mean, geom = "errorbar", aes(ymax = ..y.., ymin = ..y..),
+               width = 0.75, size = 1, linetype = "solid")+
+  #geom_dotplot(binaxis='y', stackdir='center', dotsize = 0.5, position=position_dodge(0.8))+
+  theme_cowplot() + 
+  theme(legend.position="right")+
+  scale_fill_manual(values=c("#1BA3C6", "#33A65C", "#F8B620", "#E03426", "#EB73B3", "#AEC7E8", "#FF7F0E", "#9EDAE5", "#FFBB78")) 
+   
+p1
+graph2ppt(file="04_het.pptx", width=10, height=6)

@@ -1,0 +1,19 @@
+initialize() {
+	initializeMutationRate(1e-7);
+	initializeMutationType("m1", 0.5, "f", 0.0);   // neutral
+	initializeMutationType("m2", 0.5, "f", 0.02);
+	initializeMutationType("m3", 0.5, "f", 0.02);
+	initializeGenomicElementType("g1", c(m1,m2,m3), c(1,0.01,0.01));
+	initializeGenomicElement(g1, 0, 99999);
+	initializeRecombinationRate(1e-8);
+}
+1 {
+	sim.addSubpop("p1", 500);
+	sim.addSubpop("p2", 500);
+	p1.setMigrationRates(p2, 0.1);   // weak migration p2 -> p1
+	p2.setMigrationRates(p1, 0.5);   // strong migration p1 -> p2
+}
+50000 {
+	catn("m2 fixed: " + sum(sim.substitutions.mutationType == m2));
+	catn("m3 fixed: " + sum(sim.substitutions.mutationType == m3));
+}

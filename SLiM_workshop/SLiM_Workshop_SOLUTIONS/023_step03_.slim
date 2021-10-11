@@ -1,0 +1,15 @@
+initialize() {
+	defineConstant("MU", 1e-7);
+	defineConstant("R", 1e-8);
+	defineConstant("N", 500);
+	
+	initializeMutationRate(MU);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 99999);
+	initializeRecombinationRate(R);
+}
+1 {
+	sim.addSubpop("p1", N);
+}
+5000 late() { sim.outputFixedMutations(); }

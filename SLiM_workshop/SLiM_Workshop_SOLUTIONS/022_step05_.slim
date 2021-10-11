@@ -1,0 +1,26 @@
+initialize() {
+	initializeSLiMOptions(nucleotideBased=T);
+	length = initializeAncestralNucleotides("hs37d5_chr22_patched.fa");
+	defineConstant("L", length);
+	initializeMutationTypeNuc("m1", 0.5, "f", 0.0);
+	initializeGenomicElementType("g1", m1, 1.0, mmJukesCantor(0.0));
+	initializeGenomicElement(g1, 0, L-1);
+	initializeRecombinationRate(1e-8);
+}
+1 late() {
+	sim.addSubpop("p1", 99);
+	p1.genomes.readFromVCF("chr22_filtered.recode.vcf", m1);
+	p1.setSubpopulationSize(1000);
+}
+1000 late() {
+	p1.genomes.outputVCF("final.vcf");
+	
+	subs = sim.substitutions;
+	lines = sapply(subs,
+		"applyValue.position + ', ' + applyValue.nucleotide;");
+	lines = c("position, nucleotide", lines);
+	writeFile("subs.csv", lines);
+	
+	seq = sim.chromosome.ancestralNucleotides();
+	writeFile("anc.fa", c(">final_ancestral_seq", seq));
+}

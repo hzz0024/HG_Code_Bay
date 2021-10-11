@@ -1,0 +1,41 @@
+// set up a simple neutral nonWF simulation
+initialize() {
+	initializeSLiMModelType("nonWF");
+	defineConstant("K", 500);	// carrying capacity
+	
+	// neutral mutations, which are allowed to fix
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	m1.convertToSubstitution = T;
+	
+	initializeGenomicElementType("g1", m1, 1.0);
+	initializeGenomicElement(g1, 0, 99999);
+	initializeMutationRate(1e-7);
+	initializeRecombinationRate(1e-8);
+}
+
+// each individual reproduces itself once
+reproduction() {
+	subpop.addCrossed(individual, p1.sampleIndividuals(1));
+}
+
+// create an initial population of 10 individuals
+1 early() {
+	sim.addSubpop("p1", 10);
+}
+
+// provide density-dependent selection
+early() {
+	inds = p1.individuals;
+	inds.fitnessScaling = ifelse(inds.age <= 2, 1.0, 0.0);
+
+	p1.fitnessScaling = K / sum(inds.fitnessScaling);
+}
+
+late() {
+	inds = p1.individuals;
+	cat(sim.generation + ": " + size(inds));
+	catn(" (" + max(inds.age) + ", " + mean(inds.age) + ")");
+}
+
+// output all fixed mutations at end
+2000 late() { sim.outputFixedMutations(); }

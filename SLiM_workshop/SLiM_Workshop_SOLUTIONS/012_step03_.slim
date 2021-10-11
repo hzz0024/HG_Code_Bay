@@ -1,0 +1,33 @@
+initialize() {
+	initializeMutationRate(1e-7);
+	initializeMutationType("m1", 0.5, "f", 0.0);   // neutral
+	initializeMutationType("m2", 0.5, "f", 0.1);   // lactase-promoting
+	m2.convertToSubstitution = F;
+	initializeGenomicElementType("g1", c(m1,m2), c(0.99,0.01));
+	initializeGenomicElement(g1, 0, 99999);
+	initializeRecombinationRate(1e-8);
+}
+1 {
+	sim.addSubpop("p1", 1000);
+	
+	// start as mostly non-milk-drinkers
+	p1.individuals.tag = rbinom(1000, 1, 0.01);
+}
+modifyChild() {
+	// inherit culture from parents, with some deviation
+	parentCulture = (parent1.tag + parent2.tag) / 2;
+	childCulture = rbinom(1, 1, 0.01 + 0.98 * parentCulture);
+	child.tag = childCulture;
+	return T;
+}
+late() {
+	// dark blue for non-milk-drinkers, light gray for milk-drinkers
+	inds = p1.individuals;
+	inds.color = ifelse(inds.tag == 0, "darkblue", "lightgray");
+	catn(sim.generation + ": " + mean(inds.tag));
+}
+fitness(m2) {
+	// deleterious for non-milk-drinkers, beneficial for milk-drinkers
+	return (individual.tag == 0) ? 0.95 else relFitness;
+}
+10000 { sim.simulationFinished(); }

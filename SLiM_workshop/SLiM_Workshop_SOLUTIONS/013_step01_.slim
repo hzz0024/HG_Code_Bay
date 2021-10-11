@@ -1,0 +1,28 @@
+function (void)dumpFrequencies(object<Mutation> muts) {
+	if (muts.size())
+	{
+		freqs = sim.mutationFrequencies(NULL, muts);
+		coeffs = muts.selectionCoeff;
+		catn();
+		print(cbind(freqs, coeffs));
+	}
+}
+
+initialize() {
+	initializeMutationRate(1e-7);
+	initializeMutationType("m1", 0.5, "f", 0.0);       // neutral
+	initializeMutationType("m2", 0.5, "n", 0.0, 0.5);  // QTLs
+	m2.convertToSubstitution = F;
+	initializeGenomicElementType("g1", m1, 1);
+	initializeGenomicElementType("g2", c(m1,m2), c(0.9,0.1));
+	initializeGenomicElement(g1, 0, 20000);
+	initializeGenomicElement(g2, 20001, 30000);
+	initializeGenomicElement(g1, 30001, 99999);
+	initializeRecombinationRate(1e-8);
+}
+fitness(m2) { return 1.0; }
+1 { sim.addSubpop("p1", 500); }
+20000 late() {
+	catn("\nDID NOT REACH OPTIMUM");
+	dumpFrequencies(sim.mutationsOfType(m2));
+}
