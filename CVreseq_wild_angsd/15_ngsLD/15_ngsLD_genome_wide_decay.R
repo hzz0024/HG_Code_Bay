@@ -17,12 +17,12 @@ write.table(angsd_list, paste0(strsplit(pname, split = ".txt")[[1]][1], ".rf.txt
 ####################################
 ###   format the ngsLD output    ###
 ####################################
-setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/genome_wide_LD/output_after_relanedness_rm/")
+setwd("~/Dropbox/Mac/Documents/HG/CVreseq_wild_angsd/15_ngsLD")
 #ngsLD outputs a TSV file with LD results for all pairs of sites for which LD was calculated, where the first two columns are positions of the SNPs, the third column is the distance (in bp) between the SNPs, and the following 4 columns are the various measures of LD calculated (r^2 from pearson correlation between expected genotypes, D from EM algorithm, D' from EM algorithm, and r^2 from EM algorithm). 
 
 rm(list=ls())
 format<-function(ngsLD_output, win){
-  #pname1 = "./outlier/HC.chr5.ngsld.output"
+  #ngsLD_output = "./CLP.chr00.output"
   dat1 = read.delim(ngsLD_output, header = FALSE, sep='\t')
   results = dat1[with(dat1, order(V1, V2)),]
   results <- results[complete.cases(results), ]
@@ -49,46 +49,44 @@ format<-function(ngsLD_output, win){
 ####################################
 ### save as rdata format (list)  ###
 ####################################
-out = list()
+out <- list()
 chr <- seq(0,9)
-pop <- c("HCD","ARN","COH", "SRD", "NBD", "CH1", "RE1")
-#pop <- c("CH1", "RE1")
+pop <- c("CLP","CSD","HCD", "HCV")
 for (c in chr) {
   for (p in pop){
     name0 = paste0(p, ".chr", c, ".output")
     out[[name0]] = format(paste0(p, ".chr0", c, ".output"), 500)
   }
 }
-save(out, file = "./output/ngsLD.no.correctrelatedness.100k.RData")
-save(out, file = "./output/ngsLD.correctrelatedness.100k.RData")
+
 save(out, file = "./output/ngsLD.RData")
 
 ####################################
 ###   start plot for r2 pattern  ###
 ####################################
 library(export)
-setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/genome_wide_LD")
+setwd("~/Dropbox/Mac/Documents/HG/CVreseq_wild_angsd/15_ngsLD")
 # We generated mean r2 within 500 bp bins of distances using r-code.
 # 3 columns: kb.bins, r2, kb.midpt
 
+rm(list=ls())
 library(ggplot2) # cut_interval()
 load("./output/ngsLD.RData")
-load("./output/ngsLD.correctrelatedness.100k.RData")
 # check the rdata
 #LDrdata <- get(load('data/LDanalysis.500bpBINS.rdata'))
 pop <- substr(names(out),1,3)
-meta <- read.csv('./output/meta_pops_V1.csv', stringsAsFactors=T) # added by @HG replace with meta_pops_V1.csv for all pops
+meta <- read.csv('./output/meta_pops_V1.csv', stringsAsFactors=T) # added by @HG
 site <- meta$Site.Abb[match(pop,meta$Site.Abb)]
 
 #tiff("output/LDanalysis.makeCurves.500bpBINS.jpg", units="in", width=16, height=12, res=300)
 #pdf('output/LDanalysis.makeCurves.500bpBINS.pdf',width=8,height=5)
 #quartz(width=8,height=5)
-par(mfrow=c(2,5),mar=c(8,2,2,1)) # increase the first two will show x and y-axis labels, last one is controling the width
+par(mfrow=c(2,2),mar=c(8,2,2,1)) # increase the first two will show x and y-axis labels, last one is controling the width
 stats <- c()
-cbPalette <- c("#E97302", "#F5191C", "#EAC728", "#A71B4B", "#4461A8", "#7A7A7A", "#0BC0B3")
-for (i in 1:7)
+cbPalette <- c("#1BA3C6", "#33A65C", "#F8B620", "#E03426", "#EB73B3", "#AEC7E8", "#FF7F0E", "#9EDAE5", "#FFBB78")
+for (i in 1:4)
 {
-  plot(1,1,xlim=c(0,2),ylim=c(0,0.5),xlab="distance (kbp)", ylab="LD (r^2)",type="n")
+  plot(1,1,xlim=c(0,5),ylim=c(0,0.4),xlab="distance (kbp)", ylab="LD (r^2)",type="n")
   tmp <- out[site==levels(site)[i]]
   
   for(j in 1:length(tmp))
@@ -99,7 +97,7 @@ for (i in 1:7)
     {
       ((10+C*distance)/((2+C*distance)*(11+C*distance)))*(1+((3+C*distance)*(12+12*C*distance+(C*distance)^2))/(n*(2+C*distance)*(11+C*distance)))
     }
-    n=44 ###### change the value to corresponding sample size
+    n=10 ###### change the value to corresponding sample size
     xbar = xbar[which(xbar$r2 != "Inf"),] ###### to get rid of inf r2 values
     modelC = try(nls(r2 ~ CDist(n,C,kb.midpt), data=xbar, start=Cstart, control=nls.control(maxiter=100)))#
     #error = function(e) modelC=print("oops"))
@@ -124,9 +122,9 @@ for (i in 1:7)
   }
 }
 
-write.table(stats,"output/ngsLD.stats.100K.500bpBINS.csv",sep=",",row.names=F,quote = F)
+write.table(stats,"output/ngsLD.stats.500bpBINS.csv",sep=",",row.names=F,quote = F)
 
-graph2ppt(file="output/LD_100K_relat_correction_zoom.pptx", width=12, height=12)
+graph2ppt(file="output/LD_50k.pptx", width=12, height=12)
 
 #dev.off()
 

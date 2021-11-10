@@ -6,15 +6,15 @@ library(export)
 setwd("~/Dropbox/Mac/Documents/HG/DelBay_all_angsd_final/03_global_PCA_MDS/")
 source("individual_pca_functions.R")
 # for color palettes see https://r-charts.com/color-palettes/#discrete > paletteer_d("ggthemes::Hue_Circle")
-file = 'All_432_info.txt' 
+file = 'Del20_101_info.txt' 
 all_label = read.delim(file, header = TRUE, sep='\t')
 
-PCoA(dist_matrix = "All_maf0.05_minmapq30_minq20_pctind0.7_CV30_masked_noinvers.ibsMat",
+PCoA(dist_matrix = "Del20_challenge_maf0.05_minmapq30_minq20_pctind0.7_CV30_masked_noinvers_nodownsampling.ibsMat",
      ind_label = all_label$ind,
      pop_label = all_label$pop,
      x_axis = 1,
      y_axis = 2,
-     k = 3,
+     k = 2,
      show.point = T,
      show.label = T,
      show.ellipse = T,

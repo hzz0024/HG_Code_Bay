@@ -3,9 +3,11 @@
 #################################################
 
 setwd("~/Dropbox/Mac/Documents/HG/DelBay_all_angsd_final/20_Balancing_selection/format")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/20_balancing_selection/CHR19_REF19/")
 
 format_mafs <- function(headname){
-  dat <- read.table(paste0(headname,"_minmapq30_minq20_CV30_masked_noinvers_shared_sites.mafs"), header = T)
+  dat <- read.table(paste0(headname,"_all_minq20_minmq30_CV30_masked.mafs"), header = T)
+  #dat <- read.table(paste0(headname,"_minmapq30_minq20_CV30_masked_noinvers.mafs"), header = T)
 # do formatting for each chromosome
   for (j in c( 'NC_035780.1', 'NC_035781.1', 'NC_035782.1', 'NC_035783.1', 'NC_035784.1', 'NC_035785.1', 'NC_035786.1', 'NC_035787.1', 'NC_035788.1', 'NC_035789.1')){ 
     DT = dat[which(dat$chromo %in% j), ]

@@ -65,7 +65,7 @@ legend(600,0.94, c("Means", "Expected R2"), lty=c(1,1), col=c("red", "purple")) 
 ####################################
 ##########  plot r2 values  ########
 ####################################
-
+setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/outliter_block_plot/500bp/NB_HC/")
 format <- function (pname1, pname2, i){
   #pname1 = "./HC.chr1.ngsld.output"
   dat1 = read.delim(pname1, header = FALSE, sep='\t')
@@ -98,10 +98,10 @@ df_f <- df_m[!is.na(df_m$value), ]
 #then plot
 means <- aggregate(value ~  variable, df_f, mean)
 
-tiff("./plot/HC_NB_LD_R2_1K.jpg", units="in", width=16, height=12, res=300)
+tiff("./HC_NB_LD_R2_500bp.jpg", units="in", width=16, height=12, res=300)
 p2 <- ggplot(df_f, aes(x=factor(variable),y=value,fill=factor(variable)))+
   geom_boxplot(alpha = .7) + 
-  labs(title="Wild HC-NB LD R2 comparison around SGS outlier candidates (window = 1K)") +facet_wrap(~Chr) +
+  labs(title="Wild HC-NB LD R2 comparison around SGS outlier candidates (window = 500bp)") +facet_wrap(~Chr) +
   stat_summary(fun = mean, color = "red", geom = "line", aes(group = 1)) + 
   stat_summary(fun = mean, color = "black", geom ="point", aes(group = 1), size = 2, show.legend = FALSE)+
   stat_summary(aes(label=round(..y..,4)), fun=mean, geom="text", size=6,vjust = -0.5)+
@@ -124,6 +124,7 @@ t.test(chr9$HC, chr9$NB)
 t.test(chr10$HC, chr10$NB)
 
 ############## 2019 challenge ###########
+setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/outliter_block_plot/500bp/CHR19_REF19//")
 format <- function (pname1, pname2, i){
   #pname1 = "./CHR19.chr1.ngsld.output"
   dat1 = read.delim(pname1, header = FALSE, sep='\t')
@@ -156,10 +157,10 @@ df_f <- df_m[!is.na(df_m$value), ]
 #then plot
 means <- aggregate(value ~  variable, df_f, mean)
 
-tiff("./plot/CHR19_REF19_LD_R2_1K.jpg", units="in", width=16, height=12, res=300)
+tiff("./CHR19_REF19_LD_R2_500bp.jpg", units="in", width=16, height=12, res=300)
 p2 <- ggplot(df_f, aes(x=factor(variable),y=value,fill=factor(variable)))+
   geom_boxplot(alpha = .7) + 
-  labs(title="2019 CHR19-REF19 LD R2 comparison around SGS outlier candidates (window = 1K)") +facet_wrap(~Chr) +
+  labs(title="2019 CHR19-REF19 LD R2 comparison around SGS outlier candidates (window = 500bp)") +facet_wrap(~Chr) +
   stat_summary(fun = mean, color = "red", geom = "line", aes(group = 1)) + 
   stat_summary(fun = mean, color = "black", geom ="point", aes(group = 1), size = 2, show.legend = FALSE)+
   stat_summary(aes(label=round(..y..,4)), fun=mean, geom="text", size=6,vjust = -0.5)+
@@ -181,31 +182,32 @@ t.test(chr8$CHR19, chr8$REF19)
 t.test(chr9$CHR19, chr9$REF19)
 t.test(chr10$CHR19, chr10$REF19)
 
-############## ARN-COH ###########
+############## SR-HC ###########
+setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/outliter_block_plot/500bp/SR_HC/")
 format <- function (pname1, pname2, i){
   #pname1 = "./CHR19.chr1.ngsld.output"
   dat1 = read.delim(pname1, header = FALSE, sep='\t')
   dat1 = dat1[with(dat1, order(V1, V2)),]
-  #pname2 = "./COH.chr1.ngsld.output"
+  #pname2 = "./SR.chr1.ngsld.output"
   dat2 = read.delim(pname2, header = FALSE, sep='\t')
   dat2 = dat2[with(dat2, order(V1, V2)),]
   df = data.frame(paste0("Chr", i), dat1$V7, dat2$V7)
-  colnames(df)=c('Chr', 'ARN', 'COH')
-  df1 <- df[!is.na(df$ARN), ]
-  df2 <- df1[!is.na(df1$COH), ]
+  colnames(df)=c('Chr', 'HC', 'SR')
+  df1 <- df[!is.na(df$HC), ]
+  df2 <- df1[!is.na(df1$SR), ]
   return(df2)
 }
 
-chr1 <- format("ARN.chr1.ngsld.output", "COH.chr1.ngsld.output", 1)
-chr2 <- format("ARN.chr2.ngsld.output", "COH.chr2.ngsld.output", 2)
-chr3 <- format("ARN.chr3.ngsld.output", "COH.chr3.ngsld.output", 3)
-chr4 <- format("ARN.chr4.ngsld.output", "COH.chr4.ngsld.output", 4)
-chr5 <- format("ARN.chr5.ngsld.output", "COH.chr5.ngsld.output", 5)
-chr6 <- format("ARN.chr6.ngsld.output", "COH.chr6.ngsld.output", 6)
-chr7 <- format("ARN.chr7.ngsld.output", "COH.chr7.ngsld.output", 7)
-chr8 <- format("ARN.chr8.ngsld.output", "COH.chr8.ngsld.output", 8)
-chr9 <- format("ARN.chr9.ngsld.output", "COH.chr9.ngsld.output", 9)
-chr10 <- format("ARN.chr10.ngsld.output", "COH.chr10.ngsld.output", 10)
+chr1 <- format("HC.chr1.ngsld.output", "SR.chr1.ngsld.output", 1)
+chr2 <- format("HC.chr2.ngsld.output", "SR.chr2.ngsld.output", 2)
+chr3 <- format("HC.chr3.ngsld.output", "SR.chr3.ngsld.output", 3)
+chr4 <- format("HC.chr4.ngsld.output", "SR.chr4.ngsld.output", 4)
+chr5 <- format("HC.chr5.ngsld.output", "SR.chr5.ngsld.output", 5)
+chr6 <- format("HC.chr6.ngsld.output", "SR.chr6.ngsld.output", 6)
+chr7 <- format("HC.chr7.ngsld.output", "SR.chr7.ngsld.output", 7)
+chr8 <- format("HC.chr8.ngsld.output", "SR.chr8.ngsld.output", 8)
+chr9 <- format("HC.chr9.ngsld.output", "SR.chr9.ngsld.output", 9)
+chr10 <- format("HC.chr10.ngsld.output", "SR.chr10.ngsld.output", 10)
 
 df <- rbind(chr1, chr2, chr3, chr4, chr5, chr6, chr7, chr8, chr9, chr10)
 
@@ -214,10 +216,10 @@ df_f <- df_m[!is.na(df_m$value), ]
 #then plot
 means <- aggregate(value ~  variable, df_f, mean)
 
-tiff("./plot/ARN_COH_LD_R2_1K.jpg", units="in", width=16, height=12, res=300)
+tiff("./HC_SR_LD_R2_500bp.jpg", units="in", width=16, height=12, res=300)
 p2 <- ggplot(df_f, aes(x=factor(variable),y=value,fill=factor(variable)))+
   geom_boxplot(alpha = .7) + 
-  labs(title="Wild ARN-COH LD R2 comparison around SGS outlier candidates (window = 1K)") +facet_wrap(~Chr) +
+  labs(title="Wild HC-SR LD R2 comparison around SGS outlier candidates (window = 500bp)") +facet_wrap(~Chr) +
   stat_summary(fun = mean, color = "red", geom = "line", aes(group = 1)) + 
   stat_summary(fun = mean, color = "black", geom ="point", aes(group = 1), size = 2, show.legend = FALSE)+
   stat_summary(aes(label=round(..y..,4)), fun=mean, geom="text", size=6,vjust = -0.5)+
@@ -229,75 +231,17 @@ p2
 dev.off()
 
 
-t.test(chr1$ARN, chr1$COH)
-t.test(chr2$ARN, chr2$COH)
-t.test(chr3$ARN, chr3$COH)
-t.test(chr4$ARN, chr4$COH)
-t.test(chr5$ARN, chr5$COH)
-t.test(chr6$ARN, chr6$COH)
-t.test(chr7$ARN, chr7$COH)
-t.test(chr8$ARN, chr8$COH)
-t.test(chr9$ARN, chr9$COH)
-t.test(chr10$ARN, chr10$COH)
+t.test(chr1$HC, chr1$SR)
+t.test(chr2$HC, chr2$SR)
+t.test(chr3$HC, chr3$SR)
+t.test(chr4$HC, chr4$SR)
+t.test(chr5$HC, chr5$SR)
+t.test(chr6$HC, chr6$SR)
+t.test(chr7$HC, chr7$SR)
+t.test(chr8$HC, chr8$SR)
+t.test(chr9$HC, chr9$SR)
+t.test(chr10$HC, chr10$SR)
 
-############## 2020 challenge ###########
-format <- function (pname1, pname2, i){
-  #pname1 = "./CHR19.chr1.ngsld.output"
-  dat1 = read.delim(pname1, header = FALSE, sep='\t')
-  dat1 = dat1[with(dat1, order(V1, V2)),]
-  #pname2 = "./REF20.chr1.ngsld.output"
-  dat2 = read.delim(pname2, header = FALSE, sep='\t')
-  dat2 = dat2[with(dat2, order(V1, V2)),]
-  df = data.frame(paste0("Chr", i), dat1$V7, dat2$V7)
-  colnames(df)=c('Chr', 'CHR20', 'REF20')
-  df1 <- df[!is.na(df$CHR20), ]
-  df2 <- df1[!is.na(df1$REF20), ]
-  return(df2)
-}
-
-chr1 <- format("CHR20.chr1.ngsld.output", "REF20.chr1.ngsld.output", 1)
-chr2 <- format("CHR20.chr2.ngsld.output", "REF20.chr2.ngsld.output", 2)
-chr3 <- format("CHR20.chr3.ngsld.output", "REF20.chr3.ngsld.output", 3)
-chr4 <- format("CHR20.chr4.ngsld.output", "REF20.chr4.ngsld.output", 4)
-chr5 <- format("CHR20.chr5.ngsld.output", "REF20.chr5.ngsld.output", 5)
-chr6 <- format("CHR20.chr6.ngsld.output", "REF20.chr6.ngsld.output", 6)
-chr7 <- format("CHR20.chr7.ngsld.output", "REF20.chr7.ngsld.output", 7)
-chr8 <- format("CHR20.chr8.ngsld.output", "REF20.chr8.ngsld.output", 8)
-chr9 <- format("CHR20.chr9.ngsld.output", "REF20.chr9.ngsld.output", 9)
-chr10 <- format("CHR20.chr10.ngsld.output", "REF20.chr10.ngsld.output", 10)
-
-df <- rbind(chr1, chr2, chr3, chr4, chr5, chr6, chr7, chr8, chr9, chr10)
-
-df_m <- melt(df, id.vars=c("Chr"))
-df_f <- df_m[!is.na(df_m$value), ]
-#then plot
-means <- aggregate(value ~  variable, df_f, mean)
-
-tiff("./plot/CHR20_REF20_LD_R2_1K.jpg", units="in", width=16, height=12, res=300)
-p2 <- ggplot(df_f, aes(x=factor(variable),y=value,fill=factor(variable)))+
-  geom_boxplot(alpha = .7) + 
-  labs(title="2020 CHR20-REF20 LD R2 comparison around SGS outlier candidates (window = 1K)") +facet_wrap(~Chr) +
-  stat_summary(fun = mean, color = "red", geom = "line", aes(group = 1)) + 
-  stat_summary(fun = mean, color = "black", geom ="point", aes(group = 1), size = 2, show.legend = FALSE)+
-  stat_summary(aes(label=round(..y..,4)), fun=mean, geom="text", size=6,vjust = -0.5)+
-  guides(fill = "none") +
-  theme_bw() +
-  ylim(0,1) +
-  labs( x = NULL, y = "R2")
-p2
-dev.off()
-
-
-t.test(chr1$CHR20, chr1$REF20)
-t.test(chr2$CHR20, chr2$REF20)
-t.test(chr3$CHR20, chr3$REF20)
-t.test(chr4$CHR20, chr4$REF20)
-t.test(chr5$CHR20, chr5$REF20)
-t.test(chr6$CHR20, chr6$REF20)
-t.test(chr7$CHR20, chr7$REF20)
-t.test(chr8$CHR20, chr8$REF20)
-t.test(chr9$CHR20, chr9$REF20)
-t.test(chr10$CHR20, chr10$REF20)
 
 ####################################
 ##########  plot LD block   ########

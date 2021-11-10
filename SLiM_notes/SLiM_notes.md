@@ -7,5 +7,12 @@ property is actually quite similar, but it is a property of Individual rather th
 #### make m2 colored:
 m2.color = "red";
 
+#### non-overlapping generations; kill off the parental generation (p402)     
+inds = sim.subpopulations.individuals;
+// non-overlapping generations; kill off the parental generation
+ages = inds.age;
+inds[ages > 0].fitnessScaling = 0.0;
+inds = inds[ages == 0];
+
 
  

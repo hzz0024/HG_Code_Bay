@@ -1,4 +1,4 @@
-setwd("~/Documents/Ryan_workplace/DelBay_adult/06_fst_by_pop_pair/global_fst")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/06_Fst/Global_pairwise_fst")
 
 install_github("jokergoo/ComplexHeatmap")
 install.packages("dendsort")
@@ -11,13 +11,13 @@ library(circlize)
 
 data_process <- function(headname){
   # headname = "CS_HC"
-  name = paste0(headname, "_minq20_minmq30_1x_CV30_masked_fold.average_fst.txt")
+  name = paste0(headname, "_all_minq20_minmq30_CV30_masked_fold.average_fst.txt")
   DT = read.delim(name, header = FALSE, sep='\t')
   return(DT$V2)
 }
 
 #data_process("HCVA_NEH")
-colnames <- (read.delim("order.txt", header = FALSE, sep='\t'))$V1
+colnames <- (read.delim("pop_order.txt", header = FALSE, sep='\t'))$V1
 swap <- function(colnames, i, j){
   tmp = colnames[i]
   colnames[i] = colnames[j]
@@ -34,7 +34,7 @@ for(i in seq(length(colnames)-1)){
     idx = idx + 1
     print(idx)
     headname = paste0(colnames[i],'_',colnames[j])
-    filename = paste0(headname, "_minq20_minmq30_1x_CV30_masked_fold.average_fst.txt")
+    filename = paste0(headname, "_all_minq20_minmq30_CV30_masked_fold.average_fst.txt")
     if(file.exists(filename))
       dat[i,j] = data_process(headname)
     else
@@ -63,16 +63,16 @@ library('gplots')
 Heatmap(dat2, name = "Global Fst", row_dend_reorder = FALSE, column_dend_reorder=FALSE, column_title = "Population", 
         row_order = order(as.numeric(gsub("row", "", rownames(dat2)))),
         column_order = order(as.numeric(gsub("column", "", colnames(dat2)))),
-        col = colorRamp2(c(0, 0.001, 0.003), c("white", "yellow", "red")),
+        col = colorRamp2(c(0, 0.0003, 0.0006), c("white", "yellow", "red")),
         #row_dend_height = unit(2, "cm"),
-        km = 2,
+        #km = 2,
         #split = c(rep("Gulf", 4), rep("Atlantic", 9)),
-        row_names_gp = gpar(fontsize = 11),
-        column_names_gp = gpar(fontsize = 11),
+        row_names_gp = gpar(fontsize = 15),
+        column_names_gp = gpar(fontsize = 15),
         row_dend_side = "left",
         column_title_side = "bottom",
         cell_fun = function(j, i, x, y, width, height, fill) {
-          grid.text(sprintf("%.5f", dat2[i, j]), x, y, gp = gpar(fontsize = 7))
+          grid.text(sprintf("%.5f", dat2[i, j]), x, y, gp = gpar(fontsize = 15))
         })
 
 graph2ppt(file="heatmap_final",width=10,height=6)

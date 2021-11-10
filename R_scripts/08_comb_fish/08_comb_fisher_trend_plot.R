@@ -1,66 +1,12 @@
 ####################################
-##########  log(FDR) plot ##########
-####################################
-setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/11_SGS/11_SGS_outlier_zoom_manhattan")
-source("manhattan.R")
-
-jpeg("Mahattan_chr1_32280271.jpg", width = 16, height = 9, units = 'in', res = 300)
-par(mar=c(4,8,1,6))
-par(mfrow=c(2,2))
-
-jpeg("Mahattan_SGS_logFDR1.jpg", width = 16, height = 9, units = 'in', res = 300)
-par(mar=c(4,8,1,6))
-file = 'REF19_CHR19_NB_HC_out_all_fish.txt' 
-dat = read.delim(file, header = TRUE, sep='\t')
-dat$logFDR = -log(dat$FDR) 
-dat$SNP <- paste0(dat$chromo,'_',dat$position)
-
-name1 = 'Fisher_outliers.txt' 
-h1 = read.delim(name1, header = FALSE, sep=',')
-h1 = as.list(h1)
-
-manhattan(chr="chromo",bp="position",p="logFDR", snp = "SNP", dat, highlight1 = h1$V1, logp=FALSE, cex.axis = 1.2, ylim = c(0, 8),
-          col=c("grey50","black"),genomewideline=F, suggestiveline=F,
-          ylab=expression(log~FDR), cex.lab=1.5) 
-dev.off()
-
-source("manhattan.R")
-jpeg("Mahattan_SGS_logFDR2.jpg", width = 16, height = 9, units = 'in', res = 300)
-par(mar=c(4,8,1,6))
-file = 'REF19_CHR19_NB_HC_out_all_fish.txt' 
-dat = read.delim(file, header = TRUE, sep='\t')
-dat$logFDR = -log(dat$FDR) 
-dat$SNP <- paste0(dat$chromo,'_',dat$position)
-
-name1 = 'Fisher_outliers.txt' 
-h1 = read.delim(name1, header = FALSE, sep=',')
-h1 = as.list(h1)
-
-name2 = 'SGS_outlier_same_dir.txt' 
-h2 = read.delim(name2, header = FALSE, sep=',')
-h2 = as.list(h2)
-
-manhattan(chr="chromo",bp="position",p="logFDR", snp = "SNP", dat, highlight1 = h1$V1, highlight2 = h2$V1,  logp=FALSE, cex.axis = 1.2, ylim = c(0, 8),
-          col=c("grey50","black"),genomewideline=F, suggestiveline=F,
-          ylab=expression(log~FDR), cex.lab=1.5) 
-dev.off()
-
-####################################
 ##########  Delta_p plot ###########
 ####################################
-setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/11_SGS/11_SGS_outlier_zoom_manhattan")
+setwd("~/Documents/Ryan_workplace/DelBay_adult/08_fish_exact/plot_zoom_in_example")
 source("manhattan.R")
 ###################### load maf values for delta_p ##########
 
-# test on chr1
-# 1_32280271
-source("manhattan.R")
-jpeg("Mahattan_chr1_45322251-45322750.jpg", width = 16, height = 9, units = 'in', res = 300)
-par(mar=c(4,8,1,6))
-par(mfrow=c(2,1))
-
-file1 = 'CHR19_all_minq20_minmq30_CV30_masked.mafs' #p1 CH
-file0 = 'REF19_all_minq20_minmq30_CV30_masked.mafs' #p0 REF
+file1 = 'REF19_minq20_minmq30_1x_CV30_masked.mafs' #p1 CH
+file0 = 'REF20_minq20_minmq30_1x_CV30_masked.mafs' #p0 REF
 dat1 = read.delim(file1, header = TRUE, sep='\t')
 dat0 = read.delim(file0, header = TRUE, sep='\t')
 p1 = dat1$knownEM #CH
@@ -69,46 +15,68 @@ delta_p = p1-p0
 id = paste0(dat0$chromo,'_',dat0$position)
 dat1$SNP <- id
 dat1$deltaP <- delta_p
+file2 = '5_16552716.txt' 
+h2 = read.delim(file2, header = FALSE, sep=',')
+h2 = as.list(h2)
 
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(45321751,45323250), logp=FALSE, cex.axis = 1.2, ylim = c(-0.2, 0.2),
+jpeg("Mahattan_control.jpg", width = 16, height = 9, units = 'in', res = 300)
+par(mar=c(4,8,1,6))
+par(mfrow=c(2,1))
+manhattan(dat1, chr="chromo",bp="position",p="deltaP", snp = "SNP", highlight2 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
+          col=c("grey","black"),genomewideline=F, suggestiveline=F,
+          ylab=expression('2019 Ref - 2020 Ref '*Delta~italic(p)), cex.lab=1.5) 
+
+file1 = 'CHR19_minq20_minmq30_1x_CV30_masked.mafs' #p1 CH
+file0 = 'CHR20_minq20_minmq30_1x_CV30_masked.mafs' #p0 REF
+dat1 = read.delim(file1, header = TRUE, sep='\t')
+dat0 = read.delim(file0, header = TRUE, sep='\t')
+p1 = dat1$knownEM 
+p0 = dat0$knownEM 
+delta_p = p1-p0
+id = paste0(dat0$chromo,'_',dat0$position)
+dat1$SNP <- id
+dat1$deltaP <- delta_p
+file2 = 'REF19_REF20_CHR19_CHR20_out_0.05_696.csv' 
+h2 = read.delim(file2, header = FALSE, sep=',')
+h2 = as.list(h2)
+
+#jpeg("Mahattan_ch5_dxy_150.jpg", width = 16, height = 9, units = 'in', res = 300)
+manhattan(dat1, chr="chromo",bp="position",p="deltaP", snp = "SNP", highlight2 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
+          col=c("grey","black"),genomewideline=F, suggestiveline=F,
+          ylab=expression('2019 Sur - 2020 Sur '*Delta~italic(p)), cex.lab=1.5) 
+abline(h=0, col = "grey80")
+dev.off()
+
+###################### test on chr1 ##########
+source("manhattan.R")
+jpeg("Mahattan_chr1_32280239_434.jpg", width = 16, height = 9, units = 'in', res = 300)
+par(mar=c(4,8,1,6))
+par(mfrow=c(2,2))
+file1 = 'CHR19_minq20_minmq30_1x_CV30_masked.mafs' #p1 CH
+file0 = 'REF19_minq20_minmq30_1x_CV30_masked.mafs' #p0 REF
+dat1 = read.delim(file1, header = TRUE, sep='\t')
+dat0 = read.delim(file0, header = TRUE, sep='\t')
+p1 = dat1$knownEM #CH
+p0 = dat0$knownEM #REF
+delta_p = p1-p0
+id = paste0(dat0$chromo,'_',dat0$position)
+dat1$SNP <- id
+dat1$deltaP <- delta_p
+file2 = '1_32280239_434.txt' 
+h2 = read.delim(file2, header = FALSE, sep=',')
+h2 = as.list(h2)
+
+manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(32275239, 32285239), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
           col=c("grey50","black"),genomewideline=F, suggestiveline=F,
           ylab=expression('Surv - Ref '*Delta~italic(p)), cex.lab=1.5) 
 abline(h=0, lty = 2, col = "red")
-abline(v=45322251, lty = 2, col = "green")
-abline(v=45322750, lty = 2, col = "green")
-lines(dat1$position[order(dat1$position)], dat1$deltaP[order(dat1$position)], xlim=range(dat1$position), ylim=range(dat1$deltaP), pch=16)
-
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(45321251,45323750), logp=FALSE, cex.axis = 1.2, ylim = c(-0.2, 0.2),
+manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(32230239, 32330239), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
           col=c("grey50","black"),genomewideline=F, suggestiveline=F,
           ylab=expression('Surv - Ref '*Delta~italic(p)), cex.lab=1.5) 
 abline(h=0, lty = 2, col = "red")
-abline(v=45322251, lty = 2, col = "green")
-abline(v=45322750, lty = 2, col = "green")
-lines(dat1$position[order(dat1$position)], dat1$deltaP[order(dat1$position)], xlim=range(dat1$position), ylim=range(dat1$deltaP), pch=16)
 
-
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(62651501,62653000), logp=FALSE, cex.axis = 1.2, ylim = c(-0.2, 0.2),
-          col=c("grey50","black"),genomewideline=F, suggestiveline=F,
-          ylab=expression('Surv - Ref '*Delta~italic(p)), cex.lab=1.5) 
-abline(h=0, lty = 2, col = "red")
-abline(v=62652001, lty = 2, col = "green")
-abline(v=62652500, lty = 2, col = "green")
-lines(dat1$position[order(dat1$position)], dat1$deltaP[order(dat1$position)], xlim=range(dat1$position), ylim=range(dat1$deltaP), pch=16, lwd=0.2)
-
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(62651001,62653500), logp=FALSE, cex.axis = 1.2, ylim = c(-0.2, 0.2),
-          col=c("grey50","black"),genomewideline=F, suggestiveline=F,
-          ylab=expression('Surv - Ref '*Delta~italic(p)), cex.lab=1.5) 
-abline(h=0, lty = 2, col = "red")
-abline(v=62652001, lty = 2, col = "green")
-abline(v=62652500, lty = 2, col = "green")
-lines(dat1$position[order(dat1$position)], dat1$deltaP[order(dat1$position)], xlim=range(dat1$position), ylim=range(dat1$deltaP), pch=16, lwd=0.2)
-
-
-
-
-
-file1 = 'HC_all_minq20_minmq30_CV30_masked.mafs' #p1 CH
-file0 = 'NB_all_minq20_minmq30_CV30_masked.mafs' #p0 REF
+file1 = 'HC_minq20_minmq30_1x_CV30_masked.mafs' #p1 CH
+file0 = 'NB_minq20_minmq30_1x_CV30_masked.mafs' #p0 REF
 dat1 = read.delim(file1, header = TRUE, sep='\t')
 dat0 = read.delim(file0, header = TRUE, sep='\t')
 p1 = dat1$knownEM 
@@ -118,61 +86,62 @@ id = paste0(dat0$chromo,'_',dat0$position)
 dat1$SNP <- id
 dat1$deltaP <- delta_p
 
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(32275271,32285271), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
+manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(32275239, 32285239), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
           col=c("grey50","black"),genomewideline=F, suggestiveline=F,
           ylab=expression('HC - NB '*Delta~italic(p)), cex.lab=1.5) 
 abline(h=0, lty = 2, col = "red")
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(32230271,32330271), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
+manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(32230239, 32330239), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
           col=c("grey50","black"),genomewideline=F, suggestiveline=F,
           ylab=expression('HC - NB '*Delta~italic(p)), cex.lab=1.5) 
 abline(h=0, lty = 2, col = "red")
 dev.off()
 
 
-###################### test on chr1 ##########
+# 1_60393516
 source("manhattan.R")
-jpeg("Mahattan_chr1_QTL_outlier.jpg", width = 16, height = 9, units = 'in', res = 300)
-file1 = 'CHR19_all_minq20_minmq30_CV30_masked.mafs' #p1 CH
-file0 = 'REF19_all_minq20_minmq30_CV30_masked.mafs' #p0 REF
+jpeg("Mahattan_chr1_60393516.jpg", width = 16, height = 9, units = 'in', res = 300)
+par(mar=c(4,8,1,6))
+par(mfrow=c(2,2))
+
+file1 = 'CHR19_minq20_minmq30_1x_CV30_masked.mafs' #p1 CH
+file0 = 'REF19_minq20_minmq30_1x_CV30_masked.mafs' #p0 REF
 dat1 = read.delim(file1, header = TRUE, sep='\t')
 dat0 = read.delim(file0, header = TRUE, sep='\t')
 p1 = dat1$knownEM #CH
 p0 = dat0$knownEM #REF
-delta_p = -(p1-p0)
+delta_p = p1-p0
 id = paste0(dat0$chromo,'_',dat0$position)
 dat1$SNP <- id
 dat1$deltaP <- delta_p
-file2 = 'SGS_QTL_outlier.txt' 
+file2 = '1_60393516.txt' 
 h2 = read.delim(file2, header = FALSE, sep=',')
 h2 = as.list(h2)
 
-par(mar=c(4,8,1,6))
-par(mfrow=c(2,2))
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(21800000, 28200000), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
+manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(60388516, 60398516), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
           col=c("grey50","black"),genomewideline=F, suggestiveline=F,
           ylab=expression('Surv - Ref '*Delta~italic(p)), cex.lab=1.5) 
 abline(h=0, lty = 2, col = "red")
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(21800000, 28200000), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
+manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(60343516, 60443516), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
           col=c("grey50","black"),genomewideline=F, suggestiveline=F,
           ylab=expression('Surv - Ref '*Delta~italic(p)), cex.lab=1.5) 
 abline(h=0, lty = 2, col = "red")
 
-file1 = 'HC_all_minq20_minmq30_CV30_masked.mafs' #p1 CH
-file0 = 'NB_all_minq20_minmq30_CV30_masked.mafs' #p0 REF
+file1 = 'HC_minq20_minmq30_1x_CV30_masked.mafs' #p1 CH
+file0 = 'NB_minq20_minmq30_1x_CV30_masked.mafs' #p0 REF
 dat1 = read.delim(file1, header = TRUE, sep='\t')
 dat0 = read.delim(file0, header = TRUE, sep='\t')
 p1 = dat1$knownEM 
 p0 = dat0$knownEM 
-delta_p = -(p1-p0)
+delta_p = p1-p0
 id = paste0(dat0$chromo,'_',dat0$position)
 dat1$SNP <- id
 dat1$deltaP <- delta_p
 
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(27360000, 27400000), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
+manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(60388516, 60398516), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
           col=c("grey50","black"),genomewideline=F, suggestiveline=F,
           ylab=expression('HC - NB '*Delta~italic(p)), cex.lab=1.5) 
 abline(h=0, lty = 2, col = "red")
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(27360000, 27400000), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
+manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 1), xlim = c(60343516, 60443516), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
           col=c("grey50","black"),genomewideline=F, suggestiveline=F,
           ylab=expression('HC - NB '*Delta~italic(p)), cex.lab=1.5) 
 abline(h=0, lty = 2, col = "red")
@@ -329,9 +298,9 @@ dev.off()
 
 ###################### test on chr4 ##########
 source("manhattan.R")
-jpeg("Mahattan_chr4_4_21759426.jpg", width = 16, height = 9, units = 'in', res = 300)
-file1 = 'CHR19_all_minq20_minmq30_CV30_masked.mafs' #p1 CH
-file0 = 'REF19_all_minq20_minmq30_CV30_masked.mafs' #p0 REF
+jpeg("Mahattan_chr4_21759426.jpg", width = 16, height = 9, units = 'in', res = 300)
+file1 = 'CHR19_minq20_minmq30_1x_CV30_masked.mafs' #p1 CH
+file0 = 'REF19_minq20_minmq30_1x_CV30_masked.mafs' #p0 REF
 dat1 = read.delim(file1, header = TRUE, sep='\t')
 dat0 = read.delim(file0, header = TRUE, sep='\t')
 p1 = dat1$knownEM #CH
@@ -355,8 +324,8 @@ manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chrom
           ylab=expression('Surv - Ref '*Delta~italic(p)), cex.lab=1.5) 
 abline(h=0, lty = 2, col = "red")
 
-file1 = 'HC_all_minq20_minmq30_CV30_masked.mafs' #p1 CH
-file0 = 'NB_all_minq20_minmq30_CV30_masked.mafs' #p0 REF
+file1 = 'HC_minq20_minmq30_1x_CV30_masked.mafs' #p1 CH
+file0 = 'NB_minq20_minmq30_1x_CV30_masked.mafs' #p0 REF
 dat1 = read.delim(file1, header = TRUE, sep='\t')
 dat0 = read.delim(file0, header = TRUE, sep='\t')
 p1 = dat1$knownEM 
@@ -522,57 +491,6 @@ manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chrom
 abline(h=0, lty = 2, col = "red")
 dev.off()
 
-
-###################### test on chr7 ##########
-source("manhattan.R")
-jpeg("Mahattan_chr7_8772371.jpg", width = 16, height = 9, units = 'in', res = 300)
-file1 = 'CHR19_all_minq20_minmq30_CV30_masked.mafs' #p1 CH
-file0 = 'REF19_all_minq20_minmq30_CV30_masked.mafs' #p0 REF
-dat1 = read.delim(file1, header = TRUE, sep='\t')
-dat0 = read.delim(file0, header = TRUE, sep='\t')
-p1 = dat1$knownEM #CH
-p0 = dat0$knownEM #REF
-delta_p = (p1-p0)
-id = paste0(dat0$chromo,'_',dat0$position)
-dat1$SNP <- id
-dat1$deltaP <- delta_p
-file2 = '7_8772371.txt' 
-h2 = read.delim(file2, header = FALSE, sep=',')
-h2 = as.list(h2)
-
-par(mar=c(4,8,1,6))
-par(mfrow=c(2,2))
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 7), xlim = c(8767371,8777371), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
-          col=c("grey50","black"),genomewideline=F, suggestiveline=F,
-          ylab=expression('Surv - Ref '*Delta~italic(p)), cex.lab=1.5) 
-abline(h=0, lty = 2, col = "red")
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 7), xlim = c(8722371,8822371), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
-          col=c("grey50","black"),genomewideline=F, suggestiveline=F,
-          ylab=expression('Surv - Ref '*Delta~italic(p)), cex.lab=1.5) 
-abline(h=0, lty = 2, col = "red")
-
-file1 = 'HC_all_minq20_minmq30_CV30_masked.mafs' #p1 CH
-file0 = 'NB_all_minq20_minmq30_CV30_masked.mafs' #p0 REF
-dat1 = read.delim(file1, header = TRUE, sep='\t')
-dat0 = read.delim(file0, header = TRUE, sep='\t')
-p1 = dat1$knownEM 
-p0 = dat0$knownEM 
-delta_p = (p1-p0)
-id = paste0(dat0$chromo,'_',dat0$position)
-dat1$SNP <- id
-dat1$deltaP <- delta_p
-
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 7), xlim = c(8767371,8777371), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
-          col=c("grey50","black"),genomewideline=F, suggestiveline=F,
-          ylab=expression('HC - NB '*Delta~italic(p)), cex.lab=1.5) 
-abline(h=0, lty = 2, col = "red")
-manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chromo == 7), xlim = c(8722371,8822371), highlight1 = h2$V1, logp=FALSE, cex.axis = 1.2, ylim = c(-0.6, 0.6),
-          col=c("grey50","black"),genomewideline=F, suggestiveline=F,
-          ylab=expression('HC - NB '*Delta~italic(p)), cex.lab=1.5) 
-abline(h=0, lty = 2, col = "red")
-dev.off()
-
-
 ###################### test on chr8 ##########
 source("manhattan.R")
 jpeg("Mahattan_chr8_56354987.jpg", width = 16, height = 9, units = 'in', res = 300)
@@ -625,8 +543,8 @@ dev.off()
 ###################### test on chr9 ##########
 source("manhattan.R")
 jpeg("Mahattan_chr9_77750634.jpg", width = 16, height = 9, units = 'in', res = 300)
-file1 = 'CHR19_all_minq20_minmq30_CV30_masked.mafs' #p1 CH
-file0 = 'REF19_all_minq20_minmq30_CV30_masked.mafs' #p0 REF
+file1 = 'CHR19_minq20_minmq30_1x_CV30_masked.mafs' #p1 CH
+file0 = 'REF19_minq20_minmq30_1x_CV30_masked.mafs' #p0 REF
 dat1 = read.delim(file1, header = TRUE, sep='\t')
 dat0 = read.delim(file0, header = TRUE, sep='\t')
 p1 = dat1$knownEM #CH
@@ -650,8 +568,8 @@ manhattan(chr="chromo",bp="position",p="deltaP", snp = "SNP", subset(dat1, chrom
           ylab=expression('Surv - Ref '*Delta~italic(p)), cex.lab=1.5) 
 abline(h=0, lty = 2, col = "red")
 
-file1 = 'HC_all_minq20_minmq30_CV30_masked.mafs' #p1 CH
-file0 = 'NB_all_minq20_minmq30_CV30_masked.mafs' #p0 REF
+file1 = 'HC_minq20_minmq30_1x_CV30_masked.mafs' #p1 CH
+file0 = 'NB_minq20_minmq30_1x_CV30_masked.mafs' #p0 REF
 dat1 = read.delim(file1, header = TRUE, sep='\t')
 dat0 = read.delim(file0, header = TRUE, sep='\t')
 p1 = dat1$knownEM 
@@ -719,11 +637,11 @@ dev.off()
 #######################
 #  plot delta_p      #
 #######################
-# plot distribution
+setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/08_comb_fish/trend_plot")
 
 #jpeg("EA_60_outlier_27_direction_trend.jpg", width = 16, height = 9, units = 'in', res = 300)
 #par(mfrow=c(1,1))
-outlier <- read.delim("/Users/ryan/Documents/Ryan_workplace/DelBay_adult/08_fish_exact/plot_allele_frequency_trend/REF19_CHR19_NB_HC_out_0.05_fish_new.txt", header = FALSE, sep='\t')
+outlier <- read.delim("REF19_CHR19_NB_HC_out_0.05_fish.txt", header = FALSE, sep='\t')
 outlier$id = paste0(outlier$V1,'_',outlier$V2)
 
 # load the dataset
@@ -821,38 +739,55 @@ cnt = length(df_same_direction_rank$chromo)
 cnt
 
 jpeg("Fisher_18_outlier_direction_trend.tiff", width = 16, height = 9, units = 'in', res = 300)
-#par(mfrow=c(1,1))
+par(mfrow=c(1,1))
 
 order = seq(1,length(df_same_direction_rank$chromo),1)
 df_same_direction_rank$order = order
-plot(df_same_direction_rank$order, df_same_direction_rank$freqNB,col="red",pch=20,cex=2.2,ylim=c(0,1),xlab="Outliers",ylab="Allele frequency",xlim=c(0,cnt)) # ylab=expression(italic("p"))
+plot(df_same_direction_rank$order, df_same_direction_rank$freqNB,col="red",pch=20,cex=1.4,ylim=c(0,1),xlab="Outliers",ylab="Allele frequency",xlim=c(0,cnt)) # ylab=expression(italic("p"))
 for (l in 1:nrow(df_same_direction_rank))
 {
   segments(l,df_same_direction_rank$freqHC[l],l,df_same_direction_rank$freqNB[l],col=mycol,lwd=2.0, lty = "dotted")
   if (df_same_direction_rank$Wdelta_p[l]<=0)
   {
-    points(l,df_same_direction_rank$freqHC[l],col="blue",pch=6,cex=2.2)
+    points(l,df_same_direction_rank$freqHC[l],col="blue",pch=6,cex=1.4)
   }
   if (df_same_direction_rank$Wdelta_p[l]>0)
   {
-    points(l,df_same_direction_rank$freqHC[l],col="blue",pch=17,cex=2.2)
+    points(l,df_same_direction_rank$freqHC[l],col="blue",pch=17,cex=1.4)
   }
 }
 
-points(df_same_direction_rank$order+0.24, df_same_direction_rank$freqRef,col="red",pch=20,cex=2.2,ylim=c(0,1),ylab=expression(italic("p")),xlab="SNPs",xlim=c(0,cnt))
+points(df_same_direction_rank$order+0.24, df_same_direction_rank$freqRef,col="red",pch=20,cex=1.4,ylim=c(0,1),ylab=expression(italic("p")),xlab="SNPs",xlim=c(0,cnt))
 for (l in 1:nrow(df_same_direction_rank))
 {
   segments(l+0.24,df_same_direction_rank$freqSurv[l],l+0.24,df_same_direction_rank$freqRef[l],col=mycol,lwd=2.0, lty = "dotted") #@ add by HG
   if (df_same_direction_rank$Wdelta_p[l]<=0)
   {
-    points(l+0.24,df_same_direction_rank$freqSurv[l],col="green",pch=6,cex=2.2)
+    points(l+0.24,df_same_direction_rank$freqSurv[l],col="green",pch=6,cex=1.4)
   }
   if (df_same_direction_rank$Wdelta_p[l]>0)
   {
-    points(l+0.24,df_same_direction_rank$freqSurv[l],col="green",pch=17,cex=2.2) #@ add by HG
+    points(l+0.24,df_same_direction_rank$freqSurv[l],col="green",pch=17,cex=1.4) #@ add by HG
   }
 }
 
+graph2ppt(file="trend",width=10,height=6)
 dev.off()
 
 
+plot(df_same_direction_rank$order, df_same_direction_rank$freqRef,col="red",pch=20,cex=1.4,ylim=c(0,1),xlab="Outliers",ylab="Allele frequency",xlim=c(0,cnt)) # ylab=expression(italic("p"))
+
+points(df_same_direction_rank$order, df_same_direction_rank$freqRef,col="red",pch=20,cex=1.4,ylim=c(0,1),ylab=expression(italic("p")),xlab="SNPs",xlim=c(0,cnt))
+for (l in 1:nrow(df_same_direction_rank))
+{
+  segments(l,df_same_direction_rank$freqSurv[l],l,df_same_direction_rank$freqRef[l],col=mycol,lwd=2.0, lty = "dotted") #@ add by HG
+  if (df_same_direction_rank$Wdelta_p[l]<=0)
+  {
+    points(l,df_same_direction_rank$freqSurv[l],col="green",pch=6,cex=1.4)
+  }
+  if (df_same_direction_rank$Wdelta_p[l]>0)
+  {
+    points(l,df_same_direction_rank$freqSurv[l],col="green",pch=17,cex=1.4) #@ add by HG
+  }
+}
+graph2ppt(file="trend_challenge",width=10,height=6)

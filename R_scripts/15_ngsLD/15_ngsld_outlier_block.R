@@ -2,7 +2,7 @@
 ## reorder the ps file from SGS test       ## 
 ############################################# 
 
-setwd("~/Dropbox/Mac/Documents/HG/DelBay_all_angsd_final/11_SGS/no_shared/indep_SGS_ps")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/11_SGS")
 ########### be really careful about the issue from order. clear everthing in the data before doing that.
 pname = "ps_CHR19_REF19.txt"
 dat = read.delim(pname, header = FALSE, sep='\t')
@@ -33,31 +33,34 @@ write.table(df1, "./SNP_list/CHR19_REF19_SGS_FDR05.txt", row.names=F, col.names 
 #########################################
 #######  process outlier for ngsLD ######
 #########################################
-setwd("~/Dropbox/Mac/Documents/HG/DelBay_all_angsd_final/15_ngsLD/ngsld_outlier_block")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/outliter_block_format/")
 ########################################################
 # Step 1: format the ps file and convert it to bed format
 ########################################################
 # must sort the position for ngsLD running
 format_bed <- function(pname, distance){
   #pname = "ps_Del19_HC_NB.txt"
-  dat1 = read.delim(pname, header = FALSE, sep='\t')
+  dat = read.delim(pname, header = FALSE, sep='\t')
   dat = dat[with(dat, order(V1, V2)),]
-  message("genome-wide positive ratio is ", length(dat1$V5[which(dat1$V3-dat1$V4>=0)])/length(dat1$V5))
-  dat1$delta_p <- dat1$V3-dat1$V4
-  dat1$adj = p.adjust(dat1$V6, method = 'BH')
-  colnames(dat1)=c('chromo', 'position', 'p1', 'p0', 'at_D', 'ps', 'raw_candidates', 'delta_p', 'adj')
-  dat2 <- dat1[which(dat1$adj< 0.05),] # FDR < 0.05
-  message("outlier positive ratio is ", length(dat2$chromo[which(dat2$delta_p>=0)])/length(dat2$chromo))
-  dat2 = dat2[with(dat2, order(chromo, position)),]
-  bed_list <- paste0(dat2$chromo, "\t" , dat2$position-distance, "\t", dat2$position+distance)
+  message("genome-wide positive ratio is ", length(dat$V5[which(dat$V3-dat$V4>=0)])/length(dat$V5))
+  dat$delta_p <- dat$V3-dat$V4
+  dat$V6[dat$V6 == 0] = 0.00001
+  dat$adj = p.adjust(dat$V6, method = 'BH')
+  colnames(dat)=c('chromo', 'position', 'p1', 'p0', 'at_D', 'ps', 'raw_candidates', 'delta_p', 'adj')
+  dat_ <- dat[which(dat$adj< 0.05),] # FDR < 0.05
+  message(paste0("total number of outliers is ", length(dat_$chromo)))
+  message("outlier positive ratio is ", length(dat_$chromo[which(dat_$delta_p>=0)])/length(dat_$chromo))
+  dat_ = dat_[with(dat_, order(chromo, position)),]
+  bed_list <- paste0(dat_$chromo, "\t" , dat_$position-distance, "\t", dat_$position+distance)
   print(head(bed_list))
   write.table(bed_list, paste0(pname, ".bed"), row.names=F, col.names = F, quote=F, sep="\t")
 }
 
-format_bed("ps_Del19_challenge.txt", 500)
-format_bed("ps_Del19_HC_NB.txt", 500)
-format_bed("ps_Del20_challenge.txt", 500)
-format_bed("ps_Del19_ARN_COH.txt", 500)
+format_bed("ps_Del19_challenge.txt", 250)
+format_bed("ps_Del19_HC_NB.txt", 250)
+format_bed("ps_Del19_HC_SR.txt", 250)
+format_bed("ps_Del19_ARN_COH.txt", 250)
+format_bed("ps_Del19_REF19_SR.txt", 250)
 ########################################################
 # Step 2: using bedtools to merge intervals
 ########################################################
@@ -93,8 +96,12 @@ format_rf <- function(pname){
   write.table(angsd_list, paste0(strsplit(pname, split = ".txt")[[1]][1], ".rf.txt"), row.names=F, col.names = F, quote=F, sep="\t")
 }
 
-format_rf("NB_random_2000.bed.merged.txt")
+format_rf("ps_Del19_ARN_COH.txt.bed.merged.txt")
+format_rf("ps_Del19_REF19_SR.txt.bed.merged.txt")
 
+format_rf("ps_Del19_challenge.txt.bed.merged.txt")
+format_rf("ps_Del19_HC_NB.txt.bed.merged.txt")
+format_rf("ps_Del19_HC_SR.txt.bed.merged.txt")
 
 ########################################################
 # Step 4: extract the rf part based on chromosomes

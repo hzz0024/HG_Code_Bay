@@ -1,6 +1,6 @@
 library(lattice)
 library(ggplot2)
-
+library(export)
 ####################################
 ##########  plot FDR values  ########
 ####################################
@@ -214,10 +214,13 @@ make_plot <- function(file_name){
   manhattan.plot(dat_sort$V1, dat_sort$V2, dat_sort$V4, sig.level=0.05)
 }
 
+jpeg("./plot/REF19_CHR19_NB_HC_out_all_fish.jpg", width = 8, height = 8, units = 'in', res = 300)
 make_plot("REF19_CHR19_NB_HC_out_all_fish.txt")
+dev.off()
 
-
-
+jpeg("./plot/REF19_SR_ARN_COH_out_all_fish.jpg", width = 8, height = 8, units = 'in', res = 300)
+make_plot("REF19_SR_ARN_COH_out_all_fish.txt")
+dev.off()
 
 ####################################
 #########  check shared SNPs #######
