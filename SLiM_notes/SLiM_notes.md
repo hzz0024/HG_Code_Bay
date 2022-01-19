@@ -16,7 +16,8 @@ inds = inds[ages == 0];
 
 #### set up the migration rate of individuals to adjacent subpops in nonWF model (p402)
 
-`numMigrants = rbinom(1, inds.size(), M);  
+```Slim
+numMigrants = rbinom(1, inds.size(), M);  
 if (numMigrants)
 {
 migrants = sample(inds, numMigrants);
@@ -33,14 +34,14 @@ for (subpop in sim.subpopulations)
 subpop.takeMigrants(migrants[newSubpopID == subpop.id]);
 }
 }
-`
+```
 
 #### sim.addSubpop can be written in two ways
 
 One is
 
 ```Slim
-1 { sim.addSubpop("p1", 500); }`
+1 { sim.addSubpop("p1", 500); }
 ```
 
 Another one is
