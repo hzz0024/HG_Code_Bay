@@ -35,9 +35,11 @@ subpop.takeMigrants(migrants[newSubpopID == subpop.id]);
 
 #### sim.addSubpop can be written in two ways
 
-One is 1 { sim.addSubpop("p1", 500); }
+`One is`
 
-Another one is 
+1 { sim.addSubpop("p1", 500); }
+
+`Another one is`
 
 1 early() {
 	sim.addSubpop("p1", 500);
