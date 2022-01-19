@@ -7,12 +7,39 @@ property is actually quite similar, but it is a property of Individual rather th
 #### make m2 colored:
 m2.color = "red";
 
-#### non-overlapping generations; kill off the parental generation (p402)     
+#### nonWF model non-overlapping generations; kill off the parental generation (p402)     
 inds = sim.subpopulations.individuals;
 // non-overlapping generations; kill off the parental generation
 ages = inds.age;
 inds[ages > 0].fitnessScaling = 0.0;
 inds = inds[ages == 0];
 
+#### set up the migration rate of individuals to adjacent subpops in nonWF model (p402)
+numMigrants = rbinom(1, inds.size(), M);
+if (numMigrants)
+{
+migrants = sample(inds, numMigrants);
+currentSubpopID = migrants.subpopulation.id;
+displacement = -1 + rbinom(migrants.size(), 1, 0.5) * 2; // -1 or +1
+newSubpopID = currentSubpopID + displacement;
+actuallyMoving = (newSubpopID >= 0) & (newSubpopID < N);
+if (sum(actuallyMoving))
+{
+migrants = migrants[actuallyMoving];
+newSubpopID = newSubpopID[actuallyMoving];
+// do the pre-planned moves into each subpop in bulk
+for (subpop in sim.subpopulations)
+subpop.takeMigrants(migrants[newSubpopID == subpop.id]);
+}
+}
 
+#### sim.addSubpop can be written in two ways
+
+One is 1 { sim.addSubpop("p1", 500); }
+
+Another one is 
+
+1 early() {
+	sim.addSubpop("p1", 500);
+}
  

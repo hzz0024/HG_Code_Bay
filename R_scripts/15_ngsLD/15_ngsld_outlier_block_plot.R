@@ -246,9 +246,9 @@ t.test(chr10$HC, chr10$SR)
 ####################################
 ##########  plot LD block   ########
 ####################################
-
-setwd("~/Dropbox/Mac/Documents/HG/DelBay_all_angsd_final/15_ngsLD")
-TMP_FILE = "NB.ngsld.output"
+library(export)
+setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/zoom_in/outlier_output")
+TMP_FILE = "CHR19.chr5.ngsld.output"
 
 df <- read.table(TMP_FILE, header=FALSE, stringsAsFactors=FALSE)
 colnames(df)=c('snp1', 'snp2', 'dis', 'r1', 'D1', 'D2', 'r')
@@ -268,11 +268,12 @@ for (ld in c("r")) {
   dist <- as.numeric(sub(".*:","",id))
 
   # Save plot
-  tiff(paste("LD_blocks", ld,"jpg", sep="."), units="in", width=6, height=6, res=300)
+  #tiff(paste("LD_blocks", ld,"jpg", sep="."), units="in", width=6, height=6, res=300)
   #pdf(paste("LD_blocks", ld,"pdf", sep="."), width=10, height=10)
   LDheatmap(m, genetic.distances=dist, geneMapLabelX=0.75, geneMapLabelY=0.25, title = NULL, color="blueToRed", LDmeasure=ld, SNP.name = SNPs$V1)
   require(grid)
   grid.edit("symbols", pch = 20, gp = gpar(cex = 1, col = "red")) # change the symbol size
   grid.edit(gPath("ldheatmap", "geneMap","SNPnames"), gp = gpar(cex=0.2, col = "red"))  # change the SNP label size
-  dev.off()
+  #dev.off()
 }
+graph2ppt(file="LD_block_chr5.pptx", width=4, height=3) 

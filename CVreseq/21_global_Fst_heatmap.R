@@ -8,6 +8,8 @@ library(ComplexHeatmap)
 library(circlize)
 win = 150
 
+setwd("~/Dropbox/CVreseq/IBD/global")
+
 data_process <- function(headname){
   # headname = "CS_HC_noinvers."
   name = paste0(headname, "_noinvers.150.csv")
@@ -67,7 +69,7 @@ library('gplots')
 
 Heatmap(dat2, name = "Global Fst", row_dend_reorder = FALSE, column_dend_reorder=FALSE, column_title = "Population/Line", 
         #col = colorRamp2(c(0, 0.1, 0.2), c("white", "blue", "red")),
-        col = colorRamp2(c(0, 0.2), c("white", "red")),
+        col = colorRamp2(c(0, 0.05), c("white", "red")),
         #row_dend_height = unit(2, "cm"),
         km = 2,
         #split = c(rep("Gulf", 4), rep("Atlantic", 9)),
@@ -85,7 +87,7 @@ col_dend = dendsort(hclust(dist(t(dat2))))
 
 Heatmap(dat2, name = "Global Fst", cluster_rows = row_dend, cluster_columns = col_dend, column_title = "Population/Line", 
         #col = colorRamp2(c(0, 0.1, 0.2), c("white", "blue", "red")),
-        col = colorRamp2(c(0, 0.2), c("white", "red")),
+        col = colorRamp2(c(0, 0.05), c("white", "red")),
         #row_dend_height = unit(2, "cm"),
         #split = c(rep("Gulf", 4), rep("Atlantic", 9)),
         row_names_gp = gpar(fontsize = 11),

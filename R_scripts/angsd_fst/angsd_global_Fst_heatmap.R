@@ -10,10 +10,11 @@ library(ComplexHeatmap)
 library(circlize)
 
 data_process <- function(headname){
-  # headname = "CS_HC"
+  # headname = "CHR19_REF19"
   name = paste0(headname, "_all_minq20_minmq30_CV30_masked_fold.average_fst.txt")
   DT = read.delim(name, header = FALSE, sep='\t')
-  return(DT$V2)
+  return(DT$V1) # weighted
+  #return(DT$V2) # unweighted 
 }
 
 #data_process("HCVA_NEH")

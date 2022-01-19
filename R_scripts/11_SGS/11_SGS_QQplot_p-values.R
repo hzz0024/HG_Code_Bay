@@ -32,3 +32,4 @@ jpeg("QQplot_ps.jpg", width = 16, height = 9, units = 'in', res = 300)
 par(mfrow=c(1,1))
 simpleQQPlot(dat$ps)
 dev.off()
+

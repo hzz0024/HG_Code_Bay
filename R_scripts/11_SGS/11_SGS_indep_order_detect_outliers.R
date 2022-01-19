@@ -209,7 +209,7 @@ dev.off()
 setwd("~/Dropbox/Mac/Documents/HG/DelBay_all_angsd_final/11_SGS/indep_SGS_angular_ps")
 # check the delta_p directionality
 check_dir <- function(pname){
-  #pname = "ps_Del19_challenge.txt"
+  pname = "ps_Del20_challenge.txt"
   dat = read.delim(pname, header = FALSE, sep='\t')
   message("number of SNPs with positive D' is ", length(dat$V5[which(dat$V5>=0)]))
   dat$delta_p <- dat$V3-dat$V4

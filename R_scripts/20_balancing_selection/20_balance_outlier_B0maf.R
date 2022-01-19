@@ -103,6 +103,10 @@ format_mafs <- function(headname){
   }
 }
 
+setwd("~/Dropbox/Mac/Documents/HG/DelBay20_adult/20_balancing_selection/format")
+format_mafs("REF20")
+format_mafs("CHR20")
+
 setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/20_balancing_selection/random/SR_HC/")
 format_mafs("HC")
 format_mafs("SR")
@@ -112,6 +116,7 @@ format_mafs("NB")
 setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/20_balancing_selection/random/CHR19_REF19")
 format_mafs("REF19")
 format_mafs("CHR19")
+
 format_output <- function(pop, j){
     dat <- read.table(paste0(pop, "_NC_03578",j,".1.mafs.output.500bp.s1.txt"), header = T)
     dat$chromo = paste0("NC_03578", j, '.1')

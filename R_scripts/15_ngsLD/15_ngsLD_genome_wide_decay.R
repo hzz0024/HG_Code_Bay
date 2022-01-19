@@ -18,6 +18,7 @@ write.table(angsd_list, paste0(strsplit(pname, split = ".txt")[[1]][1], ".rf.txt
 ###   format the ngsLD output    ###
 ####################################
 setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/genome_wide_LD/output_after_relanedness_rm/")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/genome_wide_LD/no_downsampling/")
 #ngsLD outputs a TSV file with LD results for all pairs of sites for which LD was calculated, where the first two columns are positions of the SNPs, the third column is the distance (in bp) between the SNPs, and the following 4 columns are the various measures of LD calculated (r^2 from pearson correlation between expected genotypes, D from EM algorithm, D' from EM algorithm, and r^2 from EM algorithm). 
 
 rm(list=ls())
@@ -51,14 +52,15 @@ format<-function(ngsLD_output, win){
 ####################################
 out = list()
 chr <- seq(0,9)
-pop <- c("HCD","ARN","COH", "SRD", "NBD", "CH1", "RE1")
-#pop <- c("CH1", "RE1")
+#pop <- c("HCD","ARN","COH", "SRD", "NBD", "CH1", "RE1")
+pop <- c("CH2", "RE2")
 for (c in chr) {
   for (p in pop){
     name0 = paste0(p, ".chr", c, ".output")
     out[[name0]] = format(paste0(p, ".chr0", c, ".output"), 500)
   }
 }
+save(out, file = "./output/ngsLD_Del20.RData")
 save(out, file = "./output/ngsLD.no.correctrelatedness.100k.RData")
 save(out, file = "./output/ngsLD.correctrelatedness.100k.RData")
 save(out, file = "./output/ngsLD.RData")
@@ -74,6 +76,7 @@ setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/genome_wide_LD")
 library(ggplot2) # cut_interval()
 load("./output/ngsLD.RData")
 load("./output/ngsLD.correctrelatedness.100k.RData")
+load("./output/ngsLD_Del20.RData")
 # check the rdata
 #LDrdata <- get(load('data/LDanalysis.500bpBINS.rdata'))
 pop <- substr(names(out),1,3)
@@ -88,7 +91,7 @@ stats <- c()
 cbPalette <- c("#E97302", "#F5191C", "#EAC728", "#A71B4B", "#4461A8", "#7A7A7A", "#0BC0B3")
 for (i in 1:7)
 {
-  plot(1,1,xlim=c(0,2),ylim=c(0,0.5),xlab="distance (kbp)", ylab="LD (r^2)",type="n")
+  plot(1,1,xlim=c(0,50),ylim=c(0,0.5),xlab="distance (kbp)", ylab="LD (r^2)",type="n")
   tmp <- out[site==levels(site)[i]]
   
   for(j in 1:length(tmp))
@@ -124,10 +127,10 @@ for (i in 1:7)
   }
 }
 
-write.table(stats,"output/ngsLD.stats.100K.500bpBINS.csv",sep=",",row.names=F,quote = F)
+write.table(stats,"output/ngsLD.Del20.stats.100K.500bpBINS.csv",sep=",",row.names=F,quote = F)
 
-graph2ppt(file="output/LD_100K_relat_correction_zoom.pptx", width=12, height=12)
-
+graph2ppt(file="output/LD_100K_Del20_zoom.pptx", width=12, height=12)
+graph2ppt(file="output/LD_100K_Del19.pptx", width=12, height=12)
 #dev.off()
 
 ################################################

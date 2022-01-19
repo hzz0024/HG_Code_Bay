@@ -39,7 +39,7 @@ setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/15_ngsLD/outliter_block_format/
 ########################################################
 # must sort the position for ngsLD running
 format_bed <- function(pname, distance){
-  #pname = "ps_Del19_HC_NB.txt"
+  pname = "ps_CHR20_REF20.txt"
   dat = read.delim(pname, header = FALSE, sep='\t')
   dat = dat[with(dat, order(V1, V2)),]
   message("genome-wide positive ratio is ", length(dat$V5[which(dat$V3-dat$V4>=0)])/length(dat$V5))
@@ -56,6 +56,7 @@ format_bed <- function(pname, distance){
   write.table(bed_list, paste0(pname, ".bed"), row.names=F, col.names = F, quote=F, sep="\t")
 }
 
+format_bed("ps_CHR20_REF20.txt", 250)
 format_bed("ps_Del19_challenge.txt", 250)
 format_bed("ps_Del19_HC_NB.txt", 250)
 format_bed("ps_Del19_HC_SR.txt", 250)

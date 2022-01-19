@@ -441,28 +441,34 @@ format_random_output <- function(pop, j, random_list){
 ####### HC_NB random
 setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/20_balancing_selection/B_score/global_output")
 df_1=data.frame()
-#for (i in seq(0,9)) {
-for (i in seq(4,4)) {
-  df_1 = rbind(df_1,format_outlier_output("CHR19", i, "ps_Del19_challenge_chr5.list"))
+for (i in seq(0,9)) {
+#for (i in seq(4,4)) {
+  #df_1 = rbind(df_1,format_outlier_output("CHR19", i, "ps_Del19_challenge.txt.outlier.list"))
+  df_1 = rbind(df_1,format_outlier_output("REF19", i, "ps_Del19_challenge.txt.outlier.list"))
+  #df_1 = rbind(df_1,format_outlier_output("NB", i, "ps_Del19_HC_NB.txt.outlier.list"))
   colnames(df_1)=c('chromo', 'position', 'CLR', 'nSites', 'SNP')
 }
 
 df_2=data.frame()
-#for (i in seq(0,9)) {
-for (i in seq(4,4)) {
-  df_2 = rbind(df_2,format_random_output("CHR19", i))
+for (i in seq(0,9)) {
+#for (i in seq(4,4)) {
+  #df_2 = rbind(df_2,format_random_output("CHR19", i))
+  df_2 = rbind(df_2,format_random_output("REF19", i))
+  #df_2 = rbind(df_2,format_random_output("NB", i))
   colnames(df_2)=c('chromo', 'position', 'CLR', 'nSites', 'SNP')
 }
 
-
+library(dplyr)
+library(Rmisc)
+library(export)
 combine_df <- function(df_1, df_2){
   df_2 = sample_n(df_2, dim(df_1)[1])
   df_1 <- df_1[which(df_1$CLR != 0), ]
-  df_1 <- df_1[which(df_1$nSites >= 1), ]
-  #df_1 <- df_1[which(df_1$nSites >= 10), ]
+  #df_1 <- df_1[which(df_1$nSites >= 1), ]
+  df_1 <- df_1[which(df_1$nSites >= 10), ]
   df_2 <- df_2[which(df_2$CLR != 0), ]
-  #df_2 <- df_2[which(df_2$nSites >= 10), ]
-  df_2 <- df_2[which(df_2$nSites >= 1), ]
+  df_2 <- df_2[which(df_2$nSites >= 10), ]
+  #df_2 <- df_2[which(df_2$nSites >= 1), ]
   if(dim(df_1)[1] < dim(df_2)[1]){
     idx = seq(1:dim(df_2)[1])
     random = sort(sample(idx, dim(df_1)[1]))
@@ -478,7 +484,7 @@ combine_df <- function(df_1, df_2){
 }
 
 random_mean <- c()
-for(i in seq(1,100)){
+for(i in seq(1,1000)){
   df <- combine_df(df_1, df_2)
   df2 <- summarySE(df, measurevar="CLR", groupvars=c("group"))
   message(i)
@@ -499,6 +505,7 @@ hist_p <- ggplot(random_mean, aes(x=random_mean, fill=NULL)) +
              linetype="dashed")+
   labs(x=expression(Balancing~selection~score~"("~B0MAF~")"), y = "Count")+
   theme_classic() +
+  ylim(0, 250)+
   theme(text = element_text(size = 15)) +
   geom_text(x=observed_mean-0.0022, label=paste("SGS candidate mean \n", "=", round(observed_mean, digits = 3)), y=15, color="red", size = 4)+
   geom_text(x=random_mean_point+0.0027, label=paste("Mean of null distribution =\n", "=", round(random_mean_point, digits = 3)), y=18, color="Black", size = 4)+
@@ -508,6 +515,6 @@ hist_p <- ggplot(random_mean, aes(x=random_mean, fill=NULL)) +
 
 hist_p
 
-graph2ppt(file="HC_NB_B0MAF_comp", width=4, height=3) 
-
-graph2ppt(file="CHR19_REF19_B0MAF_comp", width=4, height=3) 
+graph2ppt(file="HC_NB_NB_B0MAF_comp", width=4, height=3) 
+graph2ppt(file="CHR19_REF19_CHR19_B0MAF_comp", width=4, height=3)
+graph2ppt(file="CHR19_REF19_REF19_B0MAF_comp", width=4, height=3) 
