@@ -8,11 +8,14 @@ property is actually quite similar, but it is a property of Individual rather th
 m2.color = "red";
 
 #### nonWF model non-overlapping generations; kill off the parental generation (p402)     
+
+```slim
 inds = sim.subpopulations.individuals;
 // non-overlapping generations; kill off the parental generation
 ages = inds.age;
 inds[ages > 0].fitnessScaling = 0.0;
 inds = inds[ages == 0];
+```
 
 #### set up the migration rate of individuals to adjacent subpops in nonWF model (p402)
 
