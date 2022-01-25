@@ -2,6 +2,7 @@
 library(tidyverse)
 library(clusterProfiler)
 library(stringr)
+library(viridis)
 # set up working location
 setwd("~/Documents/HG/DelBay19_adult/17_annotation/Clusterprofiler_steps/05_formal_run")
 

@@ -1,0 +1,147 @@
+initialize () {
+//Set up neutral mutations and genomic element type
+	initializeMutationRate(1e-7);
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	initializeGenomicElementType("g1", m1, 1.0);
+
+//Set up QTLs and genemoic element
+	initializeMutationType("m2", 0.5, "f", 0.0);
+	initializeGenomicElementType("g2", m2, 0.01);
+	m2.convertToSubstitution = F;
+	m2.mutationStackPolicy = "l";
+
+//Set up 10 chromosomes 
+	defineConstant("C", 10);
+	defineConstant("W", 1000);
+	pos = 0;
+	q = NULL;
+	for (i in 1:C)
+	{ initializeGenomicElement(g1, pos, pos + W-1);
+		pos = pos + W;
+		initializeGenomicElement(g2, pos, pos);
+		q = c(q, pos);
+		pos = pos + 1;
+		initializeGenomicElement(g1, pos, pos + W-1);
+		pos = pos + W;
+	}
+	//Create chromosome map with independent sections (recombining 50% of the time) 
+	defineConstant("Q", q);
+	rates = c(rep(c(1e-8, 0.5), C-1), 1e-8);
+	ends = (repEach(Q + W, 2) + rep(c(0,1), C))[0:(C*2 - 2)];
+	initializeRecombinationRate(rates, ends);
+}
+4:300 early() {
+//Output the contens of all logs, write file for generation n-1
+	path = "/Users/avi/Desktop/HMHS_0523.csv";
+	subpops = sim.subpopulations;
+	for (subpopID in 2:7) {
+		subpop = subpops[subpops.id == subpopID];
+		genomes = subpop.getValue("Genomes");
+		out_par_fitness = mean(subpop.getValue("GEN_LOG"));
+		out_juv_fitness = subpop.getValue("SIM_LOG_JUV");
+		out_par_phenotype = subpop.getValue("SIM_LOG_PAR_PHE");
+		out_juv_phenotype = subpop.getValue("SIM_LOG_JUV_PHE");
+		out_juv_var_phenotype = subpop.getValue("SIM_LOG_JUV_PHE_VAR");
+	out_par_var_phenotype = subpop.getValue("SIM_LOG_PAR_PHE_VAR");
+
+		writeFile(path, paste0(sim.generation - 1," , ","P", subpopID,", ", out_par_fitness,", ",out_juv_fitness,", ",out_par_phenotype,", ",out_juv_phenotype,", ",((out_par_fitness - out_juv_fitness)/out_par_fitness),",",out_par_var_phenotype,", ",out_juv_var_phenotype), T);
+	}
+}
+1 early() {
+//Generate 8 populations with migration rates specified in migration matrix
+	for (i in 1:8) {
+		sim.addSubpop(i, 600);
+		subpops = sim.subpopulations;
+		lines = readFile("/Users/avi/Desktop/SLiM_Simulation/Migration_Matrix/Stepping_stone_high.csv");
+	}
+	for (line in lines) {
+		fields = strsplit(line, ",");
+		i=asInteger(fields[0]);
+		j=asInteger(fields[1]);
+		m=asFloat(fields[2]);
+		p_i=subpops[subpops.id == i];
+		p_j=subpops[subpops.id == j];
+		p_j.setMigrationRates(p_i, m);
+	}
+}
+1:300 early() {
+	subpops = sim.subpopulations;
+	for (subpopID in 2:7) {
+	//Set up logs, will be used to store parental and juvenile data. See Log Key google drive for a comprehensive guide
+		subpop = subpops[subpops.id == subpopID];
+		subpop.setValue("SIM_LOG_PAR", NULL);
+		subpop.setValue("SIM_LOG_PAR_PHE", NULL);
+		subpop.setValue("SIM_LOG_JUV_PHE", NULL);
+		subpop.setValue("GEN_LOG", NULL);
+		subpop.setValue("PHE_LOG", NULL);
+		subpop.setValue("PAR_RAW_PHE", NULL);
+		subpop.setValue("JUV_RAW_PHE", NULL);
+		subpop.setValue("Genomes", NULL);
+		subpop.setValue("SIM_LOG_PAR_PHE_VAR", NULL);
+	subpop.setValue("SIM_LOG_JUV_PHE_VAR", NULL);
+		juv_fitness = mean(subpop.cachedFitness(NULL));
+		subpop.setValue("SIM_LOG_JUV", juv_fitness);
+
+	
+	}
+}
+3:300 early() {
+//Record juvenile population statistics 
+	subpops = sim.subpopulations;
+	inds = subpops.individuals;
+	for (subpopID in 2:7) {
+		subpop = subpops[subpops.id == subpopID];
+		juv_phenotype = mean(subpop.individuals.tagF);
+		subpop.setValue("SIM_LOG_JUV_PHE", juv_phenotype);
+		juv_raw_phenotype = subpop.individuals.tagF;
+		subpop.setValue("JUV_RAW_PHE", juv_raw_phenotype);
+		juv_var_phenotype = var(subpop.individuals.tagF);
+	subpop.setValue("SIM_LOG_JUV_PHE_VAR", juv_var_phenotype);
+
+	}
+}
+2:300 modifyChild() {
+//During modify child call back, record parental statistics in a subpopulation specific log
+	par_fitness = mean(sourceSubpop.cachedFitness(c(parent1, parent2).index));
+	sourceSubpop.setValue("GEN_LOG", c(sourceSubpop.getValue("GEN_LOG"), par_fitness));
+	
+	par_phenotypes = mean(c(parent1, parent2).tagF);
+	sourceSubpop.setValue("PHE_LOG", c(sourceSubpop.getValue("PHE_LOG"), par_phenotypes));
+	par_raw_phenotypes = c(parent1, parent2).tagF;
+	sourceSubpop.setValue("PAR_RAW_PHE", c(sourceSubpop.getValue("PAR_RAW_PHE"), par_raw_phenotypes));
+return T;
+}
+2:300 late() {
+//Compile parental population statistics into subpopulation means 
+	subpops = sim.subpopulations;
+	for (subpopID in 2:7) {
+		subpop = subpops[subpops.id == subpopID];
+		parent_mean = mean(subpop.getValue("GEN_LOG"));
+		subpop.setValue("SIM_LOG_PAR", c(subpop.getValue("SIM_LOG_PAR"), parent_mean));
+		parent_mean_phe = mean(subpop.getValue("PHE_LOG"));
+		subpop.setValue("SIM_LOG_PAR_PHE", c(subpop.getValue("SIM_LOG_PAR_PHE"), parent_mean_phe));
+parent_var_phe = var(subpop.getValue("PHE_LOG"));
+subpop.setValue("SIM_LOG_JUV_PHE_VAR", parent_var_phe);
+par_raw = subpop.getValue("PAR_RAW_PHE");
+writeFile("/Users/avi/Desktop/11XTreatment/par_raw_HMHS.csv", paste(sim.subpopulations.id,",",par_raw),T); 
+	}
+}
+1 late(){
+//In the first generation, make standing variation at QTLs
+	g = sim.subpopulations.genomes;
+	for (q in Q) {
+		isPlus = asLogical(rbinom(size(g), 1, 0.5));
+		g[isPlus].addNewMutation(m2, 0.05, q);
+}
+}
+fitness(m2) { return 1.0; }
+1: 300 late() {
+//Set population specific fitness regimes 
+for (subpop in c(p1,p2, p3, p4, p5, p6, p7,p8)){
+	inds = subpop.individuals;
+	phenotype = inds.sumOfMutationsOfType(m2);
+	inds.tagF = phenotype;
+	optimum = (subpop.id <= 4) ? 0.0 else 1.0;
+	inds.fitnessScaling = dnorm(phenotype - optimum, 0, 0.1);
+}
+}

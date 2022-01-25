@@ -12,7 +12,7 @@ setwd("~/Dropbox/CVreseq/ArcGIS")
 ## file : the main file with the locations; should be text delimited
 ## file.strucutre: the main file structure: 1 to “Name Lon Lat” or 2 to “Name Lat Lon”
 ## file.header: define if the text file has a header with the column names (TRUE or FALSE)
-## resolution: the resolution jjjjjjjjof the study area and the buffer to use around the sites. 
+## resolution: the resolution of the study area and the buffer to use around the sites. 
 ## buffer: the buffer can be a simple value or a vector such as c(xmin,xmax,ymin,ymax). 
 ## export.file: file to export the results as a text delimited file (TRUE or FALSE)
 
