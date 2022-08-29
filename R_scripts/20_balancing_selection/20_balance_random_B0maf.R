@@ -157,7 +157,7 @@ format_mafs <- function(headname, k){
       }
     }
     output = data.frame(pos_, genPos_, g_a_, g_tot_)
-    output = output[order(output$pos_), ]
+    output = output[order(output$pos_), ]               
     print(length(output$pos_))
     write.table(output, file = paste0(headname,"_",k, "_",j, ".mafs.txt"), sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
   }

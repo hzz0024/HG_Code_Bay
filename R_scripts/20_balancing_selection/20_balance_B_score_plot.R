@@ -31,7 +31,7 @@ HC_SR_outlier <- format_bed("")
 
 
 format_output <- function(pop, j){
-    dat <- read.table(paste0(pop, "_NC_03578",j,".1.mafs.output.500bp.s1.txt"), header = T)
+    dat <- read.table(paste0("./CHR19_REF19/",pop, "_NC_03578",j,".1.mafs.output.500bp.s1.txt"), header = T)
     dat$chromo = paste0("NC_03578", j, '.1')
     dat$SNP <- paste0(dat$chromo,'_',dat$physPos)
     dat = dat[with(dat, order(chromo, physPos)),]

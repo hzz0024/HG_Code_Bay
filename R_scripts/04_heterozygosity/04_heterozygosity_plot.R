@@ -15,7 +15,7 @@
 ####### format data and produce the csv file #######
 ####################################################
 library(data.table)
-setwd("~/Dropbox/Mac/Documents/HG/DelBay_all_angsd_final/04_heterozygosity/Angsd_output")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay_final/04_heterozygosity")
 files <- list.files(pattern="*.ml", full.names=TRUE, recursive=FALSE)
 outs = sapply(files, function(x) {
   t <- read.delim(x, header = FALSE, sep=' ')
@@ -33,32 +33,47 @@ library("Hmisc")
 library("gtable")
 library("gridExtra")
 library(export)
+library(wesanderson)
 library(cowplot) 
  # OLD color values=c("#1BA3C6", "#33A65C", "#F8B620", "#E03426", "#EB73B3", "#AEC7E8", "#FF7F0E", "#9EDAE5", "#FFBB78")
 cbPalette <- c("#A71B4B", "#E97302", "#EAC728", "#0BC0B3", "#4461A8", "#F5191C", "#7A7A7A")
 
-setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/04_heterozygosity/plot")
-file = "DelBay19_het_summary.csv"
+setwd("~/Dropbox/Mac/Documents/HG/DelBay_final/04_heterozygosity")
+file = "DelBay_n_1478_het_summary.csv"
 df <- read.delim(file, header = TRUE, sep=',')
+df <- df[which(df$Heterozygosity > 1e-6),]
 # reorder the populations # https://www.r-graph-gallery.com/22-order-boxplot-labels-by-names.html
 #df$Pop <- factor(df$Pop , levels=c("HC", "ARN", "COH", "SR", "NB", "19 Surv.","19 Ref","20 Surv.","20 Ref"))
-df$Pop <- factor(df$Pop , levels=c("HC", "ARN", "COH", "SR", "NB", "Surv","Ref"))
+df$Pop <- factor(df$Pop , levels=c("18_HC", "18_ARN", "18_COH", "18_SR", "18_NB", 
+                                   "19_HC", "19_ARN", "19_COH", "19_SR", "19_NB",
+                                   "21_HC", "21_ARN", "21_COH", "21_SR", "21_BS", "21_BEN", "21_NAN", "21_NB", 
+                                   "21_spat_HC", "21_spat_ARN", "21_spat_Nan", "19_Sur", "19_Ref", "20_Sur", "20_Ref", "A_20", "B_20", "C_20" ))
+
+cbPalette <- wes_palette("Zissou1", 28, type = "continuous")
+order <- c("18_HC", "18_ARN", "18_COH", "18_SR", "18_NB", 
+           "19_HC", "19_ARN", "19_COH", "19_SR", "19_NB",
+           "21_HC", "21_ARN", "21_COH", "21_SR", "21_BS", "21_BEN", "21_NAN", "21_NB", 
+           "21_spat_HC", "21_spat_ARN", "21_spat_Nan", "19_Sur", "19_Ref", "20_Sur", "20_Ref", "A_20", "B_20", "C_20" )
 
 p1 <- ggplot(df, aes(x=Pop, y=Heterozygosity, fill=as.factor(Pop))) +
-  #geom_boxplot(fatten = NULL, alpha = 0.8)+
-  geom_violin(trim=FALSE, alpha = 0.8, width=1)+
-  stat_summary(fun.y=mean, geom="point", shape=20, size=4, color="black")+
+  geom_boxplot(linetype = "dashed", outlier.shape = NA) +
+  stat_boxplot(aes(ymin = ..lower.., ymax = ..upper..), outlier.shape = NA) +
+  stat_boxplot(geom = "errorbar", aes(ymin = ..ymax..)) +
+  stat_boxplot(geom = "errorbar", aes(ymax = ..ymin..)) +
+  #geom_violin(trim=FALSE, alpha = 0.8, width=1.1)+
+  #stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="black")+
   theme(legend.position="right")+
-  #scale_colour_manual(values=cbPalette, breaks=c("HC", "ARN", "COH", "SR", "NB", "Surv", "Ref"))+
-  scale_fill_manual(values=cbPalette, breaks=c("HC", "ARN", "COH", "SR", "NB", "Surv", "Ref"))+
-  cowplot::theme_cowplot()+
-  theme(panel.grid.major = element_line(color = "lightgrey",
-                                        size = 0.5,
-                                        linetype = "dashed"))
+  theme(axis.text.x=element_text(angle = 90, vjust = 0.5))+
+  #scale_colour_manual(values=cbPalette, breaks=order)+
+  scale_fill_manual(values=cbPalette, breaks=order)+
+  theme_classic()+ 
+  guides(fill=guide_legend(title="Population"))+
+  theme(text=element_text(family="Times New Roman", face="bold", size=14, colour="black"),
+        axis.text.x = element_text(angle = 75, vjust = 1, hjust=1))
 
 p1
 
-graph2ppt(file="04_het_Del19.pptx", width=6, height=4)
+graph2ppt(file="04_het_DelBay.pptx", width=14, height=10)
 
 ####################################################
 ####### plot the het for different populations #####

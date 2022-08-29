@@ -4,11 +4,19 @@ library("ggrepel")
 library("scales")
 library("MASS")
 library(export)
+library("viridis")
+library(wesanderson)
 setwd("~/Dropbox/Mac/Documents/HG/DelBay19_adult/03_global_pca")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay_final/02_depth")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay_final/03_PCA_MDS")
 source("individual_pca_functions.R")
 # for color palettes see https://r-charts.com/color-palettes/#discrete > paletteer_d("ggthemes::Hue_Circle")
-file = 'Del19_all_info.txt' 
+file = 'Challenge_392_info.txt' 
+file = 'All_1490_info.txt' 
+file = 'All_wild_info.txt' 
 all_label = read.delim(file, header = TRUE, sep='\t')
+all_label$pop <- factor(all_label$pop, levels = c("18_HC", "18_ARN", "18_COH", "18_SR", "18_NB", "19_HC", "19_ARN", "19_COH", "19_SR", "19_NB", "21_HC", "21_ARN", "21_COH", "21_SR", "21_BS", "21_BEN", "21_NAN", "21_NB"))
+cbPalette <- wes_palette("Zissou1", 18, type = "continuous")
 
 PCoA <- function(dist_matrix, ind_label, pop_label, k, x_axis, y_axis, show.point=T, show.label=T, show.ellipse=T, show.line=T, alpha=0.5, index_exclude=vector())
 {
@@ -38,19 +46,43 @@ PCoA <- function(dist_matrix, ind_label, pop_label, k, x_axis, y_axis, show.poin
     var_explained <- round(eigen_value/sum(eigen_value)*100, 2)
     assign("pcoa_table", mds, .GlobalEnv)
     assign("var_explained", var_explained, .GlobalEnv)
-    
-    cbPalette <- c("#A71B4B", "#E97302", "#EAC728", "#0BC0B3", "#4461A8", "#F5191C", "#7A7A7A")
+    cbPalette <- wes_palette("Zissou1", 20, type = "continuous")
+    # cbPalette <- c("#E6E6FA", "#ADD8E6", "#87CEFA", "#B0C4DE", "#5F9EA0", "#6495ED", 
+    #                "#ffa600", "#ffa600", "#ffa600",
+    #                "#bd5bff", "#bd5bff", "#bd5bff",
+    #                "#f84945", "#f84945", "#f84945",
+    #                "#f38bff", "#f38bff", "#f38bff")
+    #cbPalette <- c("#E6E6FA", "#ADD8E6", "#87CEFA", "#B0C4DE", "#5F9EA0", "#C0C0C0", "#778899", "#6495ED",
+    #               "#ffa600", "#ffa600", "#ffa600",
+    #               "#bd5bff", "#bd5bff", "#bd5bff",
+    #               "#f84945", "#f84945", "#f84945",
+    #               "#f38bff", "#f38bff", "#f38bff")
+    #cbPalette <- c("#E6E6FA", "#f84945", "#87CEFA", "#f38bff") # code for challenges
+    #cbPalette <- c("#A71B4B", "#E97302", "#EAC728", "#0BC0B3", "#4461A8", "#F5191C", "#7A7A7A")
+    #cbPalette = wes_palette("Zissou1", 18, type = "continuous")
     #idx_in_range = mds$dist_1> 2 & mds$dist_2 > 2
-    
+    pop_list <- c("18_HC", "18_ARN", "18_COH", "18_SR", "18_NB", "19_HC", "19_ARN", "19_COH", "19_SR", "19_NB", "21_HC", "21_ARN", "21_COH", "21_SR", "21_BS", "21_BEN", "21_NAN", "21_NB")
+    #pop_list <- c("18_adult", "19_adult", "21_adult", "19_challenge", "20_challenge", "21_spat", 
+    #              "18_adult_C1", "19_challenge_C1", "21_adult_C1", 
+    #              "18_adult_C2", "19_challenge_C2", "21_adult_C2", 
+    #              "20_challenge1_C3", "20_chalelnge2_C3", "21_adult_C3", 
+    #              "20_challenge1_C4", "20_chalelnge2_C4",  "21_adult_C4")
+    #pop_list <- c("18_adult", "19_adult", "21_adult", "19_Sur", "19_Ref","20_Sur", "20_Ref", "21_spat",
+    #              "18_adult_C1", "19_challenge_C1", "21_adult_C1",
+    #              "18_adult_C2", "19_challenge_C2", "21_adult_C2",
+    #              "20_challenge1_C3", "20_chalelnge2_C3", "21_adult_C3",
+    #              "20_challenge1_C4", "20_chalelnge2_C4",  "21_adult_C4")
+    #pop_list <- c("19_Sur", "19_Ref","20_Sur", "20_Ref")
     PCoA_plot<-ggplot(data=mds[,], aes(x=mds[,x_axis+2], y=mds[,y_axis+2], color=population,label=population, shape=population)) + 
         
         #scale_shape_manual(values = c(rep(c(15,16,17,18),2), 15), breaks=c("CL", "CLP", "CS19", "CS", "HC", "HC_VA","HI","SL","SM")) + ## @HG changed the name for your own plots
         #scale_colour_manual(values=cbPalette, breaks=c("CL", "CLP", "CS19", "CS", "HC", "HC_VA","HI","SL","SM"))+ ## @HG changed the name for your own plots
-        scale_shape_manual(values = c(rep(c(15,16,17,18),2), 15), breaks=c("HC", "ARN", "COH", "SR", "NB", "CHR19", "REF19")) + ## @HG changed the name for your own plots
-        scale_colour_manual(values=cbPalette, breaks=c("HC", "ARN", "COH", "SR", "NB", "CHR19", "REF19"))+ ## @HG changed the name for your own plots
-        
+        #scale_shape_manual(values = c(rep(c(15,16,17,18),7), 15), breaks=c("HC", "ARN", "COH", "SR", "NB", "CHR19", "REF19")) + ## @HG changed the name for your own plots
+        #scale_colour_manual(values=cbPalette, breaks=c("HC", "ARN", "COH", "SR", "NB", "CHR19", "REF19"))+ ## @HG changed the name for your own plots
+        scale_shape_manual(values = c(rep(c(15,16,17,18),7), 15), breaks=pop_list) +
+        scale_colour_manual(values=cbPalette, breaks=pop_list)+
         #geom_text_repel(data=mds, aes_string(x=mds[,x_axis+2], y=mds[,y_axis+2]), label=mds$individual, size=3, nudge_x = 0.001, nudge_y = 0.001)+ # @HG label the individuals
-        #geom_point(size=6, alpha = 0.5, aes(colour = factor(population)))+
+        #geom_point(size=2, alpha = 1, aes(colour = factor(population)))+
         geom_enterotype(alpha=alpha, show.point=show.point, show.label=show.label, show.ellipse=show.ellipse, show.line=show.line) +
         theme_cowplot() +
         theme(
@@ -64,20 +96,42 @@ PCoA <- function(dist_matrix, ind_label, pop_label, k, x_axis, y_axis, show.poin
 
 
 
-PCoA(dist_matrix = "Del19_final_maf0.05_minq20_minmq30_pctind0.7_CV30_masked_noinvers.ibsMat",
+PCoA(dist_matrix = "All_wild_maf0.05_minmapq30_minq20_pctind0.7_CV30_masked.ibsMat",
      ind_label = all_label$ind,
      pop_label = all_label$pop,
      x_axis = 1,
      y_axis = 2,
-     k = 3,
+     k = 2,
      show.point = T,
      show.label = F,
      show.ellipse = T,
      show.line = F,
-     alpha = 0.05,
+     alpha = 0.01,
 )
-graph2ppt(file="PCA_Del2019.pptx", width=6, height=4) 
-graph2ppt(file="PCA.pptx", width=7, height=6) 
+#graph2ppt(file="PCA_Del2019.pptx", width=6, height=4) 
+graph2ppt(file="PCA_challenge.pptx", width=10, height=8) 
+
+
+PCA(cov_matrix = "All_maf0.05_minmapq30_minq20_pctind0.7_CV30_masked.covMat",
+    ind_label = all_label$ind,
+    pop_label = all_label$pop,
+    x_axis = 1,
+    y_axis = 2,
+    show.point = T,
+    show.label = F,
+    show.ellipse = F,
+    show.line = F,
+    alpha = 0.01,
+)
+DAPC(n=50,
+     x_axis = 1,
+     y_axis = 2,
+     show.point = T,
+     show.label = F,
+     show.ellipse = F,
+     show.line = F,
+)
+
 
 file = 'LM.txt' 
 CLP = read.delim(file, header = TRUE, sep='\t')

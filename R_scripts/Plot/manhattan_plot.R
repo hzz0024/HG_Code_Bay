@@ -207,9 +207,17 @@ make_plot <- function(file_name){
   manhattan.plot(dat$V1, dat$V2, dat$V3, sig.level=0.05)
 }
 
-make_plot("REF-CH-NB-HC_out_all_z.txt")
-make_plot("REF-CH-SR-HC_out_all_z.txt")
+a <- make_plot("REF-CH-NB-HC_out_all_z.txt")
+b <- make_plot("REF-CH-SR-HC_out_all_z.txt")
 make_plot("SR-REF-COH-ARN_out_all_z.txt")
+
+layout <-" 
+AAAAAAAAAAAA
+AAAAAAAAAAAA
+BBBBBBBBBBBB
+BBBBBBBBBBBB
+"
+a + b + plot_layout(design=layout, guides="keep")
 
 make_plot("REF-CH-NB-HC_out_all_fish.txt")
 make_plot("REF-CH-SR-HC_out_all_fish.txt")

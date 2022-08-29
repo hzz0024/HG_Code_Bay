@@ -66,3 +66,4 @@ vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf -
 | pop_missing_filter script;   call rate > 0.95 in any single population |    148063   |   148063  |     509    |    509   |       0       |       0      |
 |                       Hardy-Weinberg equilibrium                       |    148063   |   141960  |     509    |    509   |      6103     |       0      |
 |                       LD clumping using bigsnpr                        |    141960   |   106456  |     509    |    509   |     35504     |       0      |
+

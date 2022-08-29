@@ -1,68 +1,93 @@
+1. #Replace the original array sample id with read sample id
+cd /workdir/hz269/domestication_600K/00_vcf
+./1_1_snp_array_format.sh
+
+bcftools query -l genetyped_data_all_samples.vcf > sample_original_name # 842 samples
+bcftools reheader -s sample_rename genetyped_data_all_samples.vcf > genetyped_data_all_samples.rename.vcf
+mv genetyped_data_all_samples.rename.vcf
+
+ #Replace the chromosome with numbers (1-10)
+./1_2_sed_chr.sh
+
+for i in genetyped_data_all_samples.rename.vcf; do
+    sed -i.bak 's/NC_035780.1/1/g;s/NC_035781.1/2/g;s/NC_035782.1/3/g;s/NC_035783.1/4/g;s/NC_035784.1/5/g;s/NC_035785.1/6/g;s/NC_035786.1/7/g;s/NC_035787.1/8/g;s/NC_035788.1/9/g;s/NC_035789.1/10/g;s/MT/11/g' $i
+done
+
+rm genetyped_data_all_samples.rename.vcf.bak
+./1_3_change_ID_array.sh
+#!/bin/sh
+python3 add_array.py
+
+cat add_array.py
+fname = 'genetyped_data_all_samples.rename.vcf'
+outname = fname + '.out'
+
+idx = 0
+with open(fname, 'r') as f, open(outname, 'w') as w:
+    for l in f:
+        if l.startswith('#'):
+            pass
+        else:
+            idx += 1
+            ss = l.split()
+            chrom = ss[0]
+            pos = ss[1]
+            ID = chrom + '_' + pos
+            if ss[2].startswith('AX'):
+                ss[2] = ID
+                l = '\t'.join(ss)
+                l += '\n'
+        w.write(l)
+
 # exclude inversions and mtDNA
-vcftools --vcf genetyped_data_all_samples.vcf --exclude-bed invers.bed --chr 1 --chr 2 --chr 3 --chr 4 --chr 5 --chr 6 --chr 7 --chr 8 --chr 9 --chr 10 --recode --recode-INFO-all --out genetyped_data_all_samples_nochr156invers
+./1_4_exclude_invers.sh
 
-# invers.bed list the three big inversions that used during filtering
-#chrom chromStart  chromEnd
-#1 40630000  42400000
-#5 62190000  79000000
-#6 30500000  43900000
+vcftools --vcf genetyped_data_all_samples.rename.vcf.out --exclude-bed delly.inversions.masked.bed --recode --recode-INFO-all --out genetyped_data_all_samples_nodellyinvers
 
-# extract the sample id from vcf file
-bcftools query -l genetyped_data_all_samples_nochr156invers.recode.vcf > sample_id_all_842.txt
+After filtering, kept 300446 out of a possible 300446 Sites
+
+vcftools --vcf genetyped_data_all_samples_nodellyinvers.recode.vcf --exclude-bed invers.bed --chr 1 --chr 2 --chr 3 --chr 4 --chr 5 --chr 6 --chr 7 --chr 8 --chr 9 --chr 10 --recode --recode-INFO-all --out genetyped_data_all_samples_noinvers
+
+After filtering, kept 276327 out of a possible 300446 Sites
 
 # exclude LGF, PCs, VC familes, NYH, and CBW populations, and exclude one individual (DBW1-30) that potentailly mislabeled
-vcftools --vcf genetyped_data_all_samples_nochr156invers.recode.vcf --keep sample_id_509.txt --recode --recode-INFO-all --out genetyped_data_n_509
+1_5_keep_population_n_509.sh
+
+vcftools --vcf genetyped_data_all_samples_noinvers.recode.vcf --keep sample_id_509.txt --recode --recode-INFO-all --out genetyped_data_n_509
 
 VCFtools - 0.1.17
 (C) Adam Auton and Anthony Marcketta 2009
 
 Parameters as interpreted:
-  --vcf genetyped_data_all_samples_nochr156invers.recode.vcf
-  --keep sample_id_509.txt
-  --recode-INFO-all
-  --out genetyped_data_n_509
-  --recode
+	--vcf genetyped_data_all_samples_noinvers.recode.vcf
+	--keep sample_id_509.txt
+	--recode-INFO-all
+	--out genetyped_data_n_509
+	--recode
 
 Keeping individuals in 'keep' list
 After filtering, kept 509 out of 842 Individuals
 Outputting VCF file...
 After filtering, kept 276327 out of a possible 276327 Sites
-Run Time = 77.00 seconds
 
 # check the missing ind
+1_6_indmiss.sh
+
 source /programs/miniconda3/bin/activate dDocent-2.8.13
 ./filter_missing_ind.sh genetyped_data_n_509.recode.vcf genetyped_data_n_509_indmiss
-
-VCFtools - 0.1.17
-(C) Adam Auton and Anthony Marcketta 2009
-
-Parameters as interpreted:
-  --vcf genetyped_data_all_samples_nochr156invers.recode.vcf
-  --keep sample_id_509.txt
-  --recode-INFO-all
-  --out genetyped_data_n_509
-  --recode
-
-Keeping individuals in 'keep' list
-After filtering, kept 509 out of 842 Individuals
-Outputting VCF file...
-After filtering, kept 276327 out of a possible 276327 Sites
-Run Time = 76.00 seconds
-[hz269@cbsuhare maf005]$ source /programs/miniconda3/bin/activate dDocent-2.8.13
-(dDocent-2.8.13) [hz269@cbsuhare maf005]$ ./filter_missing_ind.sh genetyped_data_n_509.recode.vcf genetyped_data_n_509_indmiss
 
 VCFtools - 0.1.16
 (C) Adam Auton and Anthony Marcketta 2009
 
 Parameters as interpreted:
-  --vcf genetyped_data_n_509.recode.vcf
-  --missing-indv
-  --out genetyped_data_n_509_indmiss
+	--vcf genetyped_data_n_509.recode.vcf
+	--missing-indv
+	--out genetyped_data_n_509_indmiss
 
 After filtering, kept 509 out of 509 Individuals
 Outputting Individual Missingness
 After filtering, kept 276327 out of a possible 276327 Sites
-Run Time = 13.00 seconds
+Run Time = 12.00 seconds
 
 
 
@@ -105,11 +130,11 @@ VCFtools - 0.1.16
 (C) Adam Auton and Anthony Marcketta 2009
 
 Parameters as interpreted:
-  --vcf genetyped_data_n_509.recode.vcf
-  --remove lowDP.indv
-  --recode-INFO-all
-  --out genetyped_data_n_509_indmiss
-  --recode
+	--vcf genetyped_data_n_509.recode.vcf
+	--remove lowDP.indv
+	--recode-INFO-all
+	--out genetyped_data_n_509_indmiss
+	--recode
 
 Excluding individuals in 'exclude' list
 After filtering, kept 509 out of 509 Individuals
@@ -117,6 +142,7 @@ Outputting VCF file...
 After filtering, kept 276327 out of a possible 276327 Sites
 
 # maf and genotype rate filtering
+1_7_maf_rate_filter.sh
 vcftools --vcf genetyped_data_n_509_indmiss.recode.vcf --maf 0.05 --max-missing 0.95 --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095
 
 VCFtools - 0.1.16
@@ -135,14 +161,11 @@ Outputting VCF file...
 After filtering, kept 148063 out of a possible 276327 Sites
 Run Time = 40.00 seconds
 
-# start population level filtering
-# replace the origianl sample id with more clear sample strata (prepared by Excel)
-# extract the original vcf sample id
-bcftools query -l genetyped_data_n_509_maf05_maxmiss095.recode.vcf > sample_original_name
-bcftools reheader -s sample_rename genetyped_data_n_509_maf05_maxmiss095.recode.vcf > genetyped_data_n_509_maf05_maxmiss095.rename.vcf
-
 # call rate missing filtering in each population
-./pop_missing_filter.sh genetyped_data_n_509_maf05_maxmiss095.rename.vcf popmap.txt 0.95 17 genetyped_data_n_509_maf05_maxmiss095_popmiss095
+1_8_pop_missing.sh
+
+source /programs/miniconda3/bin/activate dDocent-2.8.13
+pop_missing_filter.sh genetyped_data_n_509_maf05_maxmiss095.recode.vcf popmap.txt 0.95 17 genetyped_data_n_509_maf05_maxmiss095_popmiss095
 
 VCFtools - 0.1.16
 (C) Adam Auton and Anthony Marcketta 2009
@@ -160,7 +183,10 @@ After filtering, kept 148063 out of a possible 148063 Sites
 Run Time = 30.00 seconds
 
 # filter for HWE
-./filter_hwe_by_pop.pl -v genetyped_data_n_509_maf05_maxmiss095_popmiss095.recode.vcf -p popmap.txt -h 0.01 -c 0.5 -o genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe
+1_9_HWE_by_pop.sh
+
+source /programs/miniconda3/bin/activate dDocent-2.8.13
+filter_hwe_by_pop.pl -v genetyped_data_n_509_maf05_maxmiss095_popmiss095.recode.vcf -p popmap.txt -h 0.01 -c 0.5 -o genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe
  
 #filter_hwe_by_pop.pl -v <vcffile> -p <popmap> [options]
 #
@@ -190,145 +216,144 @@ Outputting results of HWE test for filtered loci to 'filtered.hwe'
 Kept 141960 of a possible 148063 loci (filtered 6103 loci)
 
 # access the missing rate, call rate and allele frequency distribution
+1_10_summary.sh
+
 vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --missing-indv --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe
-vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --missing-site --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe
+vcftools --vcf sample_rename_hwe.recode.vcf --missing-site --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe
 vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --freq2 --max-alleles 2 --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe
 
-# code for plink formating
-/programs/plink-a2.3LM/plink2 --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe
+########################################
+# exclude the union outlier candidates #
+########################################
 
-# start LD clumping process, see PCAdapt code
-# extract pruned snp
-vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --snps all_pruned_SNP_list.txt --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned
-/programs/plink-a2.3LM/plink2 --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned
+setwd("~/Dropbox/Mac/Documents/HG/Domestication/00_vcf")
+system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --exclude union_outliers_1575.list --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral", sep=""))
+# VCFtools - v0.1.13
+# (C) Adam Auton and Anthony Marcketta 2009
+# 
+# Parameters as interpreted:
+#   --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf
+# --recode-INFO-all
+# --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral
+# --recode
+# --exclude union_outliers_1575.list
+# 
+# After filtering, kept 509 out of 509 Individuals
+# Outputting VCF file...
+# After filtering, kept 140385 out of a possible 141960 Sites
+# Run Time = 20.00 seconds
 
+system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral", sep=""))
+# PLINK v1.90b6.24 64-bit (6 Jun 2021)           www.cog-genomics.org/plink/1.9/
+#   (C) 2005-2021 Shaun Purcell, Christopher Chang   GNU General Public License v3
+# Logging to genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.log.
+# Options in effect:
+#   --allow-extra-chr
+# --make-bed
+# --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral
+# --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.recode.vcf
+# 
+# 16384 MB RAM detected; reserving 8192 MB for main workspace.
+# --vcf: 140k variants complete.
+# genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral-temporary.bed +
+#   genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral-temporary.bim +
+#   genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral-temporary.fam
+# written.
+# 140385 variants loaded from .bim file.
+# 509 people (0 males, 0 females, 509 ambiguous) loaded from .fam.
+# Ambiguous sex IDs written to
+# genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.nosex .
+# Using 1 thread (no multithreaded calculations invoked).
+# Before main variant filters, 509 founders and 0 nonfounders present.
+# Calculating allele frequencies... done.
+# Total genotyping rate is 0.988849.
+# 140385 variants and 509 people pass filters and QC.
+# Note: No phenotypes present.
+# --make-bed to genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.bed
+# + genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.bim +
+#   genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.fam ... done.
 
-# extract neutral snp. used for Ne estimate
-vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --exclude-bed Outflank_outliers_q05_n_1366.bed --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outFLANK
-vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outFLANK.recode.vcf --exclude-bed PCAdapt_outliers_q05_n_428.bed --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outlier
+### produce LD-clumping dataset from neutral data 140,385 SNps
 
-VCFtools - 0.1.16
-(C) Adam Auton and Anthony Marcketta 2009
+sub_name="genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral"
+  
+f_bk = paste0(sub_name, ".bk")
+if (file.exists(f_bk)) {
+  #Delete file if it exists
+  file.remove(f_bk)
+}
 
-Parameters as interpreted:
-  --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf
-  --recode-INFO-all
-  --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outFLANK
-  --recode
-  --exclude-bed Outflank_outliers_q05_n_1366.bed
+# part 1 SNP clumpping and data preparation
+snp_readBed(paste0(sub_name, ".bed"))
+# this will create a .rds file
+obj.bigSNP <- snp_attach(paste0(sub_name, ".rds"))
+G <- obj.bigSNP$genotypes
+SNPs <- obj.bigSNP$map$marker.ID
+CHR <- obj.bigSNP$map$chromosome
+POS <- obj.bigSNP$map$physical.pos
+# check if there is any missing values as NA
+#big_counts(G, ind.col = 1:dim(G)[1]) # normally the data include missing values
+# genotype imputation
+G <- snp_fastImputeSimple(G, method = c("mean0"), ncores = 8) # mean0 is based on rounded mean
+#big_counts(G, ind.col = 1:dim(G)[1]) # check if NAs are 0
+# LD clumping using r2 = 0.2
+newpc <- snp_autoSVD(G, infos.chr = CHR, infos.pos = POS, thr.r2 = 0.2, size = 10) # size is the window size of 10K
+# extract SNPs after clumpping
+which_pruned = attr(newpc, 'subset')
+keep_snp_ids = SNPs[which_pruned]
+write.table(keep_snp_ids, file = paste0(sub_name, "_pruned_SNP.txt"), sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
+print(paste0("SNPs after clumpping is: ", length(keep_snp_ids), " out of ", dim(obj.bigSNP$map)[1]))
 
-After filtering, kept 509 out of 509 Individuals
-Outputting VCF file...
-  Read 1366 BED file entries.
-After filtering, kept 140595 out of a possible 141960 Sites
-Run Time = 30.00 seconds
+# generate thinned vcf file
+system(paste(vcftools," --vcf ",sub_name,".recode.vcf", " --snps ", sub_name, "_pruned_SNP.txt", " --recode --recode-INFO-all --out ", sub_name, "_pruned", sep=""))
 
-VCFtools - 0.1.16
-(C) Adam Auton and Anthony Marcketta 2009
+# VCFtools - v0.1.13
+# (C) Adam Auton and Anthony Marcketta 2009
+# 
+# Parameters as interpreted:
+#   --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.recode.vcf
+# --recode-INFO-all
+# --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned
+# --recode
+# --snps genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned_SNP.txt
+# 
+# After filtering, kept 509 out of 509 Individuals
+# Outputting VCF file...
+# After filtering, kept 105660 out of a possible 140385 Sites
+# Run Time = 16.00 seconds
 
-Parameters as interpreted:
-  --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outFLANK.recode.vcf
-  --recode-INFO-all
-  --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outlier
-  --recode
-  --exclude-bed PCAdapt_outliers_q05_n_428.bed
+system(paste(plink, " --vcf ",sub_name,"_pruned.recode.vcf", " --allow-extra-chr --make-bed --out ", sub_name,"_pruned", sep=""))
+# PLINK v1.90b6.24 64-bit (6 Jun 2021)           www.cog-genomics.org/plink/1.9/
+#   (C) 2005-2021 Shaun Purcell, Christopher Chang   GNU General Public License v3
+# Logging to genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned.log.
+# Options in effect:
+#   --allow-extra-chr
+# --make-bed
+# --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned
+# --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned.recode.vcf
+# 
+# 16384 MB RAM detected; reserving 8192 MB for main workspace.
+# --vcf: 105k variants complete.
+# genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned-temporary.bed
+# +
+#   genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned-temporary.bim
+# +
+#   genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned-temporary.fam
+# written.
+# 105660 variants loaded from .bim file.
+# 509 people (0 males, 0 females, 509 ambiguous) loaded from .fam.
+# Ambiguous sex IDs written to
+# genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned.nosex .
+# Using 1 thread (no multithreaded calculations invoked).
+# Before main variant filters, 509 founders and 0 nonfounders present.
+# Calculating allele frequencies... done.
+# Total genotyping rate is 0.988284.
+# 105660 variants and 509 people pass filters and QC.
+# Note: No phenotypes present.
+# --make-bed to
+# genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned.bed +
+#   genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned.bim +
+#   genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned.fam ...
+# done.
 
-After filtering, kept 509 out of 509 Individuals
-Outputting VCF file...
-  Read 428 BED file entries.
-After filtering, kept 140354 out of a possible 140595 Sites
-Run Time = 29.00 seconds
-
-# extract neutral SNPs for Ne
-bcftools query -f '%CHROM\t%POS\t%ID\n' genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outlier.recode.vcf > neutral_SNPs_n_140354.list
-shuf -n 500 neutral_SNPs_n_140376.list | cut -f3 -d$'\t' > neutral_SNPs_n_500_list.txt
-vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outlier.recode.vcf --snps neutral_SNPs_n_500_list.txt --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_500
-
-bcftools query -f '%CHROM\t%POS\t%ID\n' genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outlier.recode.vcf > neutral_SNPs_n_140376.list
-shuf -n 1000 neutral_SNPs_n_140376.list | cut -f3 -d$'\t' > neutral_SNPs_n_1K_list.txt
-vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outlier.recode.vcf --snps neutral_SNPs_n_1K_list.txt --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_1K
-
-bcftools query -f '%CHROM\t%POS\t%ID\n' genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outlier.recode.vcf > neutral_SNPs_n_140376.list
-shuf -n 5000 neutral_SNPs_n_140376.list | cut -f3 -d$'\t' > neutral_SNPs_n_5K_list.txt
-vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_no_outlier.recode.vcf --snps neutral_SNPs_n_5K_list.txt --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_5K
-
-# format with perl script vcf2genepop.pl
-./vcf2genepop_hg.pl vcf=genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_500.recode.vcf pops=MEW1,MEW2,UMFS,MEH2,LIW1,LIW2,NEH1,NEH2,DBW1,DBW2,DBX1,DBX2,DBX3,NCW1,NCW2,UNC1,UNC2 > genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_500.gen
-./vcf2genepop_hg.pl vcf=genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_1K.recode.vcf pops=MEW1,MEW2,UMFS,MEH2,LIW1,LIW2,NEH1,NEH2,DBW1,DBW2,DBX1,DBX2,DBX3,NCW1,NCW2,UNC1,UNC2 > genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_1K.gen
-./vcf2genepop_hg.pl vcf=genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_5K.recode.vcf pops=MEW1,MEW2,UMFS,MEH2,LIW1,LIW2,NEH1,NEH2,DBW1,DBW2,DBX1,DBX2,DBX3,NCW1,NCW2,UNC1,UNC2 > genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_5K.gen
-
-# extract thinned neutral SNPs. Used for STRUCTURE analysis
-./vcf.sh
-vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned.recode.vcf --exclude-bed Outflank_outliers_q05_n_1366.bed --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outFLANK
-vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outFLANK.recode.vcf --exclude-bed PCAdapt_outliers_q05_n_428.bed --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outlier
-
-VCFtools - 0.1.16
-(C) Adam Auton and Anthony Marcketta 2009
-
-Parameters as interpreted:
-  --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned.recode.vcf
-  --recode-INFO-all
-  --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outFLANK
-  --recode
-  --exclude-bed Outflank_outliers_q05_n_1366.bed
-
-After filtering, kept 509 out of 509 Individuals
-Outputting VCF file...
-  Read 1366 BED file entries.
-After filtering, kept 106044 out of a possible 106456 Sites
-
-VCFtools - 0.1.16
-(C) Adam Auton and Anthony Marcketta 2009
-
-Parameters as interpreted:
-  --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outFLANK.recode.vcf
-  --recode-INFO-all
-  --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outlier
-  --recode
-  --exclude-bed PCAdapt_outliers_q05_n_428.bed
-
-After filtering, kept 509 out of 509 Individuals
-Outputting VCF file...
-  Read 428 BED file entries.
-After filtering, kept 105933 out of a possible 106044 Sites
-Run Time = 22.00 seconds
-
-# extract 10K random neutral SNPs
-bcftools query -f '%CHROM\t%POS\t%ID\n' genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outlier.recode.vcf > neutral_SNPs_n_105933.list
-shuf -n 5000 neutral_SNPs_n_105933.list | cut -f3 -d$'\t' > neutral_SNPs_n_5K_list.txt
-vcftools --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outlier.recode.vcf --snps neutral_SNPs_n_5K_list.txt --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_neutral_5K
-
-#format for structure format
-# extract the original vcf sample id
-bcftools query -l genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_neutral_5K.recode.vcf
-# format with perl script vcf2genepop.pl
-./vcf2genepop_hg.pl vcf=genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_neutral_5K.recode.vcf pops=MEW1,MEW2,UMFS,MEH2,LIW1,LIW2,NEH1,NEH2,DBW1,DBW2,DBX1,DBX2,DBX3,NCW1,NCW2,UNC1,UNC2 > genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_neutral_10K.gen
-
-
-The plink.hom file has the following format, one row per identified homozygous region:
-     FID      Family ID
-     IID      Individual ID
-     CHR      Chromosome
-     SNP1     SNP at start of region
-     SNP2     SNP at end of region
-     POS1     Physical position (bp) of SNP1
-     POS2     Physical position (bp) of SNP2
-     KB       Length of region (kb)
-     NSNP     Number of SNPs in run
-     DENSITY  Average SNP density (1 SNP per kb)
-     PHOM     Proportion of sites homozygous
-     PHET     Proportion of sites heterozygous
-
-
-Het - heterzogisty across SNPs (it is not individual based het)
-Nanimals - number of samples in each popualtion
-NROH - sum of ROH across individuals
-KBROH - mean of ROH across individuals
-dummy_length - dummy ROH length assuming all SNPs are homozygous across the genome
-FROH - Total Froh as total kb of ROH divided by dummy ROH length (maximal detectable ROH using current settings)
-FROH1_2, FROH2_4, FROH4_8, FROH8_16, FROH16 - ROH per individual when only considering runs between 1000 kb and 2000 kb etc.  
-
-Fhat are inbreeding coefficient from Plink ibc command
-Fhat1 = Diagonal of GRM (based on variance in additive genetic values): not completely true
-Fhat2 = Plink inbreeding based on expected heterozygosity (excess heterozygotes)
-Fhat3 = Correlation between uniting gametes
+### shared outliers among the candidatess

@@ -1,21 +1,20 @@
-
-setwd("~/Documents/HG/Domestication/05_hudson_fst/03_Zfst")
+rm(list=ls())
+setwd("~/Documents/HG/Domestication/06_SM_selective_sweep_Zfst/pop477/")
 library(hash)
 source("manhattan.R")
-library(hash)
 options(scipen=999)
 
 ############################## independent function for sliding window ##############################
 ############################## independent function for sliding window ##############################
 ############################## independent function for sliding window ##############################
-# headname = "SL_OBOYS2_noinvers."
+# headname = "Dom_Wild."
 # titlename = 'SL vs OBOYS2'
 hudson_fst <- function(headname, titlename){
   jpeg(paste0(headname,"sliding.zfst.hudson.jpg"), width = 16, height = 9, units = 'in', res = 300)
   par(mfrow=c(1,1))
   par(mar=c(4,8,1,5))
   for(win in c(10000)){
-    name = paste0(headname, win, "bp.", "s", win/5, ".csv")
+    name = paste0(headname, win, "bp.", "s", win/5, ".m3.csv")
     DT = read.delim(name, header = TRUE, sep=',')
     mid_pos <- round((DT$start + DT$end)/2)
     id = paste0(DT$scaffold,'_',mid_pos)
@@ -29,12 +28,32 @@ hudson_fst <- function(headname, titlename){
     dat$fst <- as.numeric(dat$fst)
     dat$zfst <- as.numeric(dat$zfst)
     # calculate the 99.9% quantile
-    thred=quantile(dat$zfst, 0.999)
+    thred=quantile(dat$zfst, 0.99)
     cnt = length(dat[dat$zfst>thred[[1]],1])
     outlier = dat[dat$zfst>thred[[1]],5]
+    
+    daf = data.frame(CHR=dat$chr, POS=dat$mid_pos, SNP=dat$SNP, fst=dat$fst, zfst=dat$zfst)
+    outlier_SNP <- outlier
+    outlier_daf <- dat[which(dat$zfst>thred[[1]]),]
+  
+    write.table(outlier_daf[,1:3], file = paste0(headname, "w10k_s2k_n_", length(outlier_SNP), ".bed"), sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
+    #jpeg("Mahattan_Ind509_best_practice_outlier_PC1-2_10K.jpg", width = 16, height = 9, units = 'in', res = 300)
+    # customize mahattan plot see https://www.r-graph-gallery.com/101_Manhattan_plot.html
+    don <- daf %>% 
+      dplyr::group_by(CHR) %>% 
+      dplyr::summarise(chr_len=max(POS)) %>% 
+      mutate(tot=cumsum(chr_len)-chr_len) %>%
+      dplyr::select(-chr_len) %>% 
+      left_join(daf, ., by=c("CHR"="CHR")) %>%
+      arrange(CHR, POS) %>%
+      mutate(BPcum=POS+tot) %>%
+      mutate(is_highlight=ifelse(SNP %in% outlier_SNP, "yes", "no"))
+    axisdf = don %>% dplyr::group_by(CHR) %>% dplyr::summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
+    write.table(don, file = paste0(headname, "qs.txt"), sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+    
     #cnt = sum(dat$zfst>5)
     #outlier = dat[dat$zfst>5,5]
-    print(paste0("Number of outlier in ", titlename," at 99.9% quantile is ", cnt, " (window size ", win, ")" ))
+    print(paste0("Number of outlier in ", titlename," at 99% quantile is ", cnt, " (window size ", win, ")" ))
     manhattan(dat, chr="chr",bp="mid_pos",p="zfst", highlight1 = outlier, logp=FALSE, cex.axis = 1, ylim = c(0, max(dat$zfst)+0.2), #subset(dat, chr == 8)
               col=c("grey","black"),genomewideline=F, suggestiveline=F,
               ylab=expression(ZF[italic(ST)]), cex.lab=1.5, main = paste0(titlename, " ZFst window size:", win, ' bp, step size: ', win/5, " bp"), cex.main=1.5)
@@ -48,7 +67,7 @@ hudson_fst <- function(headname, titlename){
   }
   windows = c(10000)
   for(win in windows){
-    name = paste0(headname, win, "bp.", "s", win/5, ".csv")
+    name = paste0(headname, win, "bp.", "s", win/5, ".m3.csv")
     DT = read.delim(name, header = TRUE, sep=',')
     mid_pos <- round((DT$start + DT$end)/2)
     id = paste0(DT$scaffold,'_',mid_pos)
@@ -61,7 +80,7 @@ hudson_fst <- function(headname, titlename){
     dat$mid_pos <- as.numeric(dat$mid_pos)
     dat$fst <- as.numeric(dat$fst)
     dat$zfst <- as.numeric(dat$zfst)
-    thred=quantile(dat$zfst, 0.999)
+    thred=quantile(dat$zfst, 0.99)
     cnt = length(dat[dat$zfst>thred[[1]],1])
     outlier = dat[dat$zfst>thred[[1]],5]
     zfsts = dat[dat$zfst>thred[[1]],7]
@@ -132,7 +151,7 @@ hudson_fst <- function(headname, titlename){
   print(paste0("Number of outliers in ", titlename, " is ", length(outlier_DT$SNP)))
   #jpeg("CS_NEH_noinvers_overlaps.jpg", width = 16, height = 9, units = 'in', res = 300)
   win = 10000
-  name = paste0(headname, win, "bp.", "s", win/5, ".csv")
+  name = paste0(headname, win, "bp.", "s", win/5, ".m3.csv")
   DT = read.delim(name, header = TRUE, sep=',')
   mid_pos <- round((DT$start + DT$end)/2)
   id = paste0(DT$scaffold,'_',mid_pos)
@@ -230,12 +249,12 @@ hudson_fst <- function(headname, titlename){
 ############################## formal run ##############################
 ############################## formal run ##############################
 ############################## formal run ##############################
-
-hudson_fst("CS_HC_noinvers.", "CS_HC")
-hudson_fst("DBW_DBS_noinvers.", "DBW_DBS")
-hudson_fst("LIW_LIS_noinvers.", "LIW_LIS")
-hudson_fst("MEW_MES_noinvers.", "MEW_MES")
-hudson_fst("NCW_NCS_noinvers.", "NCW_NCS")
+hudson_fst("Dom_Wild.", "Dom_Wild")
+# hudson_fst("CS_HC_noinvers.", "CS_HC")
+# hudson_fst("DBW_DBS_noinvers.", "DBW_DBS")
+# hudson_fst("LIW_LIS_noinvers.", "LIW_LIS")
+# hudson_fst("MEW_MES_noinvers.", "MEW_MES")
+# hudson_fst("NCW_NCS_noinvers.", "NCW_NCS")
 
 
 

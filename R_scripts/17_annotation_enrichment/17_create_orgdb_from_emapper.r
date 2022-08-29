@@ -33,8 +33,8 @@ gene2go <- dplyr::select(emapper, GID, GO) %>%
 
 AnnotationForge::makeOrgPackage(gene_info=gene_info,
                go=gene2go,
-               maintainer='zhangsan <zhangsan@genek.tv>',
-               author='zhangsan',
+               maintainer='Honggang',
+               author='Honggang',
                outputDir="./",
                tax_id=0000,
                genus='M',
@@ -42,4 +42,4 @@ AnnotationForge::makeOrgPackage(gene_info=gene_info,
                goTable="go",
                version="1.0")
 
-pkgbuild::build('.//org.My.eg.db', dest_path = ".")
+pkgbuild::build('./org.My.eg.db', dest_path = ".")

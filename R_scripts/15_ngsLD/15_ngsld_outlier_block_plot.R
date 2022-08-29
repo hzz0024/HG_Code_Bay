@@ -270,7 +270,8 @@ for (ld in c("r")) {
   # Save plot
   #tiff(paste("LD_blocks", ld,"jpg", sep="."), units="in", width=6, height=6, res=300)
   #pdf(paste("LD_blocks", ld,"pdf", sep="."), width=10, height=10)
-  LDheatmap(m, genetic.distances=dist, geneMapLabelX=0.75, geneMapLabelY=0.25, title = NULL, color="blueToRed", LDmeasure=ld, SNP.name = SNPs$V1)
+  rgb.palette <- colorRampPalette(rev(c("yellow", "orange", "red")), space = "rgb")
+  LDheatmap(m, genetic.distances=dist, geneMapLabelX=0.75, geneMapLabelY=0.25, title = NULL, color=rgb.palette(18), LDmeasure=ld, SNP.name = SNPs$V1)
   require(grid)
   grid.edit("symbols", pch = 20, gp = gpar(cex = 1, col = "red")) # change the symbol size
   grid.edit(gPath("ldheatmap", "geneMap","SNPnames"), gp = gpar(cex=0.2, col = "red"))  # change the SNP label size

@@ -16,16 +16,17 @@ library(ggplot2)
 library(vcfR)
 library(tidyr)
 library(dplyr)
-source('/Users/ryan/Downloads/genotype_plot.R')
-setwd("~/Documents/Ryan_workplace/CVreseq_genotype_plot")
 
+setwd("~/Dropbox/Mac/Documents/Backup/Ryan_workplace/CVreseq_genotype_plot")
+install('/Users/HG/Dropbox/Mac/Documents/HG/Github/BioinfoTools/genotype_plot-master')
+library(GenotypePlot)
 install.packages("extrafont")
 library(extrafont)
 font_import()
 loadfonts(device="win")       #Register fonts for Windows bitmap output
 fonts()   
 
-
+setwd("~/Dropbox/Mac/Documents/Backup/Ryan_workplace/CVreseq_genotype_plot")
 #my_vcf <- read.vcfR("CS_HC-HCVA_CLP.outlier.vcf.gz")
 pop_name <- "HC_CS-CLP-HCVA.txt"
 popmap = read.delim(pop_name, header = TRUE, sep='\t')
@@ -62,7 +63,7 @@ df$Origin = Origin
 df$Population = Population
 #df = data.frame(x=1:length(new_plot$dendro_labels), y=rep(-1,24))
 dendro_with_tips <-  new_plot$genotypes +
-  geom_point(data=df,aes(x=x,y=y,color=Population,shape=Origin),size=6, alpha=0.95)  +
+  geom_point(data=df,aes(x=min(ggplot_build(new_plot$genotypes)$data[[1]]$x-1000),y=y,color=Population,shape=Origin),size=6, alpha=0.95)  +
   scale_shape_manual(values=c(18, 20)) + 
   scale_color_manual(values = c("#E31A1c", "#FB9A99", "#33A02C","#B2DF8A"),  name="Population/Line") +
   theme(legend.position="right") +

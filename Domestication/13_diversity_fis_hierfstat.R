@@ -3,6 +3,7 @@ install_github("jgx65/hierfstat")
 library("hierfstat")
 library("adegenet")
 library(vcfR)
+library(MASS)
 
 # see https://popgen.nescent.org/DifferentiationSNP.html for detailed example
 # read from a vcf file
@@ -10,95 +11,97 @@ setwd("~/Dropbox/Mac/Documents/HG/Domestication/13_diversity_Fis_hierfstat")
 
 # load the population information
 pop_info <- read.table("pop_509_sample_list.txt", header=TRUE, sep="\t", stringsAsFactors = TRUE)
-pop_info$Pop_correct = factor(pop_info$Pop_correct, levels=c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "UMFS", "MEH2", "NEH1", "NEH2", "DBX1", "DBX2", "DBX3", "UNC1", "UNC2"))
+pop_info$Pop_correct = factor(pop_info$Pop_correct, levels=c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "DBX1", "DBX2", "DBX3", "UNC1", "UNC2", "UMFS", "NEH1", "NEH2", "MEH2"))
 # load vcf file
+vcftools  = "/Users/HG/Dropbox/Mac/Documents/HG/Github/BioinfoTools/vcftools_0.1.13/bin/vcftools";
+system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned.recode.vcf --remove UMFS_2_outlier.txt --recode --recode-INFO-all --out genetyped_data_n_507_maf05_maxmiss095_popmiss095_hwe_pruned", sep=""))
+
 #vcf_file = "genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outlier.recode.vcf"
-vcf_file = "genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_neutral_20.recode.vcf"
+vcf_file = "genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned.recode.vcf"
 vcf <- read.vcfR(vcf_file, verbose = FALSE)
 Mydata1 <- vcfR2genind(vcf)
 Mydata1@pop <- pop_info$Pop_correct
 Mydata1
 
-vcf_file = "genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outlier.recode.vcf"
-#vcf_file = "genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_neutral_1K.recode.vcf"
-vcf <- read.vcfR(vcf_file, verbose = FALSE)
-Mydata2 <- vcfR2genind(vcf)
-Mydata2@pop <- pop_info$SampleName
-Mydata2
+# vcf_file = "genetyped_data_n_507_maf05_maxmiss095_popmiss095_hwe_pruned.recode.vcf"
+# #vcf_file = "genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_neutral_1K.recode.vcf"
+# vcf <- read.vcfR(vcf_file, verbose = FALSE)
+# Mydata2 <- vcfR2genind(vcf)
+# Mydata2@pop <- pop_info$Pop_correct
+# Mydata2
 
 # Estimates allelic richness, the rarefied allelic counts, per locus and population
-Arich <- allelic.richness(Mydata1,min.n=NULL,diploid=TRUE)
-colMeans(x=Arich$Ar, na.rm = TRUE)
+#Arich <- allelic.richness(Mydata1,min.n=NULL,diploid=TRUE)
+#colMeans(x=Arich$Ar, na.rm = TRUE)
 
-Arich2 <- allelic.richness(Mydata2,min.n=NULL,diploid=TRUE)
-ind_mean <- colMeans(x=Arich2$Ar, na.rm = TRUE)
+Arich <- allelic.richness(Mydata1,min.n=NULL,diploid=TRUE)
+ind_mean <- colMeans(x=Arich$Ar, na.rm = TRUE)
+#    MEW1     MEW2     LIW1     LIW2     DBW1     DBW2     NCW1     NCW2     DBX1     DBX2     DBX3     UNC1     UNC2     UMFS     NEH1     NEH2     MEH2 
+#1.814224 1.823438 1.844294 1.845554 1.852056 1.852246 1.849785 1.822780 1.785889 1.748218 1.821354 1.704745 1.691031 1.693784 1.788005 1.759419 1.646626
+wilcox.test(ind_mean[1:8],ind_mean[9:17])
+# Wilcoxon rank sum exact test
+# 
+# data:  ind_mean[1:8] and ind_mean[9:17]
+# W = 71, p-value = 0.0001645
+# alternative hypothesis: true location shift is not equal to 0
+
 write.table(ind_mean, file = "individual.allelic.richness.txt", sep = "\t", quote = FALSE,
             row.names = T, col.names = F)
 
-# MEW1     MEW2     LIW1     LIW2     DBW1     DBW2     NCW1     NCW2     UMFS     MEH2     NEH1     NEH2     DBX1     DBX2     DBX3     UNC1     UNC2 
-# 1.815095 1.824171 1.843812 1.844977 1.851081 1.851103 1.848602 1.821983 1.694711 1.646872 1.787791 1.759559 1.785078 1.748407 1.820753 1.703700 1.690370 
 # These statistics come from the package hierfstat Fst following Nei (1987) on genind object
 basicstat <- basic.stats(Mydata1, diploid = TRUE, digits = 2) 
 names(basicstat)
-# $perloc
-# Ho   Hs   Ht  Dst  Htp Dstp  Fst Fstp   Fis Dest
-# AX.576943979 0.22 0.25 0.27 0.03 0.28 0.03 0.09 0.10  0.13 0.04
-# AX.574114010 0.27 0.28 0.29 0.01 0.29 0.01 0.03 0.03  0.02 0.01
-# AX.564298109 0.40 0.41 0.43 0.02 0.43 0.02 0.04 0.05  0.02 0.03
-# AX.577016137 0.40 0.42 0.48 0.06 0.48 0.06 0.12 0.13  0.06 0.10
-# AX.563423198 0.36 0.38 0.40 0.02 0.40 0.02 0.04 0.04  0.06 0.03
-# AX.563423205 0.21 0.23 0.26 0.03 0.26 0.03 0.10 0.11  0.10 0.04
-# AX.577038974 0.27 0.33 0.34 0.01 0.34 0.02 0.04 0.05  0.19 0.02
-# AX.563423214 0.37 0.35 0.40 0.05 0.40 0.05 0.12 0.13 -0.05 0.08
-# [ reached 'max' / getOption("max.print") -- omitted 105811 rows ]
-# 
 # $overall
-# Ho     Hs     Ht    Dst    Htp   Dstp    Fst   Fstp    Fis   Dest 
-# 0.2413 0.2617 0.2814 0.0197 0.2826 0.0210 0.0701 0.0742 0.0777 0.0284 
+# Ho   Hs   Ht  Dst  Htp Dstp  Fst Fstp  Fis Dest 
+# 0.24 0.26 0.28 0.02 0.28 0.02 0.07 0.07 0.08 0.03 
 # mean Ho per population
 colMeans(x=basicstat$Ho, na.rm = TRUE)
-# MEW1      MEW2      LIW1      LIW2      DBW1      DBW2      NCW1      NCW2      UMFS      MEH2      NEH1      NEH2      DBX1      DBX2      DBX3      UNC1      UNC2 
-# 0.2405095 0.2408414 0.2462831 0.2472063 0.2417180 0.2402554 0.2395589 0.2317040 0.2309214 0.2492035 0.2453556 0.2454355 0.2417120 0.2374420 0.2479245 0.2456781 0.2278786 
+# MEW1      MEW2      LIW1      LIW2      DBW1      DBW2      NCW1      NCW2      DBX1      DBX2      DBX3      UNC1      UNC2      UMFS      NEH1      NEH2      MEH2 
+# 0.2402867 0.2406328 0.2467107 0.2476321 0.2422397 0.2408177 0.2401395 0.2320769 0.2421085 0.2371994 0.2482005 0.2461827 0.2281588 0.2303814 0.2454087 0.2454086 0.2491505 
 # mean He per population
 colMeans(x=basicstat$Hs, na.rm = TRUE)
-# MEW1      MEW2      LIW1      LIW2      DBW1      DBW2      NCW1      NCW2      UMFS      MEH2      NEH1      NEH2      DBX1      DBX2      DBX3      UNC1      UNC2 
-# 0.2699017 0.2708632 0.2712544 0.2720264 0.2752208 0.2759058 0.2765686 0.2673267 0.2386145 0.2319808 0.2654470 0.2591021 0.2625446 0.2555047 0.2731620 0.2432748 0.2394431 
-colMeans(x=basicstat$Fis, na.rm = TRUE)
-# MEW1         MEW2         LIW1         LIW2         DBW1         DBW2         NCW1         NCW2         UMFS         MEH2         NEH1         NEH2         DBX1         DBX2         DBX3         UNC1         UNC2 
-# 0.103423948  0.107433512  0.089160420  0.085304573  0.117272500  0.122791307  0.127165430  0.125154842  0.047818452 -0.050914240  0.075123831  0.054718835  0.077271133  0.072745055  0.092497088  0.006998047  0.048001216 
+# MEW1      MEW2      LIW1      LIW2      DBW1      DBW2      NCW1      NCW2      DBX1      DBX2      DBX3      UNC1      UNC2      UMFS      NEH1      NEH2      MEH2 
+# 0.2695652 0.2705684 0.2716459 0.2724619 0.2758107 0.2765307 0.2772912 0.2678030 0.2629692 0.2552809 0.2734142 0.2437810 0.2397621 0.2379797 0.2654984 0.2590463 0.2318269
+#colMeans(x=basicstat$Fis, na.rm = TRUE)
+# MEW1         MEW2         LIW1         LIW2         DBW1         DBW2         NCW1         NCW2         DBX1         DBX2         DBX3         UNC1         UNC2         UMFS 
+# 0.103205353  0.107284760  0.089019027  0.085328099  0.117374068  0.122903014  0.127396284  0.125345136  0.077388928  0.072826638  0.092425782  0.007032094  0.048131693  0.047681743 
+# NEH1         NEH2         MEH2 
+# 0.075109389  0.054631710 -0.051158277
+# Nonparametric Tests of Group Differences carried by Mann-Whitney U test
+# independent 2-group Mann-Whitney U Test
+He_df <- colMeans(x=basicstat$Hs, na.rm = TRUE)
+wilcox.test(He_df[1:8],He_df[9:17])
 
-
+# Wilcoxon rank sum exact test
+# 
+# data:  He_df[1:8] and He_df[9:17]
+# W = 67, p-value = 0.001563
+# alternative hypothesis: true location shift is not equal to 0
 
 div <- summary(Mydata1)
 names(div)
 
 wc(Mydata1) # Weir and Cockerham's estimate
-
-# $FST
-# [1] 0.07107595
-# 
-# $FIS
-# [1] 0.07917271
-
 fst <- genet.dist(Mydata1, method = "WC84") # Pairwise Fst
+write.matrix(fst, file = "pairwise.fst.txt", ,sep = "\t")
 
-# MEW1          MEW2          LIW1          LIW2          DBW1          DBW2          NCW1          NCW2          UMFS          MEH2          NEH1          NEH2          DBX1          DBX2          DBX3          UNC1
-# MEW2 -8.475731e-04                                                                                                                                                                                                                  
-# LIW1  3.413180e-02  3.057554e-02                                                                                                                                                                                                    
-# LIW2  3.297673e-02  2.961485e-02  7.829348e-04                                                                                                                                                                                      
-# DBW1  4.009651e-02  3.637702e-02  9.012688e-03  8.486938e-03                                                                                                                                                                        
-# DBW2  4.048673e-02  3.667481e-02  9.106609e-03  8.641300e-03 -7.470881e-05                                                                                                                                                          
-# NCW1  5.015840e-02  4.660335e-02  1.998243e-02  1.916675e-02  1.107865e-02  1.115301e-02                                                                                                                                            
-# NCW2  6.354507e-02  6.006079e-02  3.361597e-02  3.280427e-02  2.340988e-02  2.374460e-02  2.832485e-02                                                                                                                              
-# UMFS  6.568338e-02  6.553404e-02  7.896447e-02  7.813907e-02  8.447429e-02  8.459857e-02  9.367071e-02  1.083389e-01                                                                                                                
-# MEH2  8.664105e-02  8.414885e-02  1.022093e-01  1.014512e-01  1.077700e-01  1.076438e-01  1.171004e-01  1.301621e-01  1.585445e-01                                                                                                  
-# NEH1  4.724622e-02  4.379454e-02  6.501060e-02  6.425256e-02  6.947025e-02  6.938358e-02  7.513264e-02  9.112394e-02  1.315488e-01  1.070167e-01                                                                                    
-# NEH2  5.136491e-02  4.754438e-02  7.137222e-02  7.044039e-02  7.601974e-02  7.614887e-02  8.370198e-02  9.791447e-02  1.360097e-01  1.078470e-01  1.378876e-02                                                                      
-# DBX1  6.631960e-02  6.225187e-02  3.654619e-02  3.600623e-02  2.759592e-02  2.745506e-02  3.797121e-02  5.097833e-02  1.111488e-01  1.337566e-01  9.413359e-02  1.010194e-01                                                        
-# DBX2  7.038516e-02  6.955717e-02  6.492043e-02  6.392914e-02  6.366485e-02  6.364475e-02  7.227069e-02  8.496047e-02  1.338081e-01  1.336183e-01  7.962316e-02  7.347431e-02  8.882667e-02                                          
-# DBX3  4.335579e-02  4.086857e-02  4.270410e-02  4.223775e-02  4.282822e-02  4.293612e-02  4.865950e-02  6.555644e-02  1.111361e-01  1.042990e-01  3.657837e-02  4.670266e-02  6.792141e-02  6.656735e-02                            
-# UNC1  1.088659e-01  1.049323e-01  8.000744e-02  7.940500e-02  7.082119e-02  7.062502e-02  6.136845e-02  8.735822e-02  1.556055e-01  1.790519e-01  1.325178e-01  1.416266e-01  9.805347e-02  1.304186e-01  1.057150e-01              
-# UNC2  1.130643e-01  1.097029e-01  8.496951e-02  8.422583e-02  7.489863e-02  7.500418e-02  7.942536e-02  5.481410e-02  1.593948e-01  1.817723e-01  1.403146e-01  1.474855e-01  1.023797e-01  1.359506e-01  1.143942e-01  1.411272e-01
+# MEW1          MEW2          LIW1          LIW2          DBW1          DBW2          NCW1          NCW2          DBX1          DBX2          DBX3          UNC1          UNC2          UMFS          NEH1          NEH2
+# MEW2 -8.338017e-04                                                                                                                                                                                                                  
+# LIW1  3.397082e-02  3.041393e-02                                                                                                                                                                                                    
+# LIW2  3.280786e-02  2.943828e-02  7.765745e-04                                                                                                                                                                                      
+# DBW1  4.033635e-02  3.665275e-02  9.465682e-03  8.950580e-03                                                                                                                                                                        
+# DBW2  4.068063e-02  3.690190e-02  9.542859e-03  9.086903e-03 -6.784757e-05                                                                                                                                                          
+# NCW1  5.143801e-02  4.791863e-02  2.146300e-02  2.066784e-02  1.203849e-02  1.211993e-02                                                                                                                                            
+# NCW2  6.602326e-02  6.250270e-02  3.624522e-02  3.540876e-02  2.534974e-02  2.569653e-02  3.066255e-02                                                                                                                              
+# DBX1  6.666415e-02  6.262228e-02  3.695304e-02  3.640453e-02  2.756088e-02  2.741735e-02  3.892286e-02  5.286610e-02                                                                                                                
+# DBX2  6.973240e-02  6.891975e-02  6.383361e-02  6.282689e-02  6.263321e-02  6.255399e-02  7.221538e-02  8.588941e-02  8.808586e-02                                                                                                  
+# DBX3  4.328617e-02  4.082283e-02  4.239407e-02  4.191097e-02  4.260338e-02  4.267954e-02  4.918660e-02  6.728995e-02  6.786679e-02  6.588667e-02                                                                                    
+# UNC1  1.104393e-01  1.065366e-01  8.156302e-02  8.098159e-02  7.176014e-02  7.157303e-02  6.151074e-02  8.952706e-02  9.907764e-02  1.307414e-01  1.065288e-01                                                                      
+# UNC2  1.160015e-01  1.126008e-01  8.780035e-02  8.706918e-02  7.708120e-02  7.719742e-02  8.191297e-02  5.489784e-02  1.045944e-01  1.374827e-01  1.166053e-01  1.434935e-01                                                        
+# UMFS  6.457170e-02  6.443535e-02  7.707049e-02  7.615761e-02  8.283863e-02  8.292444e-02  9.305922e-02  1.088684e-01  1.097428e-01  1.315982e-01  1.093249e-01  1.556493e-01  1.606666e-01                                          
+# NEH1  4.698689e-02  4.353182e-02  6.444268e-02  6.365454e-02  6.924573e-02  6.911575e-02  7.574292e-02  9.293013e-02  9.418106e-02  7.904170e-02  3.664870e-02  1.335106e-01  1.426844e-01  1.297688e-01                            
+# NEH2  5.104652e-02  4.721565e-02  7.072399e-02  6.976183e-02  7.573903e-02  7.581996e-02  8.433511e-02  9.970735e-02  1.010364e-01  7.295864e-02  4.674792e-02  1.426928e-01  1.498869e-01  1.342546e-01  1.380658e-02              
+# MEH2  8.624712e-02  8.375016e-02  1.015456e-01  1.007302e-01  1.075827e-01  1.074138e-01  1.177968e-01  1.319653e-01  1.338656e-01  1.330166e-01  1.041087e-01  1.801793e-01  1.841926e-01  1.567893e-01  1.067608e-01  1.075763e-01
 
 # using Kmeans and DAPC in adegenet 
 set.seed(5); dapc_a_score <- dapc(Mydata1,Mydata1$pop, n.pca = 20,n.da=10)
@@ -110,4 +113,58 @@ graph2ppt(file="DAPC",width=8,height=5)
 
 percent= dapc1$eig/sum(dapc1$eig)*100
 barplot(percent, ylab="Percent of genetic variance explained by eigenvectors", names.arg=round(percent,2))
+
+
+################
+#### ggplot ####
+################
+library(cowplot)
+df <- read.delim("He_Ar_summary.csv", header = TRUE, sep=',')
+df$Source <- factor(df$Source, levels=c("Wild populations", "Selected line"))
+wilcox.test(df$Ne[1:8],df$Ne[9:17])
+
+Ar <- df %>%
+  ggplot(aes(Source, Ar, fill=Source)) +
+  geom_violin(trim = FALSE, alpha=0.4, show.legend = FALSE) +
+  geom_boxplot(width = 0.1, aes(fill=Source))  +
+  scale_fill_manual(values = c("#049DD9", "#F25C05"))+
+  xlab(NULL) + ylab("Allelic richness (Ar)")+
+  theme_classic()+
+  theme(text = element_text(size=20),
+        legend.position = "none")
+  #geom_point(position = "jitter", alpha = 0.7, size = 3)
+He <- df %>%
+  ggplot(aes(Source, He, fill=Source)) +
+  geom_violin(trim = FALSE, alpha=0.4, show.legend = FALSE) +
+  geom_boxplot(width = 0.1, aes(fill=Source))  +
+  scale_fill_manual(values = c("#049DD9", "#F25C05"))+
+  xlab(NULL) + ylab("Expected heterozygosity (He)")+
+  theme_classic()+
+  theme(text = element_text(size=20),
+        legend.position = "none")
+
+#   MEW1        MEW2      LIW1        LIW2       DBW1      DBW2        NCW1      NCW2         
+col <- c( "#0A2C86", "#325A98",  "#1D92BD", "#3DB9C1", "#C4E9B3", "#7BD2BF", "#ECF6B9", "#EEE8AA", 
+          #  DBX1       DBX2      DBX3       UNC1        UNC2       UMFS      NEH1       NEH2       MEH2
+          "#F9476B", "#FC709F","#E376B7", "#CF7FBC",  "#A36DC1", "#FEB22B", "#F36616", "#D83B1C", "#FF9117")
+df$Sites = factor(df$Sites, levels=c("MEW1", "MEW2","LIW1","LIW2","DBW1","DBW2","NCW1","NCW2","DBX1","DBX2","DBX3","UNC1","UNC2","UMFS","NEH1","NEH2", "MEH2"))
+
+Ne <- ggplot(df, aes(x=Sites, y=Ne, fill=Sites)) +
+  geom_bar(stat="identity", fill=col) +
+  geom_errorbar(aes(ymin=Down,ymax=Up), width=0.5)+
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=45, hjust=1),
+        text = element_text(size=20),) +
+  labs(x=NULL, y = "Effective population size (Ne)")  +  
+  scale_fill_manual(values=col) 
+
+N1 <- Ne + coord_cartesian(ylim = c(0, 700))
+N2 <- Ne + coord_cartesian(ylim = c(10000, 50000))
+up_row <- plot_grid(He, Ar)
+plot_grid(
+  up_row,
+  N2,
+  ncol = 1
+)
+graph2ppt(file="Diversity1",width=10,height=6)
 

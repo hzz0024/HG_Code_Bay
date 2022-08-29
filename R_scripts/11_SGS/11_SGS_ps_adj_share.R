@@ -1,4 +1,4 @@
-setwd("~/Documents/Ryan_workplace/DelBay_adult/11_SGS")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay_final/11_SGS")
 #######################
 #  Adjust p-value    #
 #######################

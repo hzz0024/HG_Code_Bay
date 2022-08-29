@@ -11,7 +11,7 @@ library(cowplot)
 library(rlang)
 library(export)
 
-setwd("~/Documents/Ryan_workplace/CVreseq_genotype_plot")
+setwd("~/Dropbox/Mac/Documents/Backup/Ryan_workplace/CVreseq_zoom_in")
 #my_vcf <- read.vcfR("CS_HC-HCVA_CLP.outlier.vcf.gz")
 pop_name <- "CS_HC-HCVA_CLP.txt"
 popmap = read.delim(pop_name, header = TRUE, sep='\t')

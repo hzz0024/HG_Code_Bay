@@ -3,13 +3,14 @@ library(tidyverse)
 library(clusterProfiler)
 library(stringr)
 library(viridis)
+library(export)
 # set up working location
-setwd("~/Documents/HG/DelBay19_adult/17_annotation/Clusterprofiler_steps/05_formal_run")
+setwd("~/Dropbox/Mac/Documents/HG/DelBay_final/17_annotation_enrichment")
 
 dir.create('R_Library', recursive = T)
 
 ## prepare GO and KEGG lib
-install.packages('./org.Cv.eg.db_1.0.tar.gz', 
+install.packages("./org.Cv.eg.db_1.0.tar.gz", 
                  repos = NULL,
                  lib = 'R_Library') 
 
@@ -17,7 +18,7 @@ install.packages('./org.Cv.eg.db_1.0.tar.gz',
 library(org.Cv.eg.db, lib = 'R_Library')
 
 # load gene ID
-SGS_single_SNP <- read.delim("SGS_outliers_single_snp.txt", header = F, sep='\t')$V1
+SGS_single_SNP <- read.delim("HC_NB_FDR_outlier.gene.txt", header = F, sep='\t')$V1
 
 # GO enrichment
 SGS_singleSNP_go <- enrichGO(gene = SGS_single_SNP,
@@ -29,7 +30,7 @@ SGS_singleSNP_go <- enrichGO(gene = SGS_single_SNP,
 
 
 SGS_singleSNP_go_df <- as.data.frame(SGS_singleSNP_go)
-write.table(SGS_singleSNP_go_df, file = "SGS_singleSNP_go_df.txt", sep = "\t", quote = FALSE,
+write.table(SGS_singleSNP_go_df, file = "HC_NB_FDR_outlier_GO_output.txt", sep = "\t", quote = FALSE,
             row.names = FALSE, col.names = TRUE)
 
 head(SGS_singleSNP_go_df)
@@ -48,7 +49,7 @@ dotplot(SGS_singleSNP_go, showCategory = 10, split="ONTOLOGY") +
   facet_grid(ONTOLOGY~., scale="free")+ 
   scale_y_discrete(labels=function(x) str_wrap(x, width=60)) + 
   labs(size="Counts",col="FDR")
-graph2ppt(file="SGS_singleSNP_go.pptx", width=10, height=10)
+graph2ppt(file="SGS_singleSNP_challenge.pptx", width=10, height=10)
 
 cnetplot(SGS_singleSNP_go, 
          showCategory = 5,
