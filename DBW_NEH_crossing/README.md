@@ -18,3 +18,19 @@ export PATH="/home/camer78/Softwares/angsd2/angsd/misc:$PATH"
 
 ## 01_PREPARE_DATA
 
+Obtain the raw fastq from sequencing output
+
+```sh
+for d in */ ; do
+    echo "$d"
+    cd $d
+    mv * ..
+    cd ..
+done
+```
+
+create a fastq list
+
+```sh
+ls *_1.fq.gz > fastq.list
+```
