@@ -3,7 +3,7 @@
 This pipeline was built by Honggang Zhao with help and scripts from Nina's lab and many inputs from Claire Mérot github site.
 
 # overview of the pipeline 
-![overview_angsd_pipeline](https://github.com/clairemerot/angsd_pipeline/blob/master/Angsd_possibilities.jpg)
+![overview_angsd_pipeline]()
 
 ## 00_DEPENDANCIES
 
