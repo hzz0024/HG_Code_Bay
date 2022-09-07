@@ -417,7 +417,7 @@ rm(summary_ROH_breeds)
                 #Create empty matrix to later fill in with results
                 Froh<-data.frame(matrix(ncol=19,nrow=1))
                 #Colnames
-                names(Froh)<-c("Population","run","Het","Nanimals","NROH","Nsnps","KBROH","dummy_length","FROH","FROH1_2","FROH2_4","FROH4_8","FROH8_16","FROH16_","FROH5_","Fgrm","Fhom","Funi","l")
+                names(Froh)<-c("Population","run","Het","Nanimals","NROH","Nsnps","KBROH","dummy_length","FROH","FROH1_2","FROH2_4","FROH4_8","FROH8_16","FROH16_","FROH1_","Fgrm","Fhom","Funi","l")
                 
                 #Write  details of number allowed heterozygotes and missing snps in ROH
                 Froh[1,c("run")]<-paste(het,"_het_",mis,"_mis",sep="")
@@ -571,7 +571,7 @@ rm(summary_ROH_breeds)
                 
                 
                 #===
-                #6. Calculate ROH per length class: "FROH","FROH1_2","FROH2_4","FROH4_8","FROH8_16","FROH16_","FROH5_"
+                #6. Calculate ROH per length class: "FROH","FROH1_2","FROH2_4","FROH4_8","FROH8_16","FROH16_","FROH1_"
                 #===
                 
                 #Store total Froh as total kb of ROH divided by dummy ROH length (maximal detectable ROH using current settings)
@@ -655,14 +655,14 @@ rm(summary_ROH_breeds)
                 
                 for (j in 1:nrow(fam)) {
                   iid<-as.character(ROH.indiv$IID)[j]
-                  tmp<-ROH[ROH$IID==iid & ROH$KB>=5000,]
+                  tmp<-ROH[ROH$IID==iid & ROH$KB>=1000,]
                   if (nrow(tmp)>0) {
-                    ROH.indiv$FROH5_[ROH.indiv$IID==iid]<-sum(tmp$KB)/dummy_length
-                    ROH.indiv$NSEG5_[ROH.indiv$IID==iid]<-nrow(tmp)
+                    ROH.indiv$FROH1_[ROH.indiv$IID==iid]<-sum(tmp$KB)/dummy_length
+                    ROH.indiv$NSEG1_[ROH.indiv$IID==iid]<-nrow(tmp)
                   }
                   else {
-                    ROH.indiv$FROH5_[ROH.indiv$IID==iid]<-0
-                    ROH.indiv$NSEG5_[ROH.indiv$IID==iid]<-nrow(tmp)
+                    ROH.indiv$FROH1_[ROH.indiv$IID==iid]<-0
+                    ROH.indiv$NSEG1_[ROH.indiv$IID==iid]<-nrow(tmp)
                     
                   }
                 }
@@ -690,7 +690,7 @@ rm(summary_ROH_breeds)
                 Froh[1,c("FROH16_")]<-mean(ROH.indiv$FROH16_)
                 
                 #Write  FROH5
-                Froh[1,c("FROH5_")]<-mean(ROH.indiv$FROH5_)
+                Froh[1,c("FROH1_")]<-mean(ROH.indiv$FROH1_)
                 
                 #Write  ROH.indiv and other files
                 write.table(ROH.indiv,paste(directory,"/ROH.indiv_",population,"_.txt",sep=""),row.names = F,col.names = F,quote=FALSE)
@@ -720,8 +720,8 @@ rm(summary_ROH_breeds)
                 write.table(ROH.indiv,paste(directory,"/grm.ibc_",population,"_.txt",sep=""),row.names = F,col.names = F,quote=FALSE)
                 
                 #Rearange order of columns
-                ROH_animal<-ROH_animal[c("FID","IID","O_het","F_ROHall","FROH1_2","FROH2_4","FROH4_8","FROH8_16","FROH5_",
-                                         "FROH16_","NSEG","NSEG1_2","NSEG2_4","NSEG4_8","NSEG8_16","NSEG5_",
+                ROH_animal<-ROH_animal[c("FID","IID","O_het","F_ROHall","FROH1_2","FROH2_4","FROH4_8","FROH8_16","FROH1_",
+                                         "FROH16_","NSEG","NSEG1_2","NSEG2_4","NSEG4_8","NSEG8_16","NSEG1_",
                                          "NSEG16_","KB","KBAVG","Fhat1","Fhat2","Fhat3")]
                 
                 #round following columns to 2 digits
@@ -745,7 +745,7 @@ rm(summary_ROH_breeds)
                   #Remove na columns
                   df <- df[,colSums(is.na(df))<nrow(df)]
                   png(filename=paste(directory,"/Pairs_plot_inbreeding_methods_",population,"_.png",sep=""),width = 1300,height = 1000)
-                  pairs(df[c("F_ROHall","FROH16_","FROH5_","Fhat1","Fhat2","Fhat3")], lower.panel=panel.smooth, upper.panel=panel.cor)
+                  pairs(df[c("F_ROHall","FROH16_","FROH1_","Fhat1","Fhat2","Fhat3")], lower.panel=panel.smooth, upper.panel=panel.cor)
                   dev.off()
                 }
                 

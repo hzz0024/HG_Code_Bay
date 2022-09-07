@@ -1,6 +1,5 @@
 install.packages("dartR")
 install.packages("Demerelate")
-gl.install.vanilla.dartR()
 library(Demerelate)
 library(dartR)
 library(adegenet)
@@ -66,7 +65,7 @@ write.table(mean_sd, file = "relatedness_10K_mean_sd.txt", sep = "\t", quote = F
 
 # Mann Whitney U / Wilcoxon Rank-Sum Test 
 wild = NULL
-for(name in c("MEW1", "MEW2","LIW1","LIW2","DBW1","DBW2","NCW1","NCW2")){
+for(name in c("MEW1", "MEW2","LIW1","LIW2","DBW1","DBW2","NCW1","NCW2","DBX1")){
   dat <- data_process(name, name)
   if(is.null(wild)){
     wild = dat}
@@ -74,8 +73,12 @@ for(name in c("MEW1", "MEW2","LIW1","LIW2","DBW1","DBW2","NCW1","NCW2")){
     wild = rbind(wild, dat)}
 }
 
+wild_mean <- wild %>%
+  group_by(Population) %>%
+  dplyr::summarize(Mean = mean(relat, na.rm=TRUE))
+
 sel = NULL
-for(name in c("UMFS","MEH2","NEH1","NEH2","DBX1","DBX2","DBX3","UNC1","UNC2")){
+for(name in c("UMFS","MEH2","NEH1","NEH2","DBX2","DBX3","UNC1","UNC2")){
   dat <- data_process(name, name)
   if(is.null(sel)){
     sel = dat}
@@ -83,7 +86,11 @@ for(name in c("UMFS","MEH2","NEH1","NEH2","DBX1","DBX2","DBX3","UNC1","UNC2")){
     sel = rbind(sel, dat)}
 }
 
-wilcox.test(wild$relat,sel$relat)
+sel_mean  <- sel %>%
+  group_by(Population) %>%
+  dplyr::summarize(Mean = mean(relat, na.rm=TRUE))
+
+wilcox.test(wild_mean$Mean,sel_mean$Mean)
 
         #   MEW1        MEW2      LIW1        LIW2       DBW1      DBW2        NCW1      NCW2         
 col <- c( "#0A2C86", "#325A98",  "#1D92BD", "#3DB9C1", "#C4E9B3", "#7BD2BF", "#ECF6B9", "#EEE8AA", 

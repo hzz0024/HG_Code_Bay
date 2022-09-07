@@ -36,7 +36,7 @@ setwd("~/Dropbox/Mac/Documents/HG/Domestication/10_DAPC_outlier")
 vcftools  = "/Users/HG/Dropbox/Mac/Documents/HG/Github/BioinfoTools/vcftools_0.1.13/bin/vcftools";
 plink  = "/Users/HG/Dropbox/Mac/Documents/HG/Domestication/14_ROH/plink";
 
-system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --bed pop_n_477_pcadapt_outflank.shared.10k.outlier.igv_Dom_Wild.sliding.zfst.outlier.merged.igv.outlier.merged.igv --recode --recode-INFO-all --out n_509_shared_outliers", sep=""))
+system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --bed pop_n_477_pcadapt_outflank.shared.outlier.igv_Dom_Wild.sliding.zfst.outlier.merged.igv.outlier.merged.igv --recode --recode-INFO-all --out n_509_shared_outliers", sep=""))
 
 # VCFtools - v0.1.13
 # (C) Adam Auton and Anthony Marcketta 2009
@@ -71,7 +71,7 @@ sum(is.na(Mydata1$tab))
 dapc1 <- dapc(x, x@pop)
 temp <- optim.a.score(dapc1)
 library(export)
-graph2ppt(file="Domestication_alpha_score",width=12,height=12)
+graph2ppt(file="Domestication_alpha_score1",width=12,height=10)
 
 # temp$best = 26
 x@pop
@@ -83,7 +83,7 @@ table(pop(x), grp$grp)
 table.value(table(pop(x), grp$grp), col.lab=levels(pop(x)),
             row.lab=paste("ori", 1:17))
 # formal running
-dapc1 <- dapc(x, x@pop, n.pca = 26, n.da=10)
+dapc1 <- dapc(x, x@pop, n.pca = 29, n.da=15)
 scatter(dapc1)
 # adegenetServer(what = "DAPC")
 # #reading the genepop file as input
@@ -99,15 +99,20 @@ scatter(dapc1)
 # cex is the size of the dot
 #SMB plot
 
-#   MEW1       MEW2       LIW1        LIW2       DBW1      DBW2        NCW1      NCW2         
-col1 <- c("#0A2C86", "#325A98",  "#1D92BD", "#3DB9C1", "#C4E9B3", "#7BD2BF", "#ECF6B9", "#EEE8AA", 
-               #  DBX1       DBX2      DBX3       UNC1        UNC2       UMFS      NEH1       NEH2       MEH2
-               "#F9476B", "#FC709F","#E376B7", "#CF7FBC",  "#A36DC1", "#FEB22B", "#F36616", "#D83B1C", "#FF9117")
+#           #   MEW1       MEW2       LIW1        LIW2       DBW1      DBW2        NCW1      NCW2         
+# col1 <- c("#0A2C86", "#325A98",  "#1D92BD", "#3DB9C1", "#C4E9B3", "#7BD2BF", "#ECF6B9", "#EEE8AA", 
+#                #  DBX1       DBX2      DBX3       UNC1        UNC2       UMFS      NEH1       NEH2       MEH2
+#                "#F9476B", "#FC709F","#E376B7", "#CF7FBC",  "#A36DC1", "#FEB22B", "#F36616", "#D83B1C", "#FF9117")
+
+         #   MEW1       MEW2       LIW1        LIW2       DBW1      DBW2        NCW1      NCW2       DBX1        
+col1 <- c("#325A98", "#325A98",  "#325A98", "#325A98", "#325A98", "#325A98", "#325A98", "#325A98", "#325A98",
+          #   DBX2      DBX3       UNC1        UNC2       UMFS      NEH1       NEH2       MEH2
+           "#F62A00","#F62A00", "#F62A00",  "#F62A00", "#F62A00", "#F62A00", "#F62A00", "#F62A00")
 
 col_transparent <- adjustcolor(col1,alpha.f = 0.1)
 
-scatter(dapc1,  xlab="Discriminatn Function 1", ylab="Discriminatn Function", cex = 1.5, pch=c(rep(18, 9), rep(20,8)), lwd=2, lty=2, solid = .8, cstar=0, scree.da=FALSE,  col = col1, clab = 1 ) #label.inds = list(air = 2, pch = NA))
-legend("right", legend = levels(pop(x)),cex = 1,col = col1, bty = 'n', pch=c(rep(18, 9), rep(20,8)), xpd = TRUE, inset=c(0.2,0.55))
+scatter(dapc1,  xlab="Discriminatn Function 1", ylab="Discriminatn Function 2", cex = 0.7, pch=c(rep(17, 9), rep(20,8)), lwd=2, lty=2, solid = .8, cstar=0, scree.da=FALSE,  col = col1, clab = 1 ) #label.inds = list(air = 2, pch = NA))
+#legend("right", legend = levels(pop(x)),cex = 1,col = col1, bty = 'n', pch=c(rep(17, 9), rep(20,8)), xpd = TRUE, inset=c(0.2,0.55))
 myInset <- function(){
   temp <- dapc1$pca.eig
   temp <- 100* cumsum(temp)/sum(temp)
@@ -117,7 +122,7 @@ myInset <- function(){
        cex=1, pch=15, type="h", lwd=3)
 }
 add.scatter(myInset(), posi="topleft",
-            inset=c(0.05,0.55), ratio=.14,
+            inset=c(0.05,0.05), ratio=.14,
             bg=transp("white"))
 
 library(export)

@@ -47,7 +47,7 @@ plink  = "/Users/HG/Dropbox/Mac/Documents/HG/Domestication/14_ROH/plink"; ## Nee
 
 #set working directory: this is the path with the directory specified above
 
-setwd("~/Dropbox/Mac/Documents/HG/Domestication/14_ROH/All_n_509_formal_run_SROH//")
+setwd("~/Dropbox/Mac/Documents/HG/Domestication/14_ROH/All_n_509_formal_run_SROH/")
 
 #===
 #Load and install following functions and packages

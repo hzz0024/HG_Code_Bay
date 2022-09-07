@@ -1,32 +1,34 @@
 setwd("~/Dropbox/Mac/Documents/HG/Domestication/18_outlier_shared_genotype_heatmap")
-
+rm(list=ls())
 #########################
 # Check shared outliers #
 #########################
 library(bigsnpr)
+library(stringr)
+library(dplyr)
 vcftools  = "/Users/HG/Dropbox/Mac/Documents/HG/Github/BioinfoTools/vcftools_0.1.13/bin/vcftools";
 plink  = "/Users/HG/Dropbox/Mac/Documents/HG/Domestication/14_ROH/plink";
 
-### all populations
-name1 = "genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_PCAdapt_BP_q05_n_420.bed"
-outflank_BP1 <- read.delim(name1,header = F)
+## all populations
+name1 = "pop_n_477_outflank_BP_q05_n_276.bed"
+outflank_BP <- read.delim(name1,header = F)
 dim(outflank_BP)
-name2 = "genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outflank_BP_q05_n_292.bed"
-PACadapt_BP1 <- read.delim(name2,header = F)
+name2 = "pop_n_477_PCAdapt_BP_q05_n_386.bed"
+PACadapt_BP <- read.delim(name2,header = F)
 dim(PACadapt_BP)
 
 ### subsets of the populations
-name1 = "no_DBX1_UNC_MEH_MEW_MEH_n_342_outflank_BP_q05_n_388.bed"
-outflank_BP2 <- read.delim(name1,header = F)
-dim(outflank_BP)
-name2 = "no_DBX1_UNC_MEH_MEW_MEH_n_342_PCAdapt_BP_q05_n_1123.bed"
-PACadapt_BP2 <- read.delim(name2,header = F)
-dim(PACadapt_BP)
+# name1 = "no_DBX1_UNC_MEH_MEW_MEH_n_342_outflank_BP_q05_n_388.bed"
+# outflank_BP2 <- read.delim(name1,header = F)
+# dim(outflank_BP)
+# name2 = "no_DBX1_UNC_MEH_MEW_MEH_n_342_PCAdapt_BP_q05_n_1123.bed"
+# PACadapt_BP2 <- read.delim(name2,header = F)
+# dim(PACadapt_BP)
 
 ### union the outlier candidates
 
-outliers_union <- unique(c(outflank_BP1$V4,PACadapt_BP1$V4,outflank_BP2$V4, PACadapt_BP2$V4))
-# 1575
+outliers_union <- unique(c(outflank_BP$V4,PACadapt_BP$V4))
+# 606
 all_list <- str_split(outliers_union, "_")
 chr <- unlist(all_list)[2*(1:length(outliers_union))-1]
 pos <- unlist(all_list)[2*(1:length(outliers_union))  ]
@@ -49,57 +51,49 @@ bed_format <- function(df){
   return(final_df)
 }
 union_list <- bed_format(df)
-write.table(outliers_union, file = "union_outliers_1575.list", sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
-write.table(union_list, file = "union_outliers_1575.bed", sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
+write.table(outliers_union, file = "union_outliers_606.list", sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
+write.table(union_list, file = "union_outliers_606.bed", sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
 
 ### exclude the union outlier candidates
 
 setwd("~/Dropbox/Mac/Documents/HG/Domestication/00_vcf")
-system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --exclude union_outliers_1575.list --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral", sep=""))
+system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --exclude-bed Dom_Wild.sliding.zfst.outlier.merged_n_368.bed --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_noZFST", sep=""))
+# 2290 SNPs
+# 
 # VCFtools - v0.1.13
 # (C) Adam Auton and Anthony Marcketta 2009
 # 
 # Parameters as interpreted:
 #   --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf
 # --recode-INFO-all
-# --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral
+# --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_noZFST
 # --recode
-# --exclude union_outliers_1575.list
+# --exclude-bed Dom_Wild.sliding.zfst.outlier.merged_n_368.bed
 # 
 # After filtering, kept 509 out of 509 Individuals
 # Outputting VCF file...
-# After filtering, kept 140385 out of a possible 141960 Sites
+# Read 368 BED file entries.
+# After filtering, kept 139670 out of a possible 141960 Sites
 # Run Time = 20.00 seconds
 
-system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral", sep=""))
-# PLINK v1.90b6.24 64-bit (6 Jun 2021)           www.cog-genomics.org/plink/1.9/
-#   (C) 2005-2021 Shaun Purcell, Christopher Chang   GNU General Public License v3
-# Logging to genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.log.
-# Options in effect:
-#   --allow-extra-chr
-# --make-bed
-# --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral
-# --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.recode.vcf
+system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_noZFST.recode.vcf --exclude-bed union_outliers_606.bed --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral", sep=""))
+# VCFtools - v0.1.13
+# (C) Adam Auton and Anthony Marcketta 2009
 # 
-# 16384 MB RAM detected; reserving 8192 MB for main workspace.
-# --vcf: 140k variants complete.
-# genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral-temporary.bed +
-#   genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral-temporary.bim +
-#   genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral-temporary.fam
-# written.
-# 140385 variants loaded from .bim file.
-# 509 people (0 males, 0 females, 509 ambiguous) loaded from .fam.
-# Ambiguous sex IDs written to
-# genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.nosex .
-# Using 1 thread (no multithreaded calculations invoked).
-# Before main variant filters, 509 founders and 0 nonfounders present.
-# Calculating allele frequencies... done.
-# Total genotyping rate is 0.988849.
-# 140385 variants and 509 people pass filters and QC.
-# Note: No phenotypes present.
-# --make-bed to genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.bed
-# + genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.bim +
-#   genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.fam ... done.
+# Parameters as interpreted:
+#   --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_noZFST.recode.vcf
+# --recode-INFO-all
+# --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral
+# --recode
+# --exclude-bed union_outliers_606.bed
+# 
+# After filtering, kept 509 out of 509 Individuals
+# Outputting VCF file...
+# Read 605 BED file entries.
+# After filtering, kept 139286 out of a possible 139670 Sites
+# Run Time = 19.00 seconds
+
+system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral", sep=""))
 
 ### produce LD-clumping dataset from neutral data 140,385 SNps
 
@@ -205,16 +199,12 @@ ggvenn(
   stroke_size = 0.5, set_name_size = 4
 )
 
-length(intersect(PACadapt_BP$V4,  outflank_BP$V4))
-shared <- intersect(PACadapt_BP$V4,  outflank_BP$V4)
-write.table(shared, file = "no_DBX1_UNC_MEH_MEW_MEH_n_342_shared_snp_pcadapt_outflank.txt", sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
-
-# extract the outliers and format for deep-learning
-system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --snps shared_snp_pcadapt_outflank.txt --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233", sep=""))
-system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233", sep=""))
-
-system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --snps union_outliers_1575.list --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_1575", sep=""))
-system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_1575.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_1575", sep=""))
+# # extract the outliers and format for deep-learning
+# system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --snps shared_snp_pcadapt_outflank.txt --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233", sep=""))
+# system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233", sep=""))
+# 
+# system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --snps union_outliers_1575.list --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_1575", sep=""))
+# system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_1575.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_1575", sep=""))
 
 
 f_bk = paste0(sub_name, ".bk")
@@ -248,10 +238,11 @@ Gm = toMatrix(G)
 G_coded = add_code256(big_copy(Gm, type="raw"), code=bigsnpr:::CODE_012)
 write.table(G_coded[1:509,], file = paste0(sub_name, ".csv"), sep = ",", quote = FALSE, row.names = FALSE, col.names = FALSE)
 
+
 ####################
 # genotype heatmap #
 ####################
-
+setwd("~/Dropbox/Mac/Documents/HG/Domestication/18_outlier_shared_genotype_heatmap")
 #remotes::install_github("JimWhiting91/genotype_plot")
 library(devtools)
 #install('/Users/HG/Dropbox/Mac/Documents/HG/Github/BioinfoTools/genotype_plot-master')
@@ -283,7 +274,6 @@ library(poppr)
 library(vcfR)
 library(maps)
 library(mapdata)
-library("rgdal") 
 library("plyr")
 library(RColorBrewer)
 library(matrixStats)
@@ -291,262 +281,18 @@ library(data.table)
 library(ggdendro)
 library(ggridges)
 
-
-##################################################################################################
-setwd("~/Dropbox/Mac/Documents/HG/Domestication/18_outlier_shared_genotype_heatmap/old")
-# for population targeted of contrasts
-system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --bed pop_n_282_shared.outlier.merged.igv_Dom_Wild.sliding.zfst.outlier.merged.igv.outlier.merged.igv --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers", sep=""))
-system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers", sep=""))
-
-# population map
-popmap <- read.table("./genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.pop.list", header = TRUE)
-popmap$Type <- factor(popmap$Type, levels=c("Selected","Wild"))
-popmap$POP <- factor(popmap$POP, levels=c("LIW1", "LIW2", "DBW1", "DBW2", "DBX1", "DBX2", "DBX3", "NEH1", "NEH2"))
-popmap.ni <- popmap
-
-gp.popmap <-setNames(data.frame(matrix(ncol = 2, nrow = length(popmap.ni$POP))), c("ind", "pop"))
-gp.popmap$ind <- popmap.ni$Sample
-gp.popmap$pop <- popmap.ni$POP
-
-target <- c("LIW1", "LIW2", "DBW1", "DBW2",  "DBX1", "DBX2", "DBX3", "NEH1", "NEH2")
-#target <- rev(target)
-gp.popmap <-gp.popmap %>% arrange(factor(pop, levels = target))
-
-gp.label <- read.table("genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.popmap.txt", header = TRUE)
-gp.label$Type <- factor(gp.label$Type, levels=c("Wild", "Selected"))
-gp.label$POP <- factor(gp.label$POP, levels=c("LIW1", "LIW2", "DBW1", "DBW2",  "DBX1", "DBX2", "DBX3", "NEH1", "NEH2"))
-
-bgzip = "/Users/HG/Dropbox/Mac/Documents/Backup/Ryan_workplace/packages/ROHan/rohan/lib/htslib/bgzip"
-tabix = "/Users/HG/Dropbox/Mac/Documents/Backup/Ryan_workplace/packages/ROHan/rohan/lib/htslib/tabix"
-bcftools = "/Users/HG/Dropbox/Mac/Documents/HG/Domestication/04_pcadapt/bcftools"
-system(paste(paste(bgzip, " -c genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf > genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf.gz"), sep=""))
-system(paste(paste(tabix, " -f -p vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf.gz"), sep=""))
-
-# color plate
-pal1 <- wes_palette("Zissou1")
-pal2 <- wes_palette("GrandBudapest1")
-pal3 <- wes_palette("GrandBudapest2")
-pal4 <- wes_palette("Royal2")
-col_pal <- c(pal2[1], pal1[1], pal2[3], pal3[3], pal3[4], pal4[5],pal1[2],pal4[2],pal4[1],pal4[3])
-
-                #   LIW1        LIW2       DBW1      DBW2          
-cbPalette <- c( "#1D92BD", "#8ad5d9", "#93c47d", "#bedbb1",
-                #  DBX1       DBX2      DBX3        NEH1       NEH2     
-                "#f9476b", "#fb90a6","#fddae1",  "#e1bb94", "#fbd0a5")
-
-chrom_outlier_GP_plot <- function(chrom, vcf, n_ind){
-  plot_pal <- c(col_pal[as.integer(chrom)],wes_palette("GrandBudapest2"))
-  #plot_pal <- c("#8cbcac","#ec9c9d","#9dc6e0")
-  outlier.gp <- genotype_plot(vcf=vcf,chr=chrom, popmap = gp.popmap, start=1, end=1000000000,cluster=F,colour_scheme=plot_pal) 
-  
-  dfx <- min(ggplot_build(outlier.gp$genotypes)$data[[1]]$x) 
-  dfmax <- max(ggplot_build(outlier.gp$genotypes)$data[[1]]$x)
-  dflen <- length(ggplot_build(outlier.gp$genotypes)$data[[1]]$x)/n_ind # this is represent the number of SNPs
-  dloc <- (dfmax-dfx)/dflen
-  print(dloc)
-  print(dflen)
-  
-  #gp.label$X <- min(ggplot_build(outlier.gp$genotypes)$data[[1]]$x-3000000)
-  if(dloc > 50000 & dflen > 50){
-    dloc <- dloc/3
-  }
-  if(dloc > 50000 & dflen < 50){
-    dloc <- dloc/2
-  }
-  #ddelta <- dloc*dflen/20
-  if(dflen > 500){
-    #ddelta <- dloc*dflen/20
-    ddelta <- dloc*50
-    dddelta <- ddelta/10000
-  }else if(dflen < 500 & dflen > 200){
-    ddelta <- dloc*15
-    dddelta <- ddelta/1000
-  }else if(dflen < 200 & dflen > 100){
-    ddelta <- dloc*10
-    dddelta <- ddelta/100
-  }else if(dflen < 100 & dflen > 20){
-    ddelta <- dloc*5
-    dddelta <- ddelta/10
-  } else if(dflen == 1){
-    ddelta <- 10000
-    dddelta <- ddelta/2
-  } else{
-    ddelta <- dloc*5
-    dddelta <- ddelta/1
-  }
-  gp.label$X <- c(dfx-ddelta,dfx-ddelta*2,dfx-ddelta*2,dfx-ddelta,
-                  dfx-ddelta,dfx-ddelta*2, dfx-ddelta*3, dfx-ddelta*2,dfx-ddelta)
-  
-  y_axis <- ggplot_build(outlier.gp$genotypes)$data[[2]]$yintercept
-  gp.label$Y <- rollmean(y_axis, 2)
-  
-  fig <-  outlier.gp$genotypes +
-    geom_point(data=gp.label,aes(x=X,y=Y,color=POP,shape=Type),size=5, alpha=0.95)  +
-    scale_x_continuous(expand = expand_scale(mult = c(0.02, 0)))+
-    #scale_x_continuous(limits = c(min(gp.label$X) - ddelta/2 , max(ggplot_build(outlier.gp$genotypes)$data[[1]]$x))) + 
-    scale_shape_manual(values=c(18, 20), name="Origin") + 
-    scale_color_manual(values=cbPalette , name="Population/Line") +
-    theme(legend.position="right") +
-    theme(legend.title = element_text(size = 12),
-          legend.text=element_text(size=12)) + 
-    # guides(fill = "none")+ 
-    # guides(color="none")+
-    # guides(shape = "none") +
-    theme(text=element_text(family="Times New Roman", face="bold", size=12, colour="black"))
-  
-  assign(paste("gp.plot",chrom,"out", sep="."),fig, envir = globalenv())
-}
-
-for(i in c(5)){
-  chrom_outlier_GP_plot(i,"genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf.gz", 282)
-}
-
-gp.plot.left.out<- gp.plot.5.out+
-  guides(fill = guide_legend(override.aes = list(size=6)),shape=guide_legend(override.aes = list(size=6, shape=c(23,21)) ))+ 
-  guides(color=guide_legend(override.aes = list(size=6)))
-
-gp.plot.left.out
-#####################
-## for right plot ###
-#####################
-
-# for population targeted of contrasts
-#system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --bed pop_n_282_shared.outlier.merged.igv_Dom_Wild.sliding.zfst.outlier.merged.igv.outlier.merged.igv --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers", sep=""))
-#system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers", sep=""))
-
 setwd("~/Dropbox/Mac/Documents/HG/Domestication/18_outlier_shared_genotype_heatmap")
-# population map
-popmap <- read.table("./genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop227_outliers.pop.list", header = TRUE)
-popmap$Type <- factor(popmap$Type, levels=c("Selected","Wild"))
-popmap$POP <- factor(popmap$POP, levels=c("MEW1", "MEW2", "NCW1", "NCW2", "UNC1", "UNC2", "UMFS", "MEH2" ))
-popmap.ni <- popmap
+##################################################################################################
+vcftools  = "/Users/HG/Dropbox/Mac/Documents/HG/Github/BioinfoTools/vcftools_0.1.13/bin/vcftools";
+plink  = "/Users/HG/Dropbox/Mac/Documents/HG/Domestication/14_ROH/plink";
 
-gp.popmap <-setNames(data.frame(matrix(ncol = 2, nrow = length(popmap.ni$POP))), c("ind", "pop"))
-gp.popmap$ind <- popmap.ni$Sample
-gp.popmap$pop <- popmap.ni$POP
-
-target <- c("MEW1", "MEW2", "NCW1", "NCW2", "UNC1", "UNC2", "UMFS", "MEH2" )
-#target <- rev(target)
-gp.popmap <-gp.popmap %>% arrange(factor(pop, levels = target))
-
-gp.label <- read.table("genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop227_outliers.popmap.txt", header = TRUE)
-gp.label$Type <- factor(gp.label$Type, levels=c("Wild", "Selected"))
-gp.label$POP <- factor(gp.label$POP, levels=c("MEW1", "MEW2", "NCW1", "NCW2", "UNC1", "UNC2", "UMFS", "MEH2" ))
-
-bgzip = "/Users/HG/Dropbox/Mac/Documents/Backup/Ryan_workplace/packages/ROHan/rohan/lib/htslib/bgzip"
-tabix = "/Users/HG/Dropbox/Mac/Documents/Backup/Ryan_workplace/packages/ROHan/rohan/lib/htslib/tabix"
-bcftools = "/Users/HG/Dropbox/Mac/Documents/HG/Domestication/04_pcadapt/bcftools"
-system(paste(paste(bgzip, " -c genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf > genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf.gz"), sep=""))
-system(paste(paste(tabix, " -f -p vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf.gz"), sep=""))
-
-# color plate
-pal1 <- wes_palette("Zissou1")
-pal2 <- wes_palette("GrandBudapest1")
-pal3 <- wes_palette("GrandBudapest2")
-pal4 <- wes_palette("Royal2")
-col_pal <- c(pal2[1], pal1[1], pal2[3], pal3[3], pal3[4], pal4[5],pal1[2],pal4[2],pal4[1],pal4[3])
-
-                #   MEW1        MEW2      LIW1        LIW2        
-cbPalette <- c( "#0A2C86", "#849cc1",  "#1D92BD", "#8ad5d9",
-                #    UNC1        UNC2       UMFS        MEH2
-                 "#cf7fbc",  "#e2b2d6", "#fec155",   "#b58383")
-
-chrom_outlier_GP_plot <- function(chrom, vcf, n_ind){
-  plot_pal <- c(col_pal[as.integer(chrom)],wes_palette("GrandBudapest2"))
-  #plot_pal <- c("#8cbcac","#ec9c9d","#9dc6e0")
-  outlier.gp <- genotype_plot(vcf=vcf,chr=chrom, popmap = gp.popmap, start=1, end=1000000000,cluster=F,colour_scheme=plot_pal) 
-  
-  dfx <- min(ggplot_build(outlier.gp$genotypes)$data[[1]]$x) 
-  dfmax <- max(ggplot_build(outlier.gp$genotypes)$data[[1]]$x)
-  dflen <- length(ggplot_build(outlier.gp$genotypes)$data[[1]]$x)/n_ind # this is represent the number of SNPs
-  dloc <- (dfmax-dfx)/dflen
-  print(dloc)
-  print(dflen)
-  
-  #gp.label$X <- min(ggplot_build(outlier.gp$genotypes)$data[[1]]$x-3000000)
-  if(dloc > 50000 & dflen > 50){
-    dloc <- dloc/3
-  }
-  if(dloc > 50000 & dflen < 50){
-    dloc <- dloc/2
-  }
-  #ddelta <- dloc*dflen/20
-  if(dflen > 500){
-    #ddelta <- dloc*dflen/20
-    ddelta <- dloc*50
-    dddelta <- ddelta/10000
-  }else if(dflen < 500 & dflen > 200){
-    ddelta <- dloc*15
-    dddelta <- ddelta/1000
-  }else if(dflen < 200 & dflen > 100){
-    ddelta <- dloc*10
-    dddelta <- ddelta/100
-  }else if(dflen < 100 & dflen > 20){
-    ddelta <- dloc*5
-    dddelta <- ddelta/10
-  } else if(dflen == 1){
-    ddelta <- 10000
-    dddelta <- ddelta/2
-  } else{
-    ddelta <- dloc*5
-    dddelta <- ddelta/1
-  }
-  gp.label$X <- c(dfx-ddelta,dfx-ddelta*2,dfx-ddelta*2,dfx-ddelta,
-                  dfx-ddelta,dfx-ddelta*2,dfx-ddelta*2,dfx-ddelta)
-  
-  y_axis <- ggplot_build(outlier.gp$genotypes)$data[[2]]$yintercept
-  gp.label$Y <- rollmean(y_axis, 2)
-  
-  fig <-  outlier.gp$genotypes +
-    geom_point(data=gp.label,aes(x=X,y=Y,color=POP,shape=Type),size=5, alpha=0.95)  +
-    scale_x_continuous(expand = expand_scale(mult = c(0.02, 0)))+
-    #scale_x_continuous(limits = c(min(gp.label$X) - ddelta/2 , max(ggplot_build(outlier.gp$genotypes)$data[[1]]$x))) + 
-    scale_shape_manual(values=c(18, 20), name="Origin") + 
-    scale_color_manual(values=cbPalette , name="") +
-    theme(legend.position="right") +
-    theme(legend.title = element_text(size = 12),
-          legend.text=element_text(size=12)) + 
-    # guides(fill = "none")+ 
-    # guides(color="none")+
-    # guides(shape = "none") +
-    theme(text=element_text(family="Times New Roman", face="bold", size=12, colour="black"))
-  
-  assign(paste("gp.plot",chrom,"out", sep="."),fig, envir = globalenv())
-}
-
-for(i in c(5)){
-  chrom_outlier_GP_plot(i,"genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf.gz", 227)
-}
-
-gp.plot.right.out<- gp.plot.5.out+
-  guides(fill = guide_legend(override.aes = list(size=6)),shape=guide_legend(override.aes = list(size=6, shape=c(23,21)) ))+ 
-  guides(color=guide_legend(override.aes = list(size=6)))
-gp.plot.right.out
-
-layout <-" 
-AAAABBBB
-AAAABBBB
-AAAABBBB
-AAAABBBB
-AAAABBBB
-AAAABBBB
-"
-gp.plot.left.out + gp.plot.right.out + plot_layout(design=layout, guides="collect")
-
-
+# for population targeted of contrasts
+system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --bed pop_n_477_pcadapt_outflank.shared.outlier.igv_Dom_Wild.sliding.zfst.outlier.merged.igv.outlier.merged.igv --recode --recode-INFO-all --out pop_n_477_outliers", sep=""))
+system(paste(plink, " --vcf pop_n_477_outliers.recode.vcf --allow-extra-chr --make-bed --out pop_n_477_outliers", sep=""))
 
 ################### for across chromosomes ###############
-
-
-# extract the outliers and format for deep-learning
-system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --bed pop_n_282_shared.outlier.merged.igv_Dom_Wild.sliding.zfst.outlier.merged.igv.outlier.merged.igv --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers", sep=""))
-system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe.recode.vcf --exclude-bed pop_n_282_shared.outlier.merged.igv_Dom_Wild.sliding.zfst.outlier.merged.igv.outlier.merged.igv --recode --recode-INFO-all --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral", sep=""))
-system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral", sep=""))
-
-system(paste(plink, " --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.recode.vcf --allow-extra-chr --make-bed --out genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers", sep=""))
-
 # population map
-popmap <- read.table("./genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pop282_outliers.pop.list", header = TRUE)
+popmap <- read.table("./pop_n_477_outliers.pop.list", header = TRUE)
 popmap$Type <- factor(popmap$Type, levels=c("Selected","Wild"))
 popmap$POP <- factor(popmap$POP, levels=c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "DBX1", "DBX2", "DBX3",  "UNC1", "UNC2", "UMFS", "NEH1", "NEH2", "MEH2"))
 popmap.ni <- popmap
@@ -559,31 +305,30 @@ target <- c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "DBX
 #target <- rev(target)
 gp.popmap <-gp.popmap %>% arrange(factor(pop, levels = target))
 
-gp.label <- read.table("genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233_popmap.txt", header = TRUE)
+gp.label <- read.table("pop_n_477_outliers.popmap.txt", header = TRUE)
 gp.label$Type <- factor(gp.label$Type, levels=c("Wild", "Selected"))
 gp.label$POP <- factor(gp.label$POP, levels=c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "DBX1", "DBX2", "DBX3",  "UNC1", "UNC2", "UMFS", "NEH1", "NEH2", "MEH2"))
 
 bgzip = "/Users/HG/Dropbox/Mac/Documents/Backup/Ryan_workplace/packages/ROHan/rohan/lib/htslib/bgzip"
 tabix = "/Users/HG/Dropbox/Mac/Documents/Backup/Ryan_workplace/packages/ROHan/rohan/lib/htslib/tabix"
 bcftools = "/Users/HG/Dropbox/Mac/Documents/HG/Domestication/04_pcadapt/bcftools"
-system(paste(paste(bgzip, " -c genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233.recode.vcf > genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233.recode.vcf.gz"), sep=""))
-system(paste(paste(tabix, " -f -p vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233.recode.vcf.gz"), sep=""))
+system(paste(paste(bgzip, " -c pop_n_477_outliers.recode.vcf > pop_n_477_outliers.recode.vcf.gz"), sep=""))
+system(paste(paste(tabix, " -f -p vcf pop_n_477_outliers.recode.vcf.gz"), sep=""))
 
 # color plate
 pal1 <- wes_palette("Zissou1")
 pal2 <- wes_palette("GrandBudapest1")
 pal3 <- wes_palette("GrandBudapest2")
 pal4 <- wes_palette("Royal2")
-col_pal <- c(pal2[1], pal1[1], pal2[3], pal3[3], pal3[4], pal4[5],pal1[2],pal4[2],pal4[1],pal4[3])
-col_pal <- c(pal1, pal2, pal3, pal4)
+col_pal <- c(pal1[1], pal1[2], pal2[3], pal3[3], pal3[4], pal3[2],pal1[2],pal4[2],pal4[1],pal4[3])
 #   MEW1       MEW2       LIW1        LIW2       DBW1      DBW2        NCW1      NCW2         
-cbPalette <- c("#0A2C86", "#325A98",  "#1D92BD", "#3DB9C1", "#C4E9B3", "#7BD2BF", "#ECF6B9", "#EEE8AA", 
+cbPalette <- c("#0A2C86", "#325A98",  "#1D92BD", "#3DB9C1", "#7BD2BF", "#C4E9B3", "#ECF6B9", "#EEE8AA", 
                #  DBX1       DBX2      DBX3       UNC1        UNC2       UMFS      NEH1       NEH2       MEH2
                "#F9476B", "#FC709F","#E376B7", "#CF7FBC",  "#A36DC1", "#FEB22B", "#F36616", "#D83B1C", "#FF9117")
 
 chrom_outlier_GP_plot <- function(chrom, vcf, n_ind){
   plot_pal <- c(col_pal[as.integer(chrom)],wes_palette("GrandBudapest2"))
-  #plot_pal <- c("#8cbcac","#ec9c9d","#9dc6e0")
+  #plot_pal <- c("#3B9AB2", "#E6A0C4" ,"#C6CDF7" ,"#D8A499" ,"#7294D4")
   outlier.gp <- genotype_plot(vcf=vcf,chr=chrom, popmap = gp.popmap, start=1, end=1000000000,cluster=F,colour_scheme=plot_pal) 
   
   dfx <- min(ggplot_build(outlier.gp$genotypes)$data[[1]]$x) 
@@ -624,14 +369,15 @@ chrom_outlier_GP_plot <- function(chrom, vcf, n_ind){
   
   #gp.label$X <- min(ggplot_build(outlier.gp$genotypes)$data[[1]]$x-3000000)
   
-  gp.label$X <- c(dfx-0,dfx-ddelta/2,dfx-ddelta*3/4,dfx-ddelta,dfx-ddelta,dfx-ddelta*3/4,dfx-ddelta/2,dfx-0,
-                  dfx-0,dfx-ddelta/3,dfx-ddelta/2,dfx-ddelta*3/4,dfx-ddelta,dfx-ddelta*3/4,dfx-ddelta/2,dfx-ddelta/3,dfx-0)
+  gp.label$X <- c(dfx-0,dfx-ddelta/3,dfx-ddelta/2,dfx-ddelta*3/4,dfx-ddelta,dfx-ddelta*3/4,dfx-ddelta/2,dfx-ddelta/3,dfx-0,
+                  dfx-0,dfx-ddelta/2,dfx-ddelta*3/4,dfx-ddelta,dfx-ddelta,dfx-ddelta*3/4,dfx-ddelta/2,dfx-0
+                  )
   
   y_axis <- ggplot_build(outlier.gp$genotypes)$data[[2]]$yintercept
   gp.label$Y <- rollmean(y_axis, 2)
   
   fig <-  outlier.gp$genotypes +
-    geom_point(data=gp.label,aes(x=X,y=Y,color=POP,shape=Type),size=3, alpha=0.95)  +
+    geom_point(data=gp.label,aes(x=X,y=Y,color=POP,shape=Type),size=6, alpha=0.95)  +
     scale_x_continuous(expand = expand_scale(mult = c(0.1, 0)))+
     #scale_x_continuous(limits = c(min(gp.label$X) - ddelta/2 , max(ggplot_build(outlier.gp$genotypes)$data[[1]]$x))) + 
     scale_shape_manual(values=c(18, 20), name="Origin") + 
@@ -648,7 +394,7 @@ chrom_outlier_GP_plot <- function(chrom, vcf, n_ind){
 }
 
 for(i in c(1)){
-  chrom_outlier_GP_plot(i,"genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233.recode.vcf.gz", 509)
+  chrom_outlier_GP_plot(i,"pop_n_477_outliers.recode.vcf.gz", 509)
 }
 
 gp.plot.1.out<- gp.plot.1.out+
@@ -657,7 +403,7 @@ gp.plot.1.out<- gp.plot.1.out+
 
 chrom_outlier_GP_plot_no_label <- function(chrom, vcf, n_ind){
   plot_pal <- c(col_pal[as.integer(chrom)],wes_palette("GrandBudapest2"))
-  #plot_pal <- c("#8cbcac","#ec9c9d","#9dc6e0")
+  #plot_pal <- c("#3B9AB2", "#E6A0C4" ,"#C6CDF7" ,"#D8A499" ,"#7294D4")
   outlier.gp <- genotype_plot(vcf=vcf,chr=chrom, popmap = gp.popmap, start=1, end=1000000000,cluster=F,colour_scheme=plot_pal) 
   
   fig <-  outlier.gp$genotypes +
@@ -674,16 +420,40 @@ chrom_outlier_GP_plot_no_label <- function(chrom, vcf, n_ind){
   
   assign(paste("gp.plot",chrom,"out", sep="."),fig, envir = globalenv())
 }
-for(i in c(2,3,5,7,8)){
-  chrom_outlier_GP_plot_no_label(i,"genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_outlier_n_233.recode.vcf.gz", 509)
+
+#chrom_outlier_GP_plot_no_label(2,"pop_n_477_outliers.recode.vcf.gz", 509)
+
+for(i in c(5)){
+  chrom_outlier_GP_plot_no_label(i,"pop_n_477_outliers.recode.vcf.gz", 509)
 }
 
 layout <-" 
-BBCDEEEEEEFGGG
-BBCDEEEEEEFGGG
-BBCDEEEEEEFGGG
-BBCDEEEEEEFGGG
-BBCDEEEEEEFGGG
-BBCDEEEEEEFGGG
+AAAAAAAAAAAAAA
+AAAAAAAAAAAAAA
+AAAAAAAAAAAAAA
+AAAAAAAAAAAAAA
+AAAAAAAAAAAAAA
+BBBBCCDDDDDDDD
+BBBBCCDDDDDDDD
+BBBBCCDDDDDDDD
+BBBBCCDDDDDDDD
+BBBBCCDDDDDDDD
+BBBBCCDDDDDDDD
 "
-gp.plot.1.out + gp.plot.2.out + gp.plot.3.out + gp.plot.5.out + gp.plot.7.out + gp.plot.8.out+ plot_layout(design=layout, guides="collect")
+
+tiff("figure2.tiff", units="in", width=12, height=8, res=300)
+p/gp.plot.1.out  + gp.plot.5.out + plot_layout(design=layout, guides="collect")
+dev.off()
+
+layout <-" 
+BBBDDDDDDDDDDD
+BBBDDDDDDDDDDD
+BBBDDDDDDDDDDD
+BBBDDDDDDDDDDD
+BBBDDDDDDDDDDD
+BBBDDDDDDDDDDD
+"
+
+tiff("figure2_part3.tiff", units="in", width=12, height=10, res=300)
+gp.plot.1.out + gp.plot.5.out + plot_layout(design=layout, guides="collect")
+dev.off()

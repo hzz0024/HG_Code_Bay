@@ -145,7 +145,7 @@ wilcox.test(stats$halfdecaydist[stats$natnon == "Selected"],stats$halfdecaydist[
 median(stats$halfdecaydist[stats$natnon == "Selected"])
 median(stats$halfdecaydist[stats$natnon == "Wild"])
 
-m <- lmer(log(halfdecaydist)~chr*natnon+(1|pop2),data=stats)
+m <- lmer(halfdecaydist~chr*natnon+(1|pop2),data=stats)
 print(anova(m))
 
 gg <- ggplot(stats, aes(x=pop2, y = halfdecaydist, fill=natnon)) +
@@ -167,7 +167,7 @@ graph2ppt(file="output/halfdecay_dis_500K.100bpBINS.pptx", width=7, height=6)
 ################################
 ###  halfdecay by chrLength  ###
 ################################
-
+library(lsmeans)
 chrs <- read.delim('output/Table-chr.key.txt')
 meta <- read.csv('./output/meta_pops_V1.csv')
 stats <- read.csv('output/PopLDdecay.stats.500K.100bpBINS.csv')
@@ -176,11 +176,19 @@ stats$natnon <- meta$Type[match(stats$pop,meta$Site.Abb)]
 stats$natnon <- factor(stats$natnon)
 stats$size.kbp <- chrs$size.bp[match(stats$chr,chrs$name1)]/1000
 
-m <- lmer(log(halfdecaydist)~size.kbp*natnon+(1|pop),data=stats)
+m <- lmer(halfdecaydist~size.kbp*natnon+(1|pop),data=stats)
 print(anova(m))
-m2 <- lmer(log(halfdecaydist)~size.kbp+(1|pop),data=stats[stats$natnon=="Selected",])
+
+m.interaction <- lm(halfdecaydist~size.kbp*natnon,data=stats)
+anova(m.interaction)
+m.interaction$coefficients
+m.lst <- lstrends(m.interaction, "natnon", var="size.kbp")
+m.lst
+pairs(m.lst)
+
+m2 <- lmer(halfdecaydist~size.kbp+(1|pop),data=stats[stats$natnon=="Selected",])
 print(anova(m2))
-m3 <- lmer(log(halfdecaydist)~size.kbp+(1|pop),data=stats[stats$natnon=="Wild",])
+m3 <- lmer(halfdecaydist~size.kbp+(1|pop),data=stats[stats$natnon=="Wild",])
 print(anova(m3))
 
 #pdf('output/halfdecay.by.chrLength.500bpBINS.pdf',width=8,height=5)

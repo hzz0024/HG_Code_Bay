@@ -14,7 +14,7 @@ pop_info <- read.table("pop_509_sample_list.txt", header=TRUE, sep="\t", strings
 pop_info$Pop_correct = factor(pop_info$Pop_correct, levels=c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "DBX1", "DBX2", "DBX3", "UNC1", "UNC2", "UMFS", "NEH1", "NEH2", "MEH2"))
 # load vcf file
 vcftools  = "/Users/HG/Dropbox/Mac/Documents/HG/Github/BioinfoTools/vcftools_0.1.13/bin/vcftools";
-system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned.recode.vcf --remove UMFS_2_outlier.txt --recode --recode-INFO-all --out genetyped_data_n_507_maf05_maxmiss095_popmiss095_hwe_pruned", sep=""))
+#system(paste(vcftools," --vcf genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned.recode.vcf --remove UMFS_2_outlier.txt --recode --recode-INFO-all --out genetyped_data_n_507_maf05_maxmiss095_popmiss095_hwe_pruned", sep=""))
 
 #vcf_file = "genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_pruned_no_outlier.recode.vcf"
 vcf_file = "genetyped_data_n_509_maf05_maxmiss095_popmiss095_hwe_neutral_pruned.recode.vcf"
@@ -36,15 +36,19 @@ Mydata1
 
 Arich <- allelic.richness(Mydata1,min.n=NULL,diploid=TRUE)
 ind_mean <- colMeans(x=Arich$Ar, na.rm = TRUE)
-#    MEW1     MEW2     LIW1     LIW2     DBW1     DBW2     NCW1     NCW2     DBX1     DBX2     DBX3     UNC1     UNC2     UMFS     NEH1     NEH2     MEH2 
-#1.814224 1.823438 1.844294 1.845554 1.852056 1.852246 1.849785 1.822780 1.785889 1.748218 1.821354 1.704745 1.691031 1.693784 1.788005 1.759419 1.646626
-wilcox.test(ind_mean[1:8],ind_mean[9:17])
+# MEW1     MEW2     LIW1     LIW2     DBW1     DBW2     NCW1     NCW2     DBX1     DBX2     DBX3 
+# 1.814520 1.823549 1.843482 1.844869 1.851226 1.851103 1.848713 1.821837 1.784868 1.748396 1.820937 
+# UNC1     UNC2     UMFS     NEH1     NEH2     MEH2 
+# 1.703802 1.689899 1.693637 1.788187 1.759862 1.646742 
+wilcox.test(ind_mean[1:9],ind_mean[10:17], alternative = "greater")
+mean(ind_mean[1:9])
+mean(ind_mean[10:17])
+# 
 # Wilcoxon rank sum exact test
 # 
-# data:  ind_mean[1:8] and ind_mean[9:17]
-# W = 71, p-value = 0.0001645
-# alternative hypothesis: true location shift is not equal to 0
-
+# data:  ind_mean[1:9] and ind_mean[10:17]
+# W = 69, p-value = 0.0002879
+# alternative hypothesis: true location shift is greater than 0
 write.table(ind_mean, file = "individual.allelic.richness.txt", sep = "\t", quote = FALSE,
             row.names = T, col.names = F)
 
@@ -55,13 +59,23 @@ names(basicstat)
 # Ho   Hs   Ht  Dst  Htp Dstp  Fst Fstp  Fis Dest 
 # 0.24 0.26 0.28 0.02 0.28 0.02 0.07 0.07 0.08 0.03 
 # mean Ho per population
-colMeans(x=basicstat$Ho, na.rm = TRUE)
-# MEW1      MEW2      LIW1      LIW2      DBW1      DBW2      NCW1      NCW2      DBX1      DBX2      DBX3      UNC1      UNC2      UMFS      NEH1      NEH2      MEH2 
-# 0.2402867 0.2406328 0.2467107 0.2476321 0.2422397 0.2408177 0.2401395 0.2320769 0.2421085 0.2371994 0.2482005 0.2461827 0.2281588 0.2303814 0.2454087 0.2454086 0.2491505 
+Ho <- colMeans(x=basicstat$Ho, na.rm = TRUE)
+# MEW1      MEW2      LIW1      LIW2      DBW1      DBW2      NCW1      NCW2      DBX1 
+# 0.2404389 0.2407640 0.2465227 0.2474728 0.2419118 0.2404444 0.2397749 0.2317948 0.2417527 
+# DBX2      DBX3      UNC1      UNC2      UMFS      NEH1      NEH2      MEH2 
+# 0.2373491 0.2481254 0.2457495 0.2278548 0.2306105 0.2454282 0.2454719 0.2493828 
 # mean He per population
-colMeans(x=basicstat$Hs, na.rm = TRUE)
-# MEW1      MEW2      LIW1      LIW2      DBW1      DBW2      NCW1      NCW2      DBX1      DBX2      DBX3      UNC1      UNC2      UMFS      NEH1      NEH2      MEH2 
-# 0.2695652 0.2705684 0.2716459 0.2724619 0.2758107 0.2765307 0.2772912 0.2678030 0.2629692 0.2552809 0.2734142 0.2437810 0.2397621 0.2379797 0.2654984 0.2590463 0.2318269
+write.table(Ho, file = "pop.Ho.txt", sep = "\t", quote = FALSE,
+            row.names = T, col.names = F)
+
+He <- colMeans(x=basicstat$Hs, na.rm = TRUE)
+write.table(He, file = "pop.He.txt", sep = "\t", quote = FALSE,
+            row.names = T, col.names = F)
+
+# MEW1      MEW2      LIW1      LIW2      DBW1      DBW2      NCW1      NCW2      DBX1 
+# 0.2696512 0.2706209 0.2712761 0.2721235 0.2753675 0.2760349 0.2767698 0.2673676 0.2625208 
+# DBX2      DBX3      UNC1      UNC2      UMFS      NEH1      NEH2      MEH2 
+# 0.2554719 0.2732786 0.2433393 0.2393306 0.2382035 0.2655503 0.2591543 0.2319194
 #colMeans(x=basicstat$Fis, na.rm = TRUE)
 # MEW1         MEW2         LIW1         LIW2         DBW1         DBW2         NCW1         NCW2         DBX1         DBX2         DBX3         UNC1         UNC2         UMFS 
 # 0.103205353  0.107284760  0.089019027  0.085328099  0.117374068  0.122903014  0.127396284  0.125345136  0.077388928  0.072826638  0.092425782  0.007032094  0.048131693  0.047681743 
@@ -69,21 +83,21 @@ colMeans(x=basicstat$Hs, na.rm = TRUE)
 # 0.075109389  0.054631710 -0.051158277
 # Nonparametric Tests of Group Differences carried by Mann-Whitney U test
 # independent 2-group Mann-Whitney U Test
-He_df <- colMeans(x=basicstat$Hs, na.rm = TRUE)
-wilcox.test(He_df[1:8],He_df[9:17])
+
+wilcox.test(He[1:9],He[10:17], alternative = "greater")
 
 # Wilcoxon rank sum exact test
 # 
-# data:  He_df[1:8] and He_df[9:17]
-# W = 67, p-value = 0.001563
-# alternative hypothesis: true location shift is not equal to 0
+# data:  He[1:9] and He[10:17]
+# W = 65, p-value = 0.001851
+# alternative hypothesis: true location shift is greater than 0
 
-div <- summary(Mydata1)
-names(div)
-
-wc(Mydata1) # Weir and Cockerham's estimate
-fst <- genet.dist(Mydata1, method = "WC84") # Pairwise Fst
-write.matrix(fst, file = "pairwise.fst.txt", ,sep = "\t")
+# div <- summary(Mydata1)
+# names(div)
+# 
+# wc(Mydata1) # Weir and Cockerham's estimate
+# fst <- genet.dist(Mydata1, method = "WC84") # Pairwise Fst
+# write.matrix(fst, file = "pairwise.fst.txt", ,sep = "\t")
 
 # MEW1          MEW2          LIW1          LIW2          DBW1          DBW2          NCW1          NCW2          DBX1          DBX2          DBX3          UNC1          UNC2          UMFS          NEH1          NEH2
 # MEW2 -8.338017e-04                                                                                                                                                                                                                  
@@ -104,15 +118,15 @@ write.matrix(fst, file = "pairwise.fst.txt", ,sep = "\t")
 # MEH2  8.624712e-02  8.375016e-02  1.015456e-01  1.007302e-01  1.075827e-01  1.074138e-01  1.177968e-01  1.319653e-01  1.338656e-01  1.330166e-01  1.041087e-01  1.801793e-01  1.841926e-01  1.567893e-01  1.067608e-01  1.075763e-01
 
 # using Kmeans and DAPC in adegenet 
-set.seed(5); dapc_a_score <- dapc(Mydata1,Mydata1$pop, n.pca = 20,n.da=10)
-temp_score <- optim.a.score(dapc_a_score)
-
-dapc1 <- dapc(Mydata1, Mydata1$pop, n.pca = 9, n.da = 2) 
-scatter(dapc1, legend=TRUE, solid=.5) # plot of the group
-graph2ppt(file="DAPC",width=8,height=5)
-
-percent= dapc1$eig/sum(dapc1$eig)*100
-barplot(percent, ylab="Percent of genetic variance explained by eigenvectors", names.arg=round(percent,2))
+# set.seed(5); dapc_a_score <- dapc(Mydata1,Mydata1$pop, n.pca = 20,n.da=10)
+# temp_score <- optim.a.score(dapc_a_score)
+# 
+# dapc1 <- dapc(Mydata1, Mydata1$pop, n.pca = 9, n.da = 2) 
+# scatter(dapc1, legend=TRUE, solid=.5) # plot of the group
+# graph2ppt(file="DAPC",width=8,height=5)
+# 
+# percent= dapc1$eig/sum(dapc1$eig)*100
+# barplot(percent, ylab="Percent of genetic variance explained by eigenvectors", names.arg=round(percent,2))
 
 
 ################

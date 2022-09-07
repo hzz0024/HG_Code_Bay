@@ -32,7 +32,7 @@ setwd("~/Dropbox/Mac/Documents/HG/Domestication/14_ROH/Formal_plot")
 library(cowplot)
 library(reshape2)
 
-df <- read.delim("Summary_ROH_per_breed_oyster_k200_individuals.csv", header = TRUE, sep=',')
+df <- read.delim("Summary_ROH_per_breed_oyster_k200_individual_FROH.csv", header = TRUE, sep=',')
 df$Source <- factor(df$Source, levels=c("Wild", "Selected"))
 #   MEW1        MEW2      LIW1        LIW2       DBW1      DBW2        NCW1      NCW2         
 col_gradient <- c( "#0A2C86", "#849cc1",  "#1D92BD", "#8ad5d9", "#93c47d", "#bedbb1", "#a9a9a9", "#dddddd", 
@@ -40,9 +40,10 @@ col_gradient <- c( "#0A2C86", "#849cc1",  "#1D92BD", "#8ad5d9", "#93c47d", "#bed
                    "#f9476b", "#fb90a6","#fddae1", "#cf7fbc",  "#e2b2d6", "#fec155", "#e1bb94", "#fbd0a5", "#b58383")
 order1 = c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "DBX1", "DBX2", "DBX3",  "UNC1", "UNC2", "UMFS", "NEH1", "NEH2", "MEH2")
 df$FID <-factor(df$FID, levels=order1)
-df$FROH1_2=df$FROH1_2/100
+df$FROH1_=df$FROH1_/100
+
 FROH <- df %>%
-  ggplot(aes(FID, FROH1_2, fill=FID)) +
+  ggplot(aes(FID, FROH1_, fill=FID)) +
   #geom_violin(trim = FALSE, alpha=0.4, show.legend = FALSE, width=6) +
   geom_boxplot(width = 0.4, alpha=0.8, aes(fill=FID), outlier.shape = NA)  +
   geom_jitter(alpha=0.2, width = 0.1)+
@@ -55,11 +56,18 @@ FROH <- df %>%
     panel.spacing = unit(0, "lines"),
     legend.position="none",
     axis.title.y = element_text(margin=margin(r=-50))) + # control the label position y is r 
-  theme(text=element_text(family="Times New Roman", face="bold", size=12, colour="black"),
+  theme(text=element_text(family="Times New Roman", size=12, colour="black"),
         axis.text.x = element_text(angle = 75, vjust = 1, hjust=1))
  
 FROH <- FROH + ggtitle("(a)")
 FROH
+
+# DT = read.delim("ROH_analyse_population_x.hom.txt", header = TRUE, sep='\t')
+# plotdat <- data.frame(ROH=DT$NSEG, Population=DT$FID)
+# 
+# wilcox_dt = read.delim("ROH_analyse_population_x.hom.wildsel.txt", header = TRUE, sep='\t')
+# wilcox.test(wilcox_dt$NSEG[wilcox_dt$FID == "WILD"],wilcox_dt$NSEG[wilcox_dt$FID == "SEL"])
+
 
 #################
 # plot for SROH #
@@ -70,12 +78,17 @@ library(scales)
 library(dplyr)
 library(magrittr)
 
-df <- read.delim("Summary_ROH_per_breed_oyster_k200_individuals_SROH.csv", header = TRUE, sep=',')
+df <- read.delim("Summary_ROH_per_breed_oyster_k200_individual_SROH.csv", header = TRUE, sep=',')
 df %>%
   group_by(FID) %>%
-  summarise_at(vars(F_ROHall, SROH02_05, SROH05_1, SROH1_2, SROH2_4, SROH4_8, SROH8_16, SROH16_, NSEG, NSEG02_05, NSEG05_1, NSEG1_2, NSEG2_4, NSEG4_8, NSEG8_16, NSEG16_, KB, KBAVG), sum, ra.rm=FALSE) ->  v
-df_summary %<>% mutate_at(10:17, as.integer) # change the NSEG to integers
+  summarise_at(vars(F_ROHall, SROH02_05, SROH05_1, SROH1_2, SROH2_4, SROH4_8, SROH8_16, SROH16_, SROH1_, NSEG, NSEG02_05, NSEG05_1, NSEG1_2, NSEG2_4, NSEG4_8, NSEG8_16, NSEG16_, NSEG1_, KB, KBAVG), sum, ra.rm=FALSE) ->  df_summary
+df_summary %<>% mutate_at(10:18, as.integer) # change the NSEG to integers
 df_summary <- as.data.frame(df_summary)
+
+write_delim(df_summary, path = "./SROH_summary.txt")
+SROH_df <- read.delim("SROH_summary_by_pop.txt", header = TRUE, sep='\t')
+wilcox.test(SROH_df$SROH1_[SROH_df$Source == "Selected"], SROH_df$SROH1_[SROH_df$Source == "Wild"])
+wilcox.test(SROH_df$NSEG1_[SROH_df$Source == "Selected"], SROH_df$NSEG1_[SROH_df$Source == "Wild"])
 
 df_summary %>% 
   group_by(FID) %>%
@@ -96,23 +109,25 @@ df_summary %>%
     np8_16 = (NSEG8_16/NSEG)*100,
     np16_ = (NSEG16_/NSEG)*100) -> df_percentage
 df_percentage
-write_delim(df_summary, path = "./SROH_NROH_summary.txt")
+write_delim(df_percentage, path = "./SROH_perc_summary.txt")
 # _______________________________________________________________________________
 # plot for sum of ROH across individuals in each population SROH
 extract_df <- data.frame(df$FID, df$SROH02_05, df$SROH05_1, df$SROH1_2, df$SROH2_4, df$SROH4_8)
 extract_df <- data.frame(df_summary$FID, df_summary$SROH02_05, df_summary$SROH05_1, df_summary$SROH1_2, df_summary$SROH2_4, df_summary$SROH4_8)
+
+
 
 colnames(extract_df) = c("Pop", "SROH02_05", "SROH05_1", "SROH1_2", "SROH2_4", "SROH4_8")
 plot_df <- melt(extract_df, id.vars=c("Pop"),
                 variable.name = "Interval", 
                 value.name = "Values")
 plot_df$Values <- plot_df$Values/1000
-order1 = c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "DBX1", "DBX2", "DBX3",  "UNC1", "UNC2", "UMFS", "NEH1", "NEH2", "MEH2")
+order1 = rev(c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "DBX1", "DBX2", "DBX3",  "UNC1", "UNC2", "UMFS", "NEH1", "NEH2", "MEH2"))
 plot_df$Pop <-factor(plot_df$Pop, levels=order1)
 #   MEW1        MEW2      LIW1        LIW2       DBW1      DBW2        NCW1      NCW2         
-cbPalette <- c( "#0A2C86", "#849cc1",  "#1D92BD", "#8ad5d9", "#93c47d", "#bedbb1", "#a9a9a9", "#dddddd", 
+cbPalette <- rev(c( "#0A2C86", "#849cc1",  "#1D92BD", "#8ad5d9", "#93c47d", "#bedbb1", "#a9a9a9", "#dddddd", 
                 #  DBX1       DBX2      DBX3       UNC1        UNC2       UMFS      NEH1       NEH2       MEH2
-                "#f9476b", "#fb90a6","#fddae1", "#cf7fbc",  "#e2b2d6", "#fec155", "#e1bb94", "#fbd0a5", "#b58383")
+                "#f9476b", "#fb90a6","#fddae1", "#cf7fbc",  "#e2b2d6", "#fec155", "#e1bb94", "#fbd0a5", "#b58383"))
 
 SROH_by_pop <- plot_df %>%
   ggplot(aes(Interval, Values, fill = factor(Pop))) +
@@ -206,6 +221,35 @@ SROH <- plot_df %>%
 
 SROH <- SROH+ggtitle("(b)") + guides(fill=guide_legend(title="Origin"))
 SROH
+
+
+#########################
+# plot for SROH vs NROH #
+#########################
+library(ggrepel)
+setwd("~/Dropbox/Mac/Documents/HG/Domestication/14_ROH/Formal_plot")
+
+ROH_plot <- read_delim("TableS3_SROH_NROH_summary.txt", delim = "\t")
+
+order1 = c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "DBX1", "DBX2", "DBX3",  "UNC1", "UNC2", "UMFS", "NEH1", "NEH2", "MEH2")
+ROH_plot$Pop <-factor(ROH_plot$Pop, levels=order1)
+col <- c( "#F62A00", "#325A98")
+
+SROH_NSEG <- ggplot(ROH_plot, aes(x = SROH1_, y = NSEG1_, color = Origin, shape=Origin)) +
+  geom_point(size=2.5)+
+  scale_color_manual(values = col) +
+  geom_label_repel(aes(label = Pop),size = 3.2, fill = "white", box.padding = 0.2, max.overlaps = 20, show.legend = FALSE)+
+  xlab("Sum total length of ROH (Mb)") + ylab("Total number of ROH (NROH)") + 
+  theme_classic()+
+  theme(legend.title =element_text(size = 12),
+        legend.text=element_text(size=12), 
+        legend.position = c("top"))+
+  theme(legend.position=c(.2,.85), 
+        text=element_text(family="Times New Roman", size=12, colour="black"))
+
+SROH_NSEG <- SROH_NSEG + ggtitle("(b)")
+SROH_NSEG
+
 #############################
 # plot for ROH distribution #
 #############################
@@ -384,7 +428,7 @@ target <- c("MEW1", "MEW2", "LIW1", "LIW2", "DBW1", "DBW2", "NCW1", "NCW2", "DBX
 FID_cnt <- FID_cnt[match(target, FID_cnt$FID),]
 FID_cnt
 
-gp.label <- data.frame(FID_cnt$FID, FID_cnt$n, c(rep("Wild", 8), rep("Selected", 9)))
+gp.label <- data.frame(FID_cnt$FID, FID_cnt$n, c(rep("Wild", 9), rep("Selected", 8)))
 colnames(gp.label) <- c("POP", "N", "Type")
 gp.label$Y <- rollmean(c(0, cumsum(gp.label$N*2)),2)
 gp.label$X <- x_axis <- min(ggplot_build(ROH_per_ind)$data[[1]]$xmin)-10
@@ -410,18 +454,20 @@ DROH <-  ROH_per_ind +
   guides(fill = "none")+ 
   # guides(color="none")+
   # guides(shape = "none") +
-  theme(text=element_text(family="Times New Roman", face="bold", size=12, colour="black"))
+  theme(text=element_text(family="Times New Roman", size=12, colour="black"))
 
 DROH <- DROH+ ggtitle("(c)")
 DROH
 layout <-" 
-AAAAAAAAAAAA
-AAAAAAAAAAAA
-BBBCCCCCCCCC
-BBBCCCCCCCCC
-BBBCCCCCCCCC
+AAAAAAAAAAAAAA
+AAAAAAAAAAAAAA
+AAAAAAAAAAAAAA
+BBBBBCCCCCCCCC
+BBBBBCCCCCCCCC
+BBBBBCCCCCCCCC
+BBBBBCCCCCCCCC
 "
-final_ROH <- FROH + SROH_by_pop + DROH + plot_layout(design=layout, guides="keep")
+final_ROH <- FROH + SROH_NSEG + DROH + plot_layout(design=layout, guides="keep")
 final_ROH
 ggsave("figs/final_ROH.jpg", final_ROH, width = 12, height = 10, dpi = 300)
 graph2ppt(file="figs/final_ROH", width=12, height=10) 
